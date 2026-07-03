@@ -8,7 +8,7 @@ const Home = lazy(() => import('./pages/Home'))
 
 function PageLoader() {
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
       <CircularProgress color="primary" />
     </Box>
   )
