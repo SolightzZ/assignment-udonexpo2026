@@ -118,8 +118,10 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 
 ## Animation Patterns
 
+{% raw %}
 - **Entry animation:** `framer-motion` `motion.div` with `initial={{ opacity: 0, y: 20-40 }}`, `whileInView={{ opacity: 1, y: 0 }}`, `viewport={{ once: true, margin: '-60px' }}`
 - **Staggered delays:** Use `transition={{ duration: 0.5, delay: index * 0.1-0.15 }}` for grid items
+{% endraw %}
 - **Card hover:** Transform + shadow transition (0.3s ease)
 - **Button hover:** Gradient shift + shadow intensify
 - **Image hover:** `scale(1.08)` on card media (0.5s ease)

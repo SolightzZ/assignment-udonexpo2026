@@ -36,7 +36,7 @@ import { Box, Typography, Button } from '@mui/material'
 |-----------|--------|-------|
 | `Container` | `@mui/material/Container` | Content wrapper: `maxWidth="lg"` (sections), `maxWidth="xl"` (navbar) |
 | `Box` | `@mui/material/Box` | Universal container; also `component="img"`, `component="a"`, `component="nav"` |
-| `Grid` | `@mui/material/Grid` | Responsive grid with `spacing={3}` and `size={{ xs: 12, sm: 6, md: 4 }}` |
+| `Grid` | `@mui/material/Grid` | Responsive grid with `spacing={3}` and {% raw %}`size={{ xs: 12, sm: 6, md: 4 }}`{% endraw %} |
 | `Toolbar` | `@mui/material/Toolbar` | Navbar layout with `disableGutters` |
 
 ### Surface
@@ -88,6 +88,7 @@ The v7 skill mentions `Paper`, `TextField`, `Dialog`, `Skeleton`, and `Stack` �
 
 ### `sx` Prop (preferred — all one-off styles)
 
+{% raw %}
 ```jsx
 <Box sx={{
   py: { xs: 8, md: 12 },
@@ -95,8 +96,10 @@ The v7 skill mentions `Paper`, `TextField`, `Dialog`, `Skeleton`, and `Stack` �
   textAlign: 'center',
 }} />
 ```
+{% endraw %}
 
 Pseudo-selectors in `sx` (string syntax):
+{% raw %}
 ```jsx
 <Box sx={{
   '&:hover': {
@@ -110,6 +113,7 @@ Pseudo-selectors in `sx` (string syntax):
   },
 }} />
 ```
+{% endraw %}
 
 ### `styled()` (for reusable custom components)
 
@@ -167,6 +171,7 @@ function Component() {
 
 All values use the `{ xs, sm, md, lg, xl }` object syntax:
 
+{% raw %}
 ```jsx
 fontSize:   { xs: '0.95rem', md: '1.05rem' }
 py:         { xs: 8, md: 12 }
@@ -175,10 +180,12 @@ height:     { xs: 280, md: 400 }
 size={{ xs: 12, sm: 6, md: 4 }}
 display:    { xs: 'none', md: 'flex' }
 ```
+{% endraw %}
 
 ## Shared Component Patterns
 
 ### Icon Circle
+{% raw %}
 ```jsx
 <Box sx={{
   width: 52, height: 52, borderRadius: '50%',
@@ -188,12 +195,15 @@ display:    { xs: 'none', md: 'flex' }
   <Icon sx={{ color, fontSize: 26 }} />
 </Box>
 ```
+{% endraw %}
 
 ### Section Background Alternation
+{% raw %}
 ```jsx
 <Box sx={{ py: { xs: 8, md: 12 }, background: '#fff' }} />  // white section
 <Box sx={{ py: { xs: 8, md: 12 }, background: '#F6FFF6' }} />  // tinted section
 ```
+{% endraw %}
 
 ## Theme Tokens Reference
 
@@ -215,7 +225,7 @@ theme.shape.borderRadius
 
 - `<Grid container spacing={N}>` wraps items
 - Items use `size` prop, **not** `xs`/`sm`/`md`:
-  - ✅ `<Grid size={{ xs: 12, sm: 6, md: 4 }}>`
+  - ✅ {% raw %}`<Grid size={{ xs: 12, sm: 6, md: 4 }}>`{% endraw %}
   - ❌ `<Grid item xs={12} sm={6} md={4}>`
 - No `item` prop needed
 
