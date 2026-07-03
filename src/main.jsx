@@ -23,7 +23,7 @@ import '@fontsource/poppins/700.css';
 
 createRoot(document.getElementById('root')).render(
    <StrictMode>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/assignment-udonexpo2026">
          <ThemeProvider theme={theme}>
             <CssBaseline />
             <App />

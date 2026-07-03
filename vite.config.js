@@ -19,7 +19,7 @@ export default defineConfig({
       },
     },
   ],
-  base: '/',
+  base: '/assignment-udonexpo2026/',
   build: {
     sourcemap: false,
   },
