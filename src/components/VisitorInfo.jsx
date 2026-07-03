@@ -1,16 +1,16 @@
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
-import { motion } from 'framer-motion';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
+import IconCircle from './IconCircle';
+import Reveal from './Reveal';
 
 const INFO_ITEMS = [
    { key: 'hours', icon: AccessTimeIcon, color: '#1B5E20' },
@@ -24,64 +24,85 @@ function InfoCard({ item, index, t }) {
    const { key, icon: Icon, color } = item;
 
    return (
-      <motion.div
-         initial={{ opacity: 0, y: 30 }}
-         whileInView={{ opacity: 1, y: 0 }}
-         viewport={{ once: true, margin: '-60px' }}
-         transition={{ duration: 0.5, delay: index * 0.1 }}
-         style={{ height: '100%' }}>
+      <Reveal delay={index * 0.1} style={{ width: '100%', height: '100%', display: 'flex' }}>
          <Card
             sx={{
+               width: '100%',
                height: '100%',
                display: 'flex',
                flexDirection: 'column',
-               borderRadius: 4,
-               p: 1,
-               border: '2px solid transparent',
-               transition: 'border-color 0.3s ease',
+               borderRadius: '32px',
+               cursor: 'pointer',
+               border: '1px solid rgba(46,125,50,0.08)',
+               boxShadow: '0 10px 30px rgba(33,80,45,.08)',
+               transition: 'transform .3s ease, box-shadow .3s ease, border-color .3s ease',
                '&:hover': {
+                  transform: 'translateY(-6px)',
+                  boxShadow: '0 18px 45px rgba(33,80,45,.15)',
                   borderColor: 'secondary.main',
                },
             }}>
-            <CardContent sx={{ p: 3, flexGrow: 1 }}>
-               <Box
-                  sx={{
-                     width: 52,
-                     height: 52,
-                     borderRadius: '50%',
-                     background: `${color}12`,
-                     display: 'flex',
-                     alignItems: 'center',
-                     justifyContent: 'center',
-                     mb: 2,
-                  }}>
-                  <Icon sx={{ color, fontSize: 26 }} />
+            <CardContent
+               sx={{
+                  p: { xs: 2, sm: 2.5, md: 3.5 },
+                  flexGrow: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+               }}>
+               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, flexShrink: 0 }}>
+                  <IconCircle
+                     icon={Icon}
+                     color={color}
+                     size={{ xs: 48, md: 56 }}
+                     iconSize={{ xs: 22, md: 26 }}
+                  />
+                  <ScrambleText
+                     text={t(`visitor.${key}`)}
+                     variant="h6"
+                     sx={{ fontWeight: 700, fontSize: { xs: '1rem', md: '1.15rem' } }}
+                  />
                </Box>
-               <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1rem', mb: 1 }}>
-                  {t(`visitor.${key}`)}
-               </Typography>
-               <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
-                  {t(`visitor.${key}Desc`)}
-               </Typography>
+               <ScrambleText
+                  text={t(`visitor.${key}Desc`)}
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                     flexGrow: 1,
+                     lineHeight: 1.7,
+                     fontSize: { xs: '.92rem', md: '.95rem' },
+                     maxWidth: { md: 280 },
+                  }}
+               />
             </CardContent>
          </Card>
-      </motion.div>
+      </Reveal>
    );
 }
 
 export default function VisitorInfo({ t }) {
    return (
-      <Box id="visitor-info" sx={{ py: { xs: 8, md: 12 }, background: '#fff' }}>
-         <Container maxWidth="lg">
+      <Box id="visitor-info" sx={{ py: { xs: 6, md: 12 }, background: '#fff' }}>
+         <Container sx={{ maxWidth: '1200px !important', px: { xs: 1.5, sm: 3 } }}>
             <SectionTitle title={t('visitor.title')} />
 
-            <Grid container spacing={3}>
+            <Box
+               sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  gap: 3,
+               }}>
                {INFO_ITEMS.map((item, index) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.key}>
+                  <Box
+                     key={item.key}
+                     sx={{
+                        display: 'flex',
+                        width: { xs: '100%', sm: 'calc(50% - 12px)', lg: 'calc(33.33% - 16px)' },
+                     }}>
                      <InfoCard item={item} index={index} t={t} />
-                  </Grid>
+                  </Box>
                ))}
-            </Grid>
+            </Box>
          </Container>
       </Box>
    );

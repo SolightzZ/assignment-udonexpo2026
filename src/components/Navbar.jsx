@@ -1,21 +1,22 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const NAV_ITEMS = [
@@ -26,60 +27,99 @@ const NAV_ITEMS = [
    { key: 'timeline', href: '#timeline' },
    { key: 'visitorInfo', href: '#visitor-info' },
    { key: 'location', href: '#location' },
+   { key: 'tech', href: '/tech', isRoute: true },
 ];
 
-const ID_TO_KEY = Object.fromEntries(NAV_ITEMS.map((n) => [n.href.slice(1), n.key]));
-
-export default function Navbar() {
+export default function Navbar({ onLanguageChanging }) {
    const { t } = useTranslation();
-   const theme = useTheme();
-   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+   const navigate = useNavigate();
+   const location = useLocation();
+   const isHome = location.pathname === '/' || location.pathname === '';
+   const isMobile = useMediaQuery('(max-width:1100px)');
    const [drawerOpen, setDrawerOpen] = useState(false);
    const [activeKey, setActiveKey] = useState('home');
+   const firstItemRef = useRef(null);
 
    useEffect(() => {
-      const ids = NAV_ITEMS.map((n) => n.href.slice(1));
-      const observer = new IntersectionObserver(
-         (entries) => {
-            for (const entry of entries) {
-               if (entry.isIntersecting) {
-                  setActiveKey(ID_TO_KEY[entry.target.id] || 'home');
-               }
-            }
-         },
-         { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
-      );
-      for (const id of ids) {
-         const el = document.getElementById(id);
-         if (el) observer.observe(el);
+      if (drawerOpen && firstItemRef.current) {
+         firstItemRef.current.focus();
       }
-      return () => observer.disconnect();
-   }, []);
+   }, [drawerOpen]);
+
+   useEffect(() => {
+      if (!isHome) {
+         setActiveKey(location.pathname === '/tech' ? 'tech' : 'home');
+         return;
+      }
+
+      const handleScroll = () => {
+         const sections = NAV_ITEMS.filter((item) => !item.isRoute).map((item) =>
+            document.getElementById(item.href.slice(1)),
+         ).filter(Boolean);
+
+         const scroll = window.scrollY + 120;
+         let current = NAV_ITEMS[0].key;
+
+         for (let i = 0; i < sections.length; i++) {
+            if (scroll >= sections[i].offsetTop) {
+               current = NAV_ITEMS[i].key;
+            }
+         }
+
+         setActiveKey(current);
+      };
+
+      handleScroll();
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, [isHome, location.pathname]);
 
    const handleNavClick = useCallback(
-      (href) => {
+      (href, key, isRoute) => {
          setDrawerOpen(false);
-         const el = document.querySelector(href);
-         if (el) el.scrollIntoView({ behavior: 'smooth' });
+         setActiveKey(key);
+         if (isRoute) {
+            navigate(href);
+         } else if (isHome) {
+            const el = document.querySelector(href);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+         } else {
+            navigate('/');
+         }
       },
-      [],
+      [navigate, isHome],
    );
 
    return (
       <AppBar position="sticky" sx={{ color: 'text.primary' }}>
-         <Container maxWidth="xl">
+         <Container maxWidth="lg">
             <Toolbar
                disableGutters
-               sx={{ justifyContent: 'space-between', minHeight: { xs: 64, md: 72 } }}>
+               sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto 1fr auto',
+                  alignItems: 'center',
+                  minHeight: { xs: 64, md: 72 },
+               }}>
                {/* Logo */}
                <Box
                   component="a"
-                  href="#hero"
+                  href={isHome ? '#hero' : '/'}
                   onClick={(e) => {
                      e.preventDefault();
-                     handleNavClick('#hero');
+                     if (isHome) {
+                        handleNavClick('#hero', 'home', false);
+                     } else {
+                        navigate('/');
+                     }
                   }}
-                  sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  sx={{
+                     textDecoration: 'none',
+                     display: 'flex',
+                     alignItems: 'center',
+                     gap: 1,
+                     flexShrink: 0,
+                  }}>
                   <Box
                      sx={{
                         width: 36,
@@ -92,75 +132,90 @@ export default function Navbar() {
                         color: '#fff',
                         fontWeight: 700,
                         fontSize: '0.75rem',
+                        flexShrink: 0,
                      }}>
                      UE
                   </Box>
                   <Typography
                      variant="subtitle1"
-                     sx={{ fontWeight: 700, color: 'primary.main', letterSpacing: 1 }}>
+                     noWrap
+                     sx={{
+                        fontWeight: 700,
+                        color: 'primary.main',
+                        letterSpacing: 1,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                     }}>
                      {t('site.title')}
                   </Typography>
                </Box>
 
-               {/* Desktop Nav */}
+               {/* Center: Desktop Nav */}
                {!isMobile && (
-                  <Box
-                     component="nav"
-                     aria-label="main navigation"
-                     sx={{ display: 'flex', gap: 0.5 }}>
-                     {NAV_ITEMS.map(({ key, href }) => {
-                        const isActive = activeKey === key;
-                        return (
-                           <Button
-                              key={key}
-                              href={href}
-                              onClick={(e) => {
-                                 e.preventDefault();
-                                 handleNavClick(href);
-                              }}
-                              sx={{
-                                 color: isActive ? 'primary.main' : 'text.primary',
-                                 fontWeight: isActive ? 600 : 500,
-                                 fontSize: '0.85rem',
-                                 px: 1.5,
-                                 py: 0.5,
-                                 borderRadius: 2,
-                                 position: 'relative',
-                                 transition: 'color 0.3s ease',
-                                 '&::after': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    bottom: 2,
-                                    left: '50%',
-                                    transform: 'translateX(-50%)',
-                                    width: isActive ? '60%' : 0,
-                                    height: 2,
-                                    borderRadius: 1,
-                                    background: '#C8A64E',
-                                    transition: 'width 0.3s ease',
-                                 },
-                                 '&:hover': {
-                                    background: 'rgba(27, 94, 32, 0.06)',
-                                    color: 'primary.main',
+                  <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: 0 }}>
+                     <Box
+                        component="nav"
+                        aria-label={t('nav.desktopNav')}
+                        sx={{ display: 'flex', gap: 0.8, whiteSpace: 'nowrap' }}>
+                        {NAV_ITEMS.map(({ key, href, isRoute }) => {
+                           const isActive = activeKey === key;
+                           return (
+                              <Button
+                                 key={key}
+                                 href={isRoute ? undefined : href}
+                                 onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavClick(href, key, isRoute);
+                                 }}
+                                 sx={{
+                                    color: isActive ? 'primary.main' : 'text.primary',
+                                    fontWeight: isActive ? 600 : 500,
+                                    fontSize: '0.9rem',
+                                    px: 1,
+                                    py: 0.5,
+                                    borderRadius: 2,
+                                    whiteSpace: 'nowrap',
+                                    flexShrink: 0,
+                                    position: 'relative',
+                                    transition: 'color 0.3s ease',
                                     '&::after': {
-                                       width: '60%',
+                                       content: '""',
+                                       position: 'absolute',
+                                       bottom: 2,
+                                       left: '50%',
+                                       transform: 'translateX(-50%)',
+                                       width: isActive ? '60%' : 0,
+                                       height: 2,
+                                       borderRadius: 1,
+                                       background: '#C8A64E',
+                                       transition: 'width 0.3s ease',
                                     },
-                                 },
-                              }}>
-                              {t(`nav.${key}`)}
-                           </Button>
-                        );
-                     })}
+                                    '&:hover': {
+                                       background: 'rgba(27, 94, 32, 0.06)',
+                                       color: 'primary.main',
+                                       '&::after': {
+                                          width: '60%',
+                                       },
+                                    },
+                                 }}>
+                                 {t(`nav.${key}`)}
+                              </Button>
+                           );
+                        })}
+                     </Box>
                   </Box>
                )}
 
                {/* Right: Language + Mobile Menu */}
-               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <LanguageSwitcher />
+               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifySelf: 'end' }}>
+                  <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+                     <LanguageSwitcher onChange={onLanguageChanging} />
+                  </Box>
                   {isMobile && (
                      <IconButton
                         onClick={() => setDrawerOpen(!drawerOpen)}
-                        aria-label={drawerOpen ? 'close menu' : 'open menu'}
+                        aria-label={drawerOpen ? t('nav.closeMenu') : t('nav.openMenu')}
                         sx={{ color: 'primary.main' }}>
                         {drawerOpen ? <CloseIcon /> : <MenuIcon />}
                      </IconButton>
@@ -177,26 +232,33 @@ export default function Navbar() {
             slotProps={{
                paper: {
                   sx: {
-                     width: 280,
+                     width: { xs: '100%', sm: 280 },
                      background: 'rgba(255,255,255,0.98)',
                      backdropFilter: 'blur(20px)',
-                     pt: 2,
                   },
                },
             }}>
-            <List>
-               {NAV_ITEMS.map(({ key, href }) => {
+            <Box sx={{ px: 3, py: 2 }}>
+               <LanguageSwitcher onChange={onLanguageChanging} />
+            </Box>
+            <Divider />
+            <List component="nav" aria-label={t('nav.mobileNav')}>
+               {NAV_ITEMS.map(({ key, href, isRoute }, i) => {
                   const isActive = activeKey === key;
                   return (
                      <ListItem key={key} disablePadding>
                         <ListItemButton
-                           onClick={() => handleNavClick(href)}
+                           ref={i === 0 ? firstItemRef : null}
+                           onClick={() => handleNavClick(href, key, isRoute)}
                            sx={{
                               px: 3,
                               py: 1.5,
                               borderRight: isActive ? 3 : 0,
                               borderColor: 'secondary.main',
                               background: isActive ? 'rgba(200, 166, 78, 0.08)' : 'transparent',
+                              '&:hover': {
+                                 background: 'rgba(27, 94, 32, 0.06)',
+                              },
                            }}>
                            <ListItemText
                               primary={t(`nav.${key}`)}

@@ -15,20 +15,21 @@ A nature-inspired, welcoming tourism website that conveys the beauty of Thailand
 
 ## Colour System
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `primary.main` | `#1B5E20` | Headings, primary buttons, link states |
-| `primary.light` | `#4CAF50` | Gradient highlights, hover accents |
-| `primary.dark` | `#0D3B0F` | Footer backgrounds, heavy emphasis |
-| `secondary.main` | `#C8A64E` | Accent borders, CTA buttons, decorative lines |
-| `secondary.light` | `#D4BC6A` | Subtle gold highlights, icon tint |
-| `secondary.dark` | `#A08030` | Gold hover states |
-| `background.default` | `#F6FFF6` | Off-white green-tinted page background |
-| `background.paper` | `#FFFFFF` | Cards, sections |
-| `text.primary` | `#1A1A1A` | Body and heading text |
-| `text.secondary` | `#4A4A4A` | Supporting text, descriptions |
+| Token                | Hex       | Usage                                         |
+| -------------------- | --------- | --------------------------------------------- |
+| `primary.main`       | `#1B5E20` | Headings, primary buttons, link states        |
+| `primary.light`      | `#4CAF50` | Gradient highlights, hover accents            |
+| `primary.dark`       | `#0D3B0F` | Footer backgrounds, heavy emphasis            |
+| `secondary.main`     | `#C8A64E` | Accent borders, CTA buttons, decorative lines |
+| `secondary.light`    | `#D4BC6A` | Subtle gold highlights, icon tint             |
+| `secondary.dark`     | `#A08030` | Gold hover states                             |
+| `background.default` | `#F6FFF6` | Off-white green-tinted page background        |
+| `background.paper`   | `#FFFFFF` | Cards, sections                               |
+| `text.primary`       | `#1A1A1A` | Body and heading text                         |
+| `text.secondary`     | `#4A4A4A` | Supporting text, descriptions                 |
 
 **Gradients:**
+
 - Primary button: `linear-gradient(135deg, #1B5E20, #2E7D32)`
 - Secondary button: `linear-gradient(135deg, #C8A64E, #D4BC6A)`
 - Footer: `linear-gradient(135deg, #0D3B0F, #1B5E20, #0D3B0F)`
@@ -37,18 +38,18 @@ A nature-inspired, welcoming tourism website that conveys the beauty of Thailand
 ## Typography
 
 ```css
-font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
+font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 ```
 
-| Style | Weight | Size (xs → md → lg) | Line Height |
-|-------|--------|---------------------|-------------|
-| h1 | 700 | 2rem → 3.75rem → 4.5rem | 1.15 |
-| h2 | 600-700 | 1.75rem → 2.25rem → 2.75rem | 1.3 |
-| h3 | 600 | 2rem | 1.4 |
-| h4 | 600 | 1.5rem | 1.4 |
-| h5 | 500 | 1.25rem | — |
-| body1 | 400 | 0.95rem → 1.05rem | 1.7 |
-| overline | 600 | theme default | — |
+| Style    | Weight  | Size (xs → md → lg)         | Line Height |
+| -------- | ------- | --------------------------- | ----------- |
+| h1       | 700     | 2rem → 3.75rem → 4.5rem     | 1.15        |
+| h2       | 600-700 | 1.75rem → 2.25rem → 2.75rem | 1.3         |
+| h3       | 600     | 2rem                        | 1.4         |
+| h4       | 600     | 1.5rem                      | 1.4         |
+| h5       | 500     | 1.25rem                     | —           |
+| body1    | 400     | 0.95rem → 1.05rem           | 1.7         |
+| overline | 600     | theme default               | —           |
 
 **Font scaling:** Use `responsiveFontSizes(theme)` for global responsive scaling. On mobile, never use `h1` above 2rem.
 
@@ -66,6 +67,7 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 ## Components
 
 ### Navbar
+
 - Glassmorphism effect: `background: rgba(255,255,255,0.85)` + `backdropFilter: blur(20px)`
 - Subtle bottom border: `1px solid rgba(27, 94, 32, 0.1)`
 - Sticky position
@@ -74,6 +76,7 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 - Mobile: Drawer from right, 280px wide
 
 ### Hero
+
 - Full-screen section (100vh / 90vh mobile) with overlay gradient `rgba(0,0,0,0.3) → rgba(0,0,0,0.6)`
 - Background image with parallax scroll (`translateY` at 0.35× scroll speed)
 - White text with text-shadow for readability
@@ -82,6 +85,7 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 - CTA button: secondary colour (gold)
 
 ### Buttons
+
 - `textTransform: 'none'` (never uppercase)
 - `fontWeight: 600`
 - `borderRadius: 12`
@@ -91,6 +95,7 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 - Outlined primary: `borderColor: #1B5E20`, hover background `rgba(27, 94, 32, 0.05)`
 
 ### Cards
+
 - `borderRadius: 20`
 - `boxShadow: 0 8px 32px rgba(0,0,0,0.08)`
 - `backdropFilter: blur(8px)` for glass effect
@@ -98,17 +103,20 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 - Transition: `transform 0.3s ease, box-shadow 0.3s ease`
 
 ### Section Title
+
 - Centered h2 heading in `primary.dark`
 - Optional subtitle in `text.secondary`
 - Decorative underline: 60px wide, 4px tall, green-to-gold gradient, centered
 
 ### Icon Circles
+
 - MUI icon inside a circular container
 - Container: `width: 60, height: 60, borderRadius: 50%` (40px for smaller variants)
 - Background: `rgba(27, 94, 32, 0.08)` (green tint) or `color + '15'` for highlight cards
 - Icon: `color: primary.main`, `fontSize: 30` (or accent colour for highlight cards)
 
 ### Footer
+
 - Dark green gradient background `#0D3B0F → #1B5E20 → #0D3B0F`
 - White text with secondary gold section titles
 - Contact items: row with icon + link, bordered hover (`borderColor: secondary.main`)
@@ -116,29 +124,45 @@ font-family: "Poppins", "Noto Sans Thai", "Noto Sans SC", sans-serif;
 - Divider: `rgba(255,255,255,0.1)`
 - Copyright: centered, `rgba(255,255,255,0.6)`
 
+### Loading Screen
+
+- **Background:** Solid white with soft glowing particles
+- **Logo animation:** Golden ring spins with dashed borders, central text animates in
+- **Progress bar:** Animated shimmering gradient (`#C8A64E → #D4BC6A`) with dynamic loading messages
+- **Exit:** Smooth opacity fade-out when loading completes
+
+### 404 Not Found
+
+- **Layout:** Centered content with staggered entry animation
+- **Visuals:** Large gold '404', descriptive text, primary button to return home
+- **Transition:** Smooth fade-up entry
+
 ## Animation Patterns
 
 {% raw %}
+
 - **Entry animation:** `framer-motion` `motion.div` with `initial={{ opacity: 0, y: 20-40 }}`, `whileInView={{ opacity: 1, y: 0 }}`, `viewport={{ once: true, margin: '-60px' }}`
 - **Staggered delays:** Use `transition={{ duration: 0.5, delay: index * 0.1-0.15 }}` for grid items
-{% endraw %}
+  {% endraw %}
 - **Card hover:** Transform + shadow transition (0.3s ease)
 - **Button hover:** Gradient shift + shadow intensify
 - **Image hover:** `scale(1.08)` on card media (0.5s ease)
 - **Scroll indicator:** Infinite `y: [0, 8, 0]` bounce (2s duration, 1s delay)
 - **Parallax:** Hero background `translateY` at 35% of scroll speed
+- **Text scramble:** Randomized character decoding effect for headings (`useScramble` hook)
+- **Particles:** Floating glowing orbs with randomized drift
 
 ## Interactive States
 
-| Element | Default | Hover | Focus/Active |
-|---------|---------|-------|-------------|
-| Primary button | Green gradient | Darker green gradient + deeper shadow | Same as hover |
-| Secondary button | Gold gradient | Darker gold gradient | Same as hover |
-| Nav link | Transparent | `rgba(27, 94, 32, 0.08)` | primary.main text |
-| Card | Shadow 0 8px 32px | translateY(-4px) + deeper shadow | Same as hover |
-| Social icon | Translucent bg | Gold bg tint + gold border + translateY(-3px) | Same as hover |
-| Contact row | Transparent border | Gold border | Same as hover |
-| Info card | Transparent border | secondary.main border | Same as hover |
+| Element          | Default            | Hover                                         | Focus/Active      |
+| ---------------- | ------------------ | --------------------------------------------- | ----------------- |
+| Primary button   | Green gradient     | Darker green gradient + deeper shadow         | Same as hover     |
+| Secondary button | Gold gradient      | Darker gold gradient                          | Same as hover     |
+| Nav link         | Transparent        | `rgba(27, 94, 32, 0.08)`                      | primary.main text |
+| Card             | Shadow 0 8px 32px  | translateY(-4px) + deeper shadow              | Same as hover     |
+| Social icon      | Translucent bg     | Gold bg tint + gold border + translateY(-3px) | Same as hover     |
+| Contact row      | Transparent border | Gold border                                   | Same as hover     |
+| Info card        | Transparent border | secondary.main border                         | Same as hover     |
 
 ## Accessibility
 

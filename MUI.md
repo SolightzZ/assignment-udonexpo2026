@@ -6,79 +6,87 @@ This project uses **MUI v9** (Material UI, released early 2025) with Emotion as 
 
 ```jsx
 // main.jsx
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import theme from './theme/theme'
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme/theme';
 
 <ThemeProvider theme={theme}>
-  <CssBaseline />
-  <App />
-</ThemeProvider>
+   <CssBaseline />
+   <App />
+</ThemeProvider>;
 ```
 
 ## Import Rules
 
 ```jsx
 // ✅ CORRECT — individual named imports
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import { styled } from '@mui/material/styles'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
 
 // ❌ NEVER — barrel import
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material';
 ```
 
 ## Components Used in This Project
 
 ### Layout
-| Component | Import | Usage |
-|-----------|--------|-------|
-| `Container` | `@mui/material/Container` | Content wrapper: `maxWidth="lg"` (sections), `maxWidth="xl"` (navbar) |
-| `Box` | `@mui/material/Box` | Universal container; also `component="img"`, `component="a"`, `component="nav"` |
-| `Grid` | `@mui/material/Grid` | Responsive grid with `spacing={3}` and {% raw %}`size={{ xs: 12, sm: 6, md: 4 }}`{% endraw %} |
-| `Toolbar` | `@mui/material/Toolbar` | Navbar layout with `disableGutters` |
+
+| Component   | Import                    | Usage                                                                                         |
+| ----------- | ------------------------- | --------------------------------------------------------------------------------------------- |
+| `Container` | `@mui/material/Container` | Content wrapper: `maxWidth="lg"` (sections), `maxWidth="xl"` (navbar)                         |
+| `Box`       | `@mui/material/Box`       | Universal container; also `component="img"`, `component="a"`, `component="nav"`               |
+| `Grid`      | `@mui/material/Grid`      | Responsive grid with `spacing={3}` and {% raw %}`size={{ xs: 12, sm: 6, md: 4 }}`{% endraw %} |
+| `Toolbar`   | `@mui/material/Toolbar`   | Navbar layout with `disableGutters`                                                           |
 
 ### Surface
-| Component | Import | Usage |
-|-----------|--------|-------|
-| `Card` | `@mui/material/Card` | Info/highlight/location cards; `borderRadius: 20`, hover lift |
-| `CardContent` | `@mui/material/CardContent` | Card body: `p: 3` or `p: { xs: 3, md: 4 }` |
-| `CardMedia` | `@mui/material/CardMedia` | Image inside highlight cards |
-| `AppBar` | `@mui/material/AppBar` | Navbar: `position="sticky"`, glassmorphism (`rgba` + `backdropFilter`) |
-| `Drawer` | `@mui/material/Drawer` | Mobile menu: `anchor="right"`, `width: 280` |
+
+| Component     | Import                      | Usage                                                                  |
+| ------------- | --------------------------- | ---------------------------------------------------------------------- |
+| `Card`        | `@mui/material/Card`        | Info/highlight/location cards; `borderRadius: 20`, hover lift          |
+| `CardContent` | `@mui/material/CardContent` | Card body: `p: 3` or `p: { xs: 3, md: 4 }`                             |
+| `CardMedia`   | `@mui/material/CardMedia`   | Image inside highlight cards                                           |
+| `AppBar`      | `@mui/material/AppBar`      | Navbar: `position="sticky"`, glassmorphism (`rgba` + `backdropFilter`) |
+| `Drawer`      | `@mui/material/Drawer`      | Mobile menu: `anchor="right"`, `width: 280`                            |
 
 ### Navigation
-| Component | Import | Usage |
-|-----------|--------|-------|
-| `Link` | `@mui/material/Link` | Footer links: `underline="hover"`, `color="inherit"` |
-| `Button` | `@mui/material/Button` | CTAs, nav links, direction button — always `textTransform: 'none'` |
-| `IconButton` | `@mui/material/IconButton` | Scroll, close, menu toggle, social icon wrappers |
+
+| Component    | Import                     | Usage                                                              |
+| ------------ | -------------------------- | ------------------------------------------------------------------ |
+| `Link`       | `@mui/material/Link`       | Footer links: `underline="hover"`, `color="inherit"`               |
+| `Button`     | `@mui/material/Button`     | CTAs, nav links, direction button — always `textTransform: 'none'` |
+| `IconButton` | `@mui/material/IconButton` | Scroll, close, menu toggle, social icon wrappers                   |
 
 ### Data Display
-| Component | Import | Usage |
-|-----------|--------|-------|
-| `Typography` | `@mui/material/Typography` | Every text node; variants: `h1`–`h5`, `body1`–`body2`, `overline`, `subtitle1`–`subtitle2`, `caption` |
-| `List`, `ListItem`, `ListItemButton`, `ListItemText` | `@mui/material/List` etc. | Mobile drawer items |
-| `Divider` | `@mui/material/Divider` | Footer separator |
+
+| Component                                            | Import                     | Usage                                                                                                 |
+| ---------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `Typography`                                         | `@mui/material/Typography` | Every text node; variants: `h1`–`h5`, `body1`–`body2`, `overline`, `subtitle1`–`subtitle2`, `caption` |
+| `List`, `ListItem`, `ListItemButton`, `ListItemText` | `@mui/material/List` etc.  | Mobile drawer items                                                                                   |
+| `Divider`                                            | `@mui/material/Divider`    | Footer separator                                                                                      |
 
 ### Input
-| Component | Import | Usage |
-|-----------|--------|-------|
+
+| Component                            | Import                                 | Usage                                                  |
+| ------------------------------------ | -------------------------------------- | ------------------------------------------------------ |
 | `ToggleButtonGroup` + `ToggleButton` | `@mui/material/ToggleButtonGroup` etc. | Language switcher (`exclusive`, styled via `styled()`) |
 
 ### Feedback
-| Component | Import | Usage |
-|-----------|--------|-------|
-| `Modal` | `@mui/material/Modal` | Gallery lightbox |
+
+| Component          | Import                           | Usage             |
+| ------------------ | -------------------------------- | ----------------- |
+| `Modal`            | `@mui/material/Modal`            | Gallery lightbox  |
 | `CircularProgress` | `@mui/material/CircularProgress` | Suspense fallback |
+| `LinearProgress`   | `@mui/material/LinearProgress`   | Loading screen progress bar |
 
 ### Theme/Utils
-| Import | From | Usage |
-|--------|------|-------|
-| `useTheme` | `@mui/material/styles` | Access theme inside component |
-| `useMediaQuery` | `@mui/material/useMediaQuery` | Responsive breakpoint checks |
-| `styled` | `@mui/material/styles` | Reusable styled components |
+
+| Import          | From                          | Usage                         |
+| --------------- | ----------------------------- | ----------------------------- |
+| `useTheme`      | `@mui/material/styles`        | Access theme inside component |
+| `useMediaQuery` | `@mui/material/useMediaQuery` | Responsive breakpoint checks  |
+| `styled`        | `@mui/material/styles`        | Reusable styled components    |
 
 ## Components NOT Used (MUI v7 Skill Reference)
 
@@ -89,58 +97,68 @@ The v7 skill mentions `Paper`, `TextField`, `Dialog`, `Skeleton`, and `Stack` �
 ### `sx` Prop (preferred — all one-off styles)
 
 {% raw %}
+
 ```jsx
-<Box sx={{
-  py: { xs: 8, md: 12 },
-  background: '#F6FFF6',
-  textAlign: 'center',
-}} />
+<Box
+   sx={{
+      py: { xs: 8, md: 12 },
+      background: '#F6FFF6',
+      textAlign: 'center',
+   }}
+/>
 ```
+
 {% endraw %}
 
 Pseudo-selectors in `sx` (string syntax):
 {% raw %}
+
 ```jsx
-<Box sx={{
-  '&:hover': {
-    borderColor: 'secondary.main',
-    transform: 'translateY(-4px)',
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    inset: 0,
-  },
-}} />
+<Box
+   sx={{
+      '&:hover': {
+         borderColor: 'secondary.main',
+         transform: 'translateY(-4px)',
+      },
+      '&::after': {
+         content: '""',
+         position: 'absolute',
+         inset: 0,
+      },
+   }}
+/>
 ```
+
 {% endraw %}
 
 ### `styled()` (for reusable custom components)
 
 ```jsx
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles';
 
 const TimelineLine = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  left: 20,
-  width: 3,
-  background: `linear-gradient(180deg, ${theme.palette.primary.light}, ${theme.palette.primary.dark})`,
-  [theme.breakpoints.up('md')]: {
-    left: '50%',
-    transform: 'translateX(-50%)',
-  },
-}))
+   position: 'absolute',
+   left: 20,
+   width: 3,
+   background: `linear-gradient(180deg, ${theme.palette.primary.light}, ${theme.palette.primary.dark})`,
+   [theme.breakpoints.up('md')]: {
+      left: '50%',
+      transform: 'translateX(-50%)',
+   },
+}));
 ```
 
 ### Theme Callback in `sx`
 
 ```jsx
-<Box sx={(theme) => ({
-  color: theme.palette.primary.main,
-  '&:hover': {
-    color: theme.palette.primary.dark,
-  },
-})} />
+<Box
+   sx={(theme) => ({
+      color: theme.palette.primary.main,
+      '&:hover': {
+         color: theme.palette.primary.dark,
+      },
+   })}
+/>
 ```
 
 ## Theme Integration
@@ -158,12 +176,12 @@ const TimelineLine = styled(Box)(({ theme }) => ({
 ### Accessing Theme from Code
 
 ```jsx
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function Component() {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+   const theme = useTheme();
+   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 }
 ```
 
@@ -172,6 +190,7 @@ function Component() {
 All values use the `{ xs, sm, md, lg, xl }` object syntax:
 
 {% raw %}
+
 ```jsx
 fontSize:   { xs: '0.95rem', md: '1.05rem' }
 py:         { xs: 8, md: 12 }
@@ -180,53 +199,65 @@ height:     { xs: 280, md: 400 }
 size={{ xs: 12, sm: 6, md: 4 }}
 display:    { xs: 'none', md: 'flex' }
 ```
+
 {% endraw %}
 
 ## Shared Component Patterns
 
 ### Icon Circle
+
 {% raw %}
+
 ```jsx
-<Box sx={{
-  width: 52, height: 52, borderRadius: '50%',
-  background: `${color}12`,    // 12 = ~7% opacity
-  display: 'flex', alignItems: 'center', justifyContent: 'center',
-}}>
-  <Icon sx={{ color, fontSize: 26 }} />
+<Box
+   sx={{
+      width: 52,
+      height: 52,
+      borderRadius: '50%',
+      background: `${color}12`, // 12 = ~7% opacity
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+   }}>
+   <Icon sx={{ color, fontSize: 26 }} />
 </Box>
 ```
+
 {% endraw %}
 
 ### Section Background Alternation
+
 {% raw %}
+
 ```jsx
 <Box sx={{ py: { xs: 8, md: 12 }, background: '#fff' }} />  // white section
 <Box sx={{ py: { xs: 8, md: 12 }, background: '#F6FFF6' }} />  // tinted section
 ```
+
 {% endraw %}
 
 ## Theme Tokens Reference
 
 ```jsx
 // Use string path in sx (no need to import theme):
-color: 'primary.main'
-color: 'text.secondary'
-borderColor: 'secondary.main'
-bgcolor: 'background.paper'
+color: 'primary.main';
+color: 'text.secondary';
+borderColor: 'secondary.main';
+bgcolor: 'background.paper';
 
 // Use theme values directly (only when needed):
-theme.palette.primary.main
-theme.palette.primary.light
-theme.palette.primary.dark
-theme.shape.borderRadius
+theme.palette.primary.main;
+theme.palette.primary.light;
+theme.palette.primary.dark;
+theme.shape.borderRadius;
 ```
 
 ## MUI v9 Grid v2 Notes
 
 - `<Grid container spacing={N}>` wraps items
 - Items use `size` prop, **not** `xs`/`sm`/`md`:
-  - ✅ {% raw %}`<Grid size={{ xs: 12, sm: 6, md: 4 }}>`{% endraw %}
-  - ❌ `<Grid item xs={12} sm={6} md={4}>`
+   - ✅ {% raw %}`<Grid size={{ xs: 12, sm: 6, md: 4 }}>`{% endraw %}
+   - ❌ `<Grid item xs={12} sm={6} md={4}>`
 - No `item` prop needed
 
 ## MUI v9 Breaking Changes (from v6/v7)

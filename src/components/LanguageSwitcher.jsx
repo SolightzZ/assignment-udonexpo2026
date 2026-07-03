@@ -1,16 +1,19 @@
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { styled } from '@mui/material/styles';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const StyledToggleGroup = styled(ToggleButtonGroup)(({ theme }) => ({
    '& .MuiToggleButton-root': {
       border: `1px solid ${theme.palette.primary.main}`,
       color: theme.palette.primary.main,
       fontWeight: 600,
-      fontSize: '0.75rem',
-      padding: '4px 12px',
+      fontSize: '0.65rem',
+      padding: '2px 6px',
+      minWidth: 30,
+      minHeight: 28,
       textTransform: 'none',
       transition: 'all 0.2s ease',
       '&.Mui-selected': {
@@ -32,31 +35,31 @@ const LANGUAGES = [
    { code: 'zh', label: 'lang.zh' },
 ];
 
-export default function LanguageSwitcher() {
-   const { i18n } = useTranslation();
+export default function LanguageSwitcher({ onChange }) {
+   const { i18n, t } = useTranslation();
 
    const handleChange = useCallback(
       (_, newLang) => {
-         if (newLang) {
-            i18n.changeLanguage(newLang);
-            document.documentElement.lang = newLang;
-         }
+         if (!newLang || newLang === i18n.language?.slice(0, 2)) return;
+         onChange?.({ nextLang: newLang });
       },
-      [i18n],
+      [i18n, onChange],
    );
 
    return (
-      <StyledToggleGroup
-         value={i18n.language?.slice(0, 2)}
-         exclusive
-         onChange={handleChange}
-         size="small"
-         aria-label="language switcher">
-         {LANGUAGES.map(({ code, label }) => (
-            <ToggleButton key={code} value={code} aria-label={`switch to ${code}`}>
-               {code === 'zh' ? '中文' : code.toUpperCase()}
-            </ToggleButton>
-         ))}
-      </StyledToggleGroup>
+      <Box sx={{ display: 'inline-flex' }}>
+         <StyledToggleGroup
+            value={i18n.language?.slice(0, 2)}
+            exclusive
+            onChange={handleChange}
+            size="small"
+            aria-label={t('lang.switcher')}>
+            {LANGUAGES.map(({ code, label }) => (
+               <ToggleButton key={code} value={code} aria-label={t(label)}>
+                  {code === 'zh' ? '中文' : code.toUpperCase()}
+               </ToggleButton>
+            ))}
+         </StyledToggleGroup>
+      </Box>
    );
 }

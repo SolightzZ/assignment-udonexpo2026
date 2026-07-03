@@ -1,53 +1,32 @@
-import { useEffect, useRef, useMemo } from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { motion } from 'framer-motion';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import Countdown from './Countdown';
+import ScrambleText from './ScrambleText';
 
 const PARALLAX_SPEED = 0.3;
 
-function useParallax(speed) {
-   const ref = useRef(null);
+function useParallax(speedBg, speedFg) {
+   const bgRef = useRef(null);
+   const fgRef = useRef(null);
    useEffect(() => {
       const handleScroll = () => {
-         if (ref.current) {
-            ref.current.style.transform = `translateY(${window.scrollY * speed}px)`;
-         }
+         const y = window.scrollY;
+         if (bgRef.current) bgRef.current.style.transform = `translateY(${y * speedBg}px)`;
+         if (fgRef.current) fgRef.current.style.transform = `translateY(${y * speedFg}px)`;
       };
       window.addEventListener('scroll', handleScroll, { passive: true });
       return () => window.removeEventListener('scroll', handleScroll);
-   }, [speed]);
-   return ref;
+   }, [speedBg, speedFg]);
+   return { bgRef, fgRef };
 }
 
 function useScrollTo(id) {
    return () => document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
-}
-
-function StaggeredWord({ text, delay = 0 }) {
-   const words = useMemo(() => text.split(' '), [text]);
-   return (
-      <span style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '0.2em' }}>
-         {words.map((word, i) => (
-            <motion.span
-               key={i}
-               initial={{ opacity: 0, y: 40, rotateX: -40 }}
-               animate={{ opacity: 1, y: 0, rotateX: 0 }}
-               transition={{
-                  duration: 0.7,
-                  delay: delay + i * 0.08,
-                  ease: [0.34, 1.56, 0.64, 1],
-               }}
-               style={{ display: 'inline-block', whiteSpace: 'nowrap', perspective: 600 }}>
-               {word}
-            </motion.span>
-         ))}
-      </span>
-   );
 }
 
 const ORBS = [
@@ -57,8 +36,8 @@ const ORBS = [
 ];
 
 export default function Hero({ t }) {
-   const bgRef = useParallax(PARALLAX_SPEED);
-   const fgRef = useParallax(PARALLAX_SPEED * 0.5);
+   const prefersReducedMotion = useReducedMotion();
+   const { bgRef, fgRef } = useParallax(PARALLAX_SPEED, PARALLAX_SPEED * 0.5);
    const scrollToAbout = useScrollTo('#about');
 
    return (
@@ -66,8 +45,9 @@ export default function Hero({ t }) {
          id="hero"
          sx={{
             position: 'relative',
-            height: { xs: '90vh', md: '100vh' },
-            minHeight: 600,
+            height: { xs: '100dvh', md: '100dvh' },
+            minHeight: { xs: 500, md: 700 },
+            maxHeight: { xs: 900, md: 1000 },
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
@@ -81,7 +61,7 @@ export default function Hero({ t }) {
                backgroundImage:
                   'url(https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80)',
                backgroundSize: 'cover',
-               backgroundPosition: 'center',
+               backgroundPosition: { xs: 'center 30%', sm: 'center' },
                willChange: 'transform',
                '&::after': {
                   content: '""',
@@ -99,6 +79,7 @@ export default function Hero({ t }) {
             sx={{
                position: 'absolute',
                inset: 0,
+               overflow: 'hidden',
                willChange: 'transform',
                pointerEvents: 'none',
             }}>
@@ -113,47 +94,55 @@ export default function Hero({ t }) {
                      background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
                      filter: `blur(${orb.blur}px)`,
                      ...Object.fromEntries(
-                        Object.entries(orb).filter(
-                           ([k]) => !['size', 'color', 'blur'].includes(k),
-                        ),
+                        Object.entries(orb).filter(([k]) => !['size', 'color', 'blur'].includes(k)),
                      ),
                   }}
                />
             ))}
          </Box>
 
-         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-            <Typography
+         <Container
+            maxWidth={false}
+            sx={{
+               position: 'relative',
+               zIndex: 2,
+               px: { xs: 2, sm: 3, md: 'clamp(40px, 6vw, 120px)' },
+               pt: { xs: 6, md: 0 },
+               maxWidth: '1400px',
+               mx: 'auto',
+            }}>
+            <ScrambleText
+               text={t('hero.title')}
                variant="h1"
                component="h1"
                sx={{
                   color: '#fff',
                   fontWeight: 700,
-                  fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3.5rem', lg: '4.2rem' },
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
                   lineHeight: 1.15,
                   textShadow: '0 4px 30px rgba(0,0,0,0.3)',
                   mb: 2,
-               }}>
-               <StaggeredWord text={t('hero.title')} delay={0.1} />
-            </Typography>
+                  maxWidth: { xs: '100%', sm: 420, md: 650 },
+               }}
+            />
 
             <motion.div
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8, delay: 0.7, ease: [0.25, 1, 0.5, 1] }}>
-               <Typography
+               <ScrambleText
+                  text={t('hero.subtitle')}
                   variant="h5"
                   component="p"
                   sx={{
                      color: 'rgba(255,255,255,0.85)',
                      fontWeight: 300,
-                     fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.35rem' },
+                     fontSize: { xs: '0.85rem', sm: '1rem', md: '1.35rem' },
                      maxWidth: 600,
                      mb: 4,
                      textShadow: '0 2px 12px rgba(0,0,0,0.2)',
-                  }}>
-                  {t('hero.subtitle')}
-               </Typography>
+                  }}
+               />
             </motion.div>
 
             <motion.div
@@ -176,9 +165,10 @@ export default function Hero({ t }) {
                   onClick={scrollToAbout}
                   aria-label={t('hero.cta')}
                   sx={{
-                     fontSize: { xs: '0.9rem', md: '1rem' },
-                     px: { xs: 3, md: 5 },
+                     fontSize: '1rem',
+                     px: { xs: 4, md: 5 },
                      py: { xs: 1.5, md: 1.8 },
+                     width: 'fit-content',
                   }}>
                   {t('hero.cta')}
                </Button>
@@ -187,8 +177,8 @@ export default function Hero({ t }) {
 
          <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, delay: 1.6 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: prefersReducedMotion ? 0 : Infinity, delay: 1.6 }}
             style={{
                position: 'absolute',
                bottom: 40,

@@ -1,9 +1,9 @@
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
+import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
 
 const STEPS = [
@@ -45,7 +45,7 @@ function TimelineItem({ step, index, t }) {
             <Box
                sx={{
                   display: 'flex',
-                  flexDirection: { xs: 'row', md: index % 2 === 0 ? 'row' : 'row-reverse' },
+                  flexDirection: { xs: 'row', md: isLeft ? 'row' : 'row-reverse' },
                   alignItems: 'flex-start',
                   gap: 3,
                }}>
@@ -55,42 +55,63 @@ function TimelineItem({ step, index, t }) {
                      display: { xs: 'none', md: 'flex' },
                      flexShrink: 0,
                      width: { md: '50%' },
-                     justifyContent: index % 2 === 0 ? 'flex-end' : 'flex-start',
-                     textAlign: index % 2 === 0 ? 'right' : 'left',
-                     pr: index % 2 === 0 ? 6 : 0,
-                     pl: index % 2 === 0 ? 0 : 6,
+                     justifyContent: isLeft ? 'flex-end' : 'flex-start',
+                     textAlign: isLeft ? 'right' : 'left',
+                     pr: isLeft ? 6 : 0,
+                     pl: isLeft ? 0 : 6,
                   }}>
                   <Box>
-                     <Typography
+                     <ScrambleText
+                        text={t(`timeline.${step.key}Date`)}
                         variant="overline"
-                        sx={{ color: 'secondary.main', fontWeight: 700, letterSpacing: 1.5 }}>
-                        {t(`timeline.${step.key}Date`)}
-                     </Typography>
-                     <Typography variant="h5" sx={{ fontWeight: 600, mt: 0.5 }}>
-                        {t(`timeline.${step.key}`)}
-                     </Typography>
-                     <Typography
+                        component="div"
+                        sx={{
+                           color: 'secondary.main',
+                           fontWeight: 700,
+                           letterSpacing: 1.5,
+                           display: 'block',
+                        }}
+                     />
+                     <ScrambleText
+                        text={t(`timeline.${step.key}`)}
+                        variant="h5"
+                        component="h3"
+                        sx={{ fontWeight: 600, mt: 0.5 }}
+                     />
+                     <ScrambleText
+                        text={t(`timeline.${step.key}Desc`)}
                         variant="body2"
                         color="text.secondary"
-                        sx={{ mt: 1, maxWidth: 360 }}>
-                        {t(`timeline.${step.key}Desc`)}
-                     </Typography>
+                        sx={{ mt: 1, maxWidth: 360 }}
+                     />
                   </Box>
                </Box>
 
                {/* Mobile content */}
                <Box sx={{ display: { xs: 'block', md: 'none' }, flex: 1 }}>
-                  <Typography
+                  <ScrambleText
+                     text={t(`timeline.${step.key}Date`)}
                      variant="overline"
-                     sx={{ color: 'secondary.main', fontWeight: 700, letterSpacing: 1.5 }}>
-                     {t(`timeline.${step.key}Date`)}
-                  </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 0.5 }}>
-                     {t(`timeline.${step.key}`)}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                     {t(`timeline.${step.key}Desc`)}
-                  </Typography>
+                     component="div"
+                     sx={{
+                        color: 'secondary.main',
+                        fontWeight: 700,
+                        letterSpacing: 1.5,
+                        display: 'block',
+                     }}
+                  />
+                  <ScrambleText
+                     text={t(`timeline.${step.key}`)}
+                     variant="h6"
+                     component="h3"
+                     sx={{ fontWeight: 600, mt: 0.5 }}
+                  />
+                  <ScrambleText
+                     text={t(`timeline.${step.key}Desc`)}
+                     variant="body2"
+                     color="text.secondary"
+                     sx={{ mt: 0.5 }}
+                  />
                </Box>
             </Box>
          </motion.div>
@@ -101,49 +122,45 @@ function TimelineItem({ step, index, t }) {
 export default function Timeline({ t }) {
    return (
       <Box id="timeline" sx={{ py: { xs: 8, md: 12 }, background: '#F6FFF6' }}>
-         <Container maxWidth="md">
+         <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3 } }}>
             <SectionTitle title={t('timeline.title')} />
 
             {/* Desktop vertical line */}
-            <Box sx={{ display: { xs: 'block', md: 'block' }, position: 'relative' }}>
-               {/* Mobile dot */}
+            <Box sx={{ position: 'relative' }}>
                {STEPS.map((step, index) => (
-                  <Box key={step.key}>
+                  <Box key={step.key} sx={{ position: 'relative' }}>
                      {/* Mobile dot */}
                      <Box
                         sx={{
                            display: { xs: 'flex', md: 'none' },
                            position: 'absolute',
                            left: 12,
-                           top: index * 160 + 8,
+                           top: { xs: 8, sm: 12, md: 16 },
                            zIndex: 2,
                         }}>
                         <FiberManualRecordIcon sx={{ color: step.color, fontSize: 20 }} />
                      </Box>
 
+                     {/* Desktop dot */}
+                     <Box
+                        sx={{
+                           display: { xs: 'none', md: 'flex' },
+                           position: 'absolute',
+                           left: '50%',
+                           transform: 'translateX(-50%)',
+                           top: { md: 16 },
+                           zIndex: 2,
+                           width: 20,
+                           height: 20,
+                           borderRadius: '50%',
+                           background: step.color,
+                           border: '3px solid #fff',
+                           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        }}
+                     />
+
                      <TimelineItem step={step} index={index} t={t} />
                   </Box>
-               ))}
-
-               {/* Desktop dots */}
-               {STEPS.map((step, index) => (
-                  <Box
-                     key={step.key}
-                     sx={{
-                        display: { xs: 'none', md: 'flex' },
-                        position: 'absolute',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        top: index * 180 + 12,
-                        zIndex: 2,
-                        width: 20,
-                        height: 20,
-                        borderRadius: '50%',
-                        background: step.color,
-                        border: '3px solid #fff',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                     }}
-                  />
                ))}
 
                <TimelineLine />

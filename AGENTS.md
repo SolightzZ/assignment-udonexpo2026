@@ -11,6 +11,8 @@ npm run preview   # Preview production build
 npm run lint      # Oxlint
 ```
 
+No single-test runner — no test framework is configured yet. When adding one, use Vitest + React Testing Library.
+
 ## Code Style
 
 - **Language:** JavaScript (JSX) — no TypeScript
@@ -21,30 +23,54 @@ npm run lint      # Oxlint
 - **i18n:** `react-i18next` `useTranslation()` hook; all text in `locales/{th,en,zh}/translation.json`
 - **Lazy loading:** `React.lazy(() => import('./...'))` + `<Suspense>` for route-level code splitting
 - **Theme:** Custom MUI theme in `src/theme/theme.js` — dark green `#1B5E20` + gold `#C8A64E` palette
+- **Navbar layout:** CSS Grid (`gridTemplateColumns: 'auto 1fr auto'`) for stable navbar — menu stays centered regardless of logo width; never use `justifyContent: 'space-between'` on Toolbar
 
 ## Structure
 
 ```
 src/
-├── components/   # Section components (Navbar, Hero, About, Highlights, Gallery, ...)
-├── pages/        # Route pages (Home.jsx)
-├── locales/      # Translation JSON files
-├── theme/        # MUI theme config
-├── assets/       # Images and icons
-├── App.jsx       # Root component
-├── main.jsx      # Entry point
-└── i18n.js       # i18next config
+├── components/   # Section components (Navbar, Hero, About, LoadingScreen, Tech...)
+├── hooks/        # Custom React hooks (useScramble.js)
+├── pages/        # Route pages (Home.jsx, Tech.jsx, NotFound.jsx) — lazy-loaded
+├── locales/      # Translation JSON files (th, en, zh)
+├── theme/        # MUI theme config (theme.js)
+├── assets/       # Images (src/assets/images/)
+├── App.jsx       # Root component — lazy routes, loading screen, language transition
+├── main.jsx      # Entry point — BrowserRouter basename, ThemeProvider, font imports
+└── i18n.js       # i18next config (fallback: th, detection: localStorage → navigator)
 ```
 
-## Testing
+## Deployment
 
-No test framework configured. When adding one, use Vitest + React Testing Library.
+- **GitHub Pages** with SPA fallback: `vite.config.js` writes a `404.html` redirect script
+- **BrowserRouter basename:** `/assignment-udonexpo2026` (set in `main.jsx`)
+- **Base path:** `base: '/assignment-udonexpo2026/'` in `vite.config.js`
 
-## Boundaries
+## Loading Screen
 
-- Never commit credentials or API keys
-- Use `sx` prop for one-off styling, `styled` for reusable components
-- Prefer async data fetching with Suspense where possible
+- `App.jsx` shows a `LoadingScreen` for 3.5 seconds on initial load
+- Language changes update all text immediately without page refresh (the coordinates-based wipe transition has been removed)
+
+## Responsive & UX Rules
+
+- LanguageSwitcher must NOT be hidden on mobile — render inside the mobile Drawer in Navbar instead
+- Use MUI v9 Grid `size={{ xs, md }}` syntax, not legacy `xs={12}` props
+- Use Framer Motion `useReducedMotion()` not `window.matchMedia` for SSR-safe reduced-motion detection
 - All user-facing strings must come from i18n locale files, never hardcoded
 - Use MUI v9 APIs, not v4/v5 legacy patterns
-- Images in `src/assets/images/`, icons in `src/assets/icons/`
+- Images in `src/assets/images/`, icons imported from `@mui/icons-material`
+- `textTransform: 'none'` on all buttons (never uppercase)
+- Minimum `borderRadius: 12` on all interactive elements
+
+## Key Gotchas
+
+- i18n default/fallback language is Thai (`th`) — not English
+- i18n detection caches to `localStorage` with key `i18nextLng`
+- Theme wraps body with a noise texture overlay (`::after` pseudo-element) — z-index 1299
+- `prefers-reduced-motion: reduce` kills all animations/transitions via theme CSS baseline
+- Font imports in `main.jsx` are explicit per-weight (Poppins, Noto Sans Thai, Noto Sans SC)
+
+## Reference Files
+
+- `DESIGN.md` — Full design system: colour palette, typography scale, spacing, animation patterns
+- `MUI.md` — MUI v9 component usage, import rules, Grid v2 syntax, theme tokens

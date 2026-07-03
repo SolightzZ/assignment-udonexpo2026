@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import ScrambleText from './ScrambleText';
 
-const TARGET = new Date('2026-11-01T00:00:00+07:00');
+const EXPO_OPEN_DATE = new Date('2026-11-01T00:00:00+07:00');
 
 function calc() {
-   const diff = TARGET - Date.now();
-   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+   const diff = EXPO_OPEN_DATE - Date.now();
+   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, ended: true };
    return {
       days: Math.floor(diff / 86400000),
       hours: Math.floor((diff % 86400000) / 3600000),
@@ -24,15 +25,21 @@ export default function Countdown() {
    const [time, setTime] = useState(calc);
 
    useEffect(() => {
-      const id = setInterval(() => setTime(calc), 1000);
-      return () => clearInterval(id);
+      const tick = () => {
+         setTime(calc());
+         id = setTimeout(tick, Math.max(0, 1000 - (Date.now() % 1000)));
+      };
+      let id = setTimeout(tick, Math.max(0, 1000 - (Date.now() % 1000)));
+      return () => clearTimeout(id);
    }, []);
 
    return (
       <Box
+         role="timer"
+         aria-label={t('countdown.label')}
          sx={{
             display: 'flex',
-            gap: { xs: 1.5, sm: 2.5 },
+            gap: { xs: 2.5, sm: 2.5, md: 3 },
             justifyContent: 'center',
             flexWrap: 'wrap',
          }}>
@@ -48,23 +55,24 @@ export default function Countdown() {
                      sx={{
                         color: '#fff',
                         fontWeight: 700,
-                        fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.75rem' },
+                        fontSize: { xs: '1.35rem', sm: '2.25rem', md: '2.75rem' },
                         lineHeight: 1,
                         textShadow: '0 2px 20px rgba(0,0,0,0.3)',
-                        minWidth: { xs: 56, sm: 64 },
+                        minWidth: { xs: 44, sm: 64, md: 72 },
                      }}>
                      {String(time[key]).padStart(2, '0')}
                   </Typography>
-                  <Typography
+                  <ScrambleText
+                     text={t(`countdown.${key}`)}
                      variant="caption"
                      sx={{
                         color: 'rgba(255,255,255,0.75)',
-                        fontSize: { xs: '0.65rem', sm: '0.75rem' },
+                        fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.85rem' },
                         textTransform: 'uppercase',
                         letterSpacing: 1,
-                     }}>
-                     {t(`countdown.${key}`)}
-                  </Typography>
+                        display: 'block',
+                     }}
+                  />
                </Box>
             </motion.div>
          ))}

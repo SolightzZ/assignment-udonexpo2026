@@ -1,27 +1,28 @@
+import EmailIcon from '@mui/icons-material/Email';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import PhoneIcon from '@mui/icons-material/Phone';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import XIcon from '@mui/icons-material/X';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import ScrambleText from './ScrambleText';
 
 const SOCIAL_LINKS = [
-   { icon: FacebookIcon, href: '#', label: 'Facebook' },
-   { icon: XIcon, href: '#', label: 'X (Twitter)' },
-   { icon: InstagramIcon, href: '#', label: 'Instagram' },
-   { icon: YouTubeIcon, href: '#', label: 'YouTube' },
+   { icon: FacebookIcon, href: 'https://facebook.com/udonexpo2026', label: 'Facebook' },
+   { icon: XIcon, href: 'https://x.com/udonexpo2026', label: 'X (Twitter)' },
+   { icon: InstagramIcon, href: 'https://instagram.com/udonexpo2026', label: 'Instagram' },
+   { icon: YouTubeIcon, href: 'https://youtube.com/@udonexpo2026', label: 'YouTube' },
 ];
 
 function FooterSection({ title, children }) {
    return (
       <Box>
-         <Typography
+         <ScrambleText
+            text={title}
             variant="subtitle2"
             sx={{
                color: 'secondary.main',
@@ -29,9 +30,8 @@ function FooterSection({ title, children }) {
                textTransform: 'uppercase',
                letterSpacing: 1.5,
                mb: 2,
-            }}>
-            {title}
-         </Typography>
+            }}
+         />
          {children}
       </Box>
    );
@@ -47,8 +47,8 @@ export default function Footer({ t }) {
             pt: { xs: 6, md: 8 },
             pb: 4,
          }}>
-         <Container maxWidth="lg">
-            <Grid container spacing={4} sx={{ mb: 4 }}>
+         <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3 } }}>
+            <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mb: 4 }}>
                {/* Contact */}
                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                   <FooterSection title={t('footer.contact')}>
@@ -99,7 +99,10 @@ export default function Footer({ t }) {
                {/* Social */}
                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                   <FooterSection title={t('footer.social')}>
-                     <Box sx={{ display: 'flex', gap: 1 }}>
+                     <Box
+                        component="nav"
+                        aria-label="social media"
+                        sx={{ display: 'flex', gap: 1.5 }}>
                         {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
                            <Link
                               key={label}
@@ -108,8 +111,8 @@ export default function Footer({ t }) {
                               target="_blank"
                               rel="noopener noreferrer"
                               sx={{
-                                 width: 40,
-                                 height: 40,
+                                 width: 44,
+                                 height: 44,
                                  borderRadius: '50%',
                                  background: 'rgba(255,255,255,0.1)',
                                  border: '1px solid transparent',
@@ -134,23 +137,45 @@ export default function Footer({ t }) {
 
                {/* Organizer */}
                <Grid size={{ xs: 12, sm: 12, md: 4 }}>
-                  <FooterSection title={t('footer.organizer').split(' ')[0]}>
-                     <Typography
+                  <FooterSection title={t('footer.organizerLabel')}>
+                     <ScrambleText
+                        text={t('footer.organizer')}
                         variant="body2"
-                        sx={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>
-                        {t('footer.organizer')}
-                     </Typography>
+                        sx={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}
+                     />
                   </FooterSection>
                </Grid>
             </Grid>
 
             <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)', mb: 3 }} />
 
-            <Typography
+            <ScrambleText
+               text={t('footer.copyright')}
                variant="body2"
-               sx={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>
-               {t('footer.copyright')}
-            </Typography>
+               sx={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}
+            />
+
+            <ScrambleText
+               component="a"
+               href="#hero"
+               onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector('#hero')?.scrollIntoView({ behavior: 'smooth' });
+               }}
+               aria-label={t('footer.backToTop')}
+               text={`↑ ${t('footer.backToTop')}`}
+               sx={{
+                  display: { xs: 'block', md: 'none' },
+                  textAlign: 'center',
+                  mt: 3,
+                  color: 'secondary.main',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  '&:hover': { color: 'secondary.light' },
+               }}
+            />
          </Container>
       </Box>
    );

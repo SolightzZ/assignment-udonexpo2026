@@ -1,13 +1,15 @@
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupIcon from '@mui/icons-material/Group';
-import { motion } from 'framer-motion';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
+import IconCircle from './IconCircle';
+import Reveal from './Reveal';
 
 const INFO_CARDS = [
    { icon: CalendarMonthIcon, label: 'about.date', value: 'about.dateValue' },
@@ -18,93 +20,96 @@ const INFO_CARDS = [
 export default function About({ t }) {
    return (
       <Box id="about" sx={{ py: { xs: 8, md: 12 }, background: '#fff' }}>
-         <Container maxWidth="lg">
+         <Container maxWidth={false} sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 } }}>
             <SectionTitle title={t('about.title')} />
 
-            <motion.div
-               initial={{ opacity: 0, y: 40 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true, margin: '-80px' }}
-               transition={{ duration: 0.6 }}>
-               <Typography
+            <Reveal y={40} margin="-80px" duration={0.6}>
+               <ScrambleText
+                  text={t('about.description')}
                   variant="body1"
                   sx={{
                      textAlign: 'center',
-                     maxWidth: 800,
+                     maxWidth: { xs: '100%', sm: 520, md: 760 },
+                     px: { xs: 1, sm: 0 },
                      mx: 'auto',
-                     mb: 6,
+                     mb: { xs: 7, md: 6 },
                      color: 'text.secondary',
                      fontSize: { xs: '0.95rem', md: '1.05rem' },
-                  }}>
-                  {t('about.description')}
-               </Typography>
-            </motion.div>
+                     lineHeight: 1.9,
+                  }}
+               />
+            </Reveal>
 
             <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
                {INFO_CARDS.map(({ icon: Icon, label, value }, index) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={label}>
-                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-60px' }}
-                        transition={{ duration: 0.5, delay: index * 0.15 }}
-                        style={{ height: '100%' }}>
+                  <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={label} sx={{ display: 'flex' }}>
+                     <Reveal delay={index * 0.15} style={{ width: '100%', height: '100%' }}>
                         <Card
-                            sx={{
-                               p: 4,
-                               textAlign: 'center',
-                               height: '100%',
-                               display: 'flex',
-                               flexDirection: 'column',
-                               alignItems: 'center',
-                               gap: 2,
-                               overflow: 'visible',
-                            }}>
-                           <Box
-                               sx={{
-                                  width: 64,
-                                  height: 64,
-                                  borderRadius: '50%',
-                                  flexShrink: 0,
-                                  background: 'rgba(27, 94, 32, 0.08)',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  position: 'relative',
-                                  transition: 'background 0.3s ease, transform 0.3s ease',
-                                  '&::after': {
-                                     content: '""',
-                                     position: 'absolute',
-                                     inset: -2,
-                                     borderRadius: '50%',
-                                     border: '1px solid rgba(200, 166, 78, 0.2)',
-                                     opacity: 0,
-                                     transition: 'opacity 0.3s ease',
-                                  },
-                                  '.MuiCard-root:hover &': {
-                                     transform: 'scale(1.05)',
-                                     background: 'rgba(200, 166, 78, 0.12)',
-                                     '&::after': { opacity: 1 },
-                                  },
-                               }}>
-                               <Icon sx={{ color: 'primary.main', fontSize: 30 }} />
-                            </Box>
-                           <Box sx={{ flexGrow: 1 }}>
-                              <Typography
-                                 variant="overline"
+                           sx={{
+                              textAlign: 'center',
+                              width: '100%',
+                              height: '100%',
+                              minHeight: { xs: 220 },
+                              display: 'flex',
+                              flexDirection: 'column',
+                              overflow: 'visible',
+                           }}>
+                           <CardContent
+                              sx={{
+                                 p: { xs: 3, md: 4 },
+                                 flexGrow: 1,
+                                 display: 'flex',
+                                 flexDirection: 'column',
+                                 alignItems: 'center',
+                                 justifyContent: 'center',
+                                 gap: 2,
+                              }}>
+                              <Box
                                  sx={{
-                                    color: 'secondary.main',
-                                    fontWeight: 600,
-                                    letterSpacing: 1,
+                                    position: 'relative',
+                                    transition: 'transform 0.3s ease',
+                                    '&::after': {
+                                       content: '""',
+                                       position: 'absolute',
+                                       inset: -2,
+                                       borderRadius: '50%',
+                                       border: '1px solid rgba(200, 166, 78, 0.2)',
+                                       opacity: 0,
+                                       transition: 'opacity 0.3s ease',
+                                    },
+                                    '.MuiCard-root:hover &': {
+                                       transform: 'scale(1.05)',
+                                       '&::after': { opacity: 1 },
+                                    },
                                  }}>
-                                 {t(label)}
-                              </Typography>
-                              <Typography variant="body1" sx={{ fontWeight: 500, mt: 0.5 }}>
-                                 {t(value)}
-                              </Typography>
-                           </Box>
+                                 <IconCircle
+                                    icon={Icon}
+                                    color="#1B5E20"
+                                    size={{ xs: 56, md: 64 }}
+                                    iconSize={30}
+                                 />
+                              </Box>
+                              <Box>
+                                 <ScrambleText
+                                    text={t(label)}
+                                    variant="overline"
+                                    component="div"
+                                    sx={{
+                                       color: 'secondary.main',
+                                       fontWeight: 600,
+                                       letterSpacing: 1,
+                                       display: 'block',
+                                    }}
+                                 />
+                                 <ScrambleText
+                                    text={t(value)}
+                                    variant="body1"
+                                    sx={{ fontWeight: 500, mt: 0.5 }}
+                                 />
+                              </Box>
+                           </CardContent>
                         </Card>
-                     </motion.div>
+                     </Reveal>
                   </Grid>
                ))}
             </Grid>

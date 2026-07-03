@@ -1,14 +1,13 @@
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import Hero from '../components/Hero';
 import About from '../components/About';
-import Highlights from '../components/Highlights';
+import Footer from '../components/Footer';
 import Gallery from '../components/Gallery';
+import Hero from '../components/Hero';
+import Highlights from '../components/Highlights';
+import Location from '../components/Location';
 import Timeline from '../components/Timeline';
 import VisitorInfo from '../components/VisitorInfo';
-import Location from '../components/Location';
-import Footer from '../components/Footer';
-
 export default function Home() {
    const { t } = useTranslation();
    return (
