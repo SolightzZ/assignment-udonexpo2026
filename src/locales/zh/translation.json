@@ -92,7 +92,11 @@
   "footer.copyright": "© 2026 乌隆他尼国际园艺博览会。版权所有。",
   "footer.organizer": "主办：乌隆他尼府 与 农业与合作部",
 
+  "notfound.title": "页面未找到",
+  "notfound.message": "您要查找的页面不存在或已被移动。",
+  "notfound.back": "返回首页",
+
   "lang.th": "TH",
   "lang.en": "EN",
-  "lang.zh": "中文"
+  "lang.zh": "??"
 }

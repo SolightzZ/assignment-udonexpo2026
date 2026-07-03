@@ -92,6 +92,10 @@
   "footer.copyright": "© 2026 Udon Thani International Horticultural Expo. All rights reserved.",
   "footer.organizer": "Organized by Udon Thani Province & Ministry of Agriculture and Cooperatives",
 
+  "notfound.title": "Page Not Found",
+  "notfound.message": "The page you are looking for does not exist or has been moved.",
+  "notfound.back": "Back to Home",
+
   "lang.th": "TH",
   "lang.en": "EN",
   "lang.zh": "中文"

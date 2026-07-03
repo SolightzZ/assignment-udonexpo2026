@@ -92,7 +92,11 @@
   "footer.copyright": "© 2026 Udon Thani International Horticultural Expo. สงวนลิขสิทธิ์.",
   "footer.organizer": "จัดโดย จังหวัดอุดรธานี และ กระทรวงเกษตรและสหกรณ์",
 
+  "notfound.title": "ไม่พบหน้า",
+  "notfound.message": "หน้าที่คุณกำลังมองหาไม่มีอยู่หรือถูกย้ายไปที่อื่น",
+  "notfound.back": "กลับหน้าแรก",
+
   "lang.th": "TH",
   "lang.en": "EN",
-  "lang.zh": "中文"
+  "lang.zh": "??"
 }

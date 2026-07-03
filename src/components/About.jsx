@@ -40,7 +40,7 @@ export default function About({ t }) {
                </Typography>
             </motion.div>
 
-            <Grid container spacing={3} justifyContent="center">
+            <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
                {INFO_CARDS.map(({ icon: Icon, label, value }, index) => (
                   <Grid size={{ xs: 12, sm: 6, md: 4 }} key={label}>
                      <motion.div

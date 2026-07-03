@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -11,15 +12,15 @@ import Footer from '../components/Footer';
 export default function Home() {
    const { t } = useTranslation();
    return (
-      <>
-      <Hero t={t} />
-          <About t={t} />
-          <Highlights t={t} />
-          <Gallery t={t} />
-          <Timeline t={t} />
-          <VisitorInfo t={t} />
-          <Location t={t} />
-          <Footer t={t} />
-      </>
+      <Box>
+         <Hero t={t} />
+         <About t={t} />
+         <Highlights t={t} />
+         <Gallery t={t} />
+         <Timeline t={t} />
+         <VisitorInfo t={t} />
+         <Location t={t} />
+         <Footer t={t} />
+      </Box>
    );
 }
