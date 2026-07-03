@@ -22,7 +22,7 @@ import '@fontsource/noto-sans-sc/700.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/assignment-udonexpo2026">
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
