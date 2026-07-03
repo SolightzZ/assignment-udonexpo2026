@@ -14,7 +14,7 @@ export default defineConfig({
         if (!existsSync(distDir)) mkdirSync(distDir, { recursive: true })
         writeFileSync(
           resolve(distDir, '404.html'),
-          '<!doctype html><script>sessionStorage.redirect=location.href</script><meta http-equiv=refresh content="0;url=/"><script>var a=sessionStorage.redirect,b=location.href;if(a&&a!==b&&!a.includes("."))history.replaceState(null,"",a)</script>'
+          '<!doctype html><script>sessionStorage.redirect=location.href</script><meta http-equiv=refresh content="0;url=/assignment-udonexpo2026/"><script>var a=sessionStorage.redirect,b=location.href;if(a&&a!==b&&!a.includes("."))history.replaceState(null,"",a)</script>'
         )
       },
     },
