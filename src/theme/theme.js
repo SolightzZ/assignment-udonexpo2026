@@ -19,7 +19,7 @@ let theme = createTheme({
          contrastText: '#1A1A1A',
       },
       background: {
-         default: '#F6FFF6',
+         default: '#fbfcfa',
          paper: '#FFFFFF',
       },
       text: {
@@ -167,6 +167,10 @@ let theme = createTheme({
                      scrollBehavior: 'auto !important',
                   },
                },
+            },
+            '#root': {
+               position: 'relative',
+               zIndex: 1,
             },
          },
       },

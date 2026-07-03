@@ -6,6 +6,7 @@ import { MotionConfig } from 'framer-motion';
 import { Component, lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
+import HeritageBackdrop from './components/HeritageBackdrop';
 import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
 import i18n from './i18n';
@@ -86,6 +87,7 @@ export default function App() {
    return (
       <RouteErrorBoundary>
          <MotionConfig reducedMotion="user">
+            <HeritageBackdrop />
             <LoadingScreen loading={loading} />
             <Suspense fallback={<PageLoader />}>
                <Routes>

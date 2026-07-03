@@ -15,9 +15,10 @@
   "nav.mobileNav": "เมนูมือถือ",
   "nav.desktopNav": "เมนูหลัก",
 
-  "hero.title": "Udon Thani International\nHorticultural Expo 2026",
+  "hero.title": "มหกรรมพืชสวนนานาชาติ\nอุดรธานี 2026",
   "hero.subtitle": "สัมผัสประสบการณ์ระดับโลกแห่งพืชสวน ณ ใจกลางอีสาน",
   "hero.cta": "ดูรายละเอียดเพิ่มเติม",
+  "hero.secondaryCta": "ดูวิดีโอ",
 
   "countdown.days": "วัน",
   "countdown.hours": "ชั่วโมง",

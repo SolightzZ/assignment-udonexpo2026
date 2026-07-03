@@ -14,12 +14,12 @@ export default function Tech() {
 
    return (
       <Box>
-         {/* Header */}
-         <Box
-            sx={{
+          {/* Header */}
+          <Box
+             id="tech-header"
+             sx={{
                pt: { xs: 12, md: 16 },
                pb: { xs: 6, md: 8 },
-               background: 'linear-gradient(180deg, #F6FFF6 0%, #fff 100%)',
             }}>
             <Container maxWidth={false} sx={{ maxWidth: 900, mx: 'auto', px: { xs: 2, sm: 3 } }}>
                <Reveal duration={0.6}>
@@ -62,8 +62,8 @@ export default function Tech() {
             </Container>
          </Box>
 
-         {/* Tech Stack Grid */}
-         <Box sx={{ pb: { xs: 8, md: 12 }, background: '#fff' }}>
+          {/* Tech Stack Grid */}
+          <Box id="tech-stack" sx={{ pb: { xs: 8, md: 12 }, background: '#fff' }}>
             <Container maxWidth={false} sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 } }}>
                <Grid container spacing={{ xs: 3, md: 4 }}>
                   {TECH_CATEGORIES.map((category, index) => (

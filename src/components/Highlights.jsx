@@ -67,13 +67,20 @@ function HighlightCard({ highlight, index, t }) {
                      width: '100%',
                      height: '100%',
                      objectFit: 'cover',
+
                      transition: 'transform .4s ease',
                      '.MuiCard-root:hover &': { transform: 'scale(1.08)' },
                   }}
                />
             </Box>
             <CardContent sx={{ p: 4, flexGrow: 1 }}>
-               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+               <Box
+                  sx={{
+                     display: 'flex',
+                     alignItems: 'center',
+                     gap: 1.5,
+                     mb: 1.5,
+                  }}>
                   <IconCircle icon={Icon} color={color} size={56} iconSize={28} />
                   <ScrambleText
                      text={t(`highlights.${key}`)}
@@ -102,16 +109,24 @@ export default function Highlights({ t }) {
          <Box sx={{ width: '100%', maxWidth: 1320, mx: 'auto', px: { xs: 2, sm: 3, md: 4 } }}>
             <SectionTitle title={t('highlights.title')} />
 
-            <Grid container spacing={{ xs: 3, md: 4 }}>
+            <Box
+               sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: { xs: 3, md: 4 },
+                  justifyContent: 'center',
+               }}>
                {HIGHLIGHTS.map((highlight, index) => (
-                  <Grid
-                     size={{ xs: 12, sm: 6, lg: 4 }}
+                  <Box
                      key={highlight.key}
-                     sx={{ display: 'flex' }}>
+                     sx={{
+                         width: { xs: '100%', sm: 'calc(50% - 16px)', lg: 'calc(33.333% - 22px)' },
+                        display: 'flex',
+                     }}>
                      <HighlightCard highlight={highlight} index={index} t={t} />
-                  </Grid>
+                  </Box>
                ))}
-            </Grid>
+            </Box>
          </Box>
       </Box>
    );

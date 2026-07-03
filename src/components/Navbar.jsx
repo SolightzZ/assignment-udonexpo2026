@@ -1,10 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -17,6 +17,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useScrollListener from '../hooks/useScrollListener';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const NAV_ITEMS = [
@@ -27,7 +28,7 @@ const NAV_ITEMS = [
    { key: 'timeline', href: '#timeline' },
    { key: 'visitorInfo', href: '#visitor-info' },
    { key: 'location', href: '#location' },
-   { key: 'tech', href: '/tech', isRoute: true },
+   { key: 'tech', href: '/tech#tech-header', isRoute: true },
 ];
 
 export default function Navbar({ onLanguageChanging }) {
@@ -46,40 +47,46 @@ export default function Navbar({ onLanguageChanging }) {
       }
    }, [drawerOpen]);
 
+   const detectSection = useCallback((scrollY) => {
+      const sections = NAV_ITEMS.filter((item) => !item.isRoute)
+         .map((item) => document.getElementById(item.href.slice(1)))
+         .filter(Boolean);
+
+      const scroll = scrollY + 120;
+      let current = NAV_ITEMS[0].key;
+
+      for (let i = 0; i < sections.length; i++) {
+         if (scroll >= sections[i].offsetTop) {
+            current = NAV_ITEMS[i].key;
+         }
+      }
+
+      setActiveKey(current);
+   }, []);
+
    useEffect(() => {
       if (!isHome) {
          setActiveKey(location.pathname === '/tech' ? 'tech' : 'home');
          return;
       }
+      detectSection(window.scrollY);
+   }, [isHome, location.pathname, detectSection]);
 
-      const handleScroll = () => {
-         const sections = NAV_ITEMS.filter((item) => !item.isRoute).map((item) =>
-            document.getElementById(item.href.slice(1)),
-         ).filter(Boolean);
-
-         const scroll = window.scrollY + 120;
-         let current = NAV_ITEMS[0].key;
-
-         for (let i = 0; i < sections.length; i++) {
-            if (scroll >= sections[i].offsetTop) {
-               current = NAV_ITEMS[i].key;
-            }
-         }
-
-         setActiveKey(current);
-      };
-
-      handleScroll();
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
-   }, [isHome, location.pathname]);
+   useScrollListener(detectSection, isHome);
 
    const handleNavClick = useCallback(
       (href, key, isRoute) => {
          setDrawerOpen(false);
          setActiveKey(key);
          if (isRoute) {
-            navigate(href);
+            const [path, hash] = href.split('#');
+            navigate(path);
+            if (hash) {
+               setTimeout(() => {
+                  const el = document.getElementById(hash);
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+               }, 100);
+            }
          } else if (isHome) {
             const el = document.querySelector(href);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -91,7 +98,13 @@ export default function Navbar({ onLanguageChanging }) {
    );
 
    return (
-      <AppBar position="sticky" sx={{ color: 'text.primary' }}>
+      <AppBar
+         position="sticky"
+         sx={{
+            background: '#FFFFFF',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+            color: '#000',
+         }}>
          <Container maxWidth="lg">
             <Toolbar
                disableGutters
@@ -130,18 +143,16 @@ export default function Navbar({ onLanguageChanging }) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: '#fff',
-                        fontWeight: 700,
-                        fontSize: '0.75rem',
                         flexShrink: 0,
                      }}>
-                     UE
+                     <LocalFloristIcon sx={{ fontSize: 22 }} />
                   </Box>
                   <Typography
                      variant="subtitle1"
                      noWrap
                      sx={{
                         fontWeight: 700,
-                        color: 'primary.main',
+                        color: '#1B5E20',
                         letterSpacing: 1,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
@@ -169,7 +180,7 @@ export default function Navbar({ onLanguageChanging }) {
                                     handleNavClick(href, key, isRoute);
                                  }}
                                  sx={{
-                                    color: isActive ? 'primary.main' : 'text.primary',
+                                    color: isActive ? '#000000' : '#333',
                                     fontWeight: isActive ? 600 : 500,
                                     fontSize: '0.9rem',
                                     px: 1,
@@ -192,8 +203,8 @@ export default function Navbar({ onLanguageChanging }) {
                                        transition: 'width 0.3s ease',
                                     },
                                     '&:hover': {
-                                       background: 'rgba(27, 94, 32, 0.06)',
-                                       color: 'primary.main',
+                                       background: 'rgba(0, 0, 0, 0.06)',
+                                       color: '#000000',
                                        '&::after': {
                                           width: '60%',
                                        },
@@ -216,7 +227,7 @@ export default function Navbar({ onLanguageChanging }) {
                      <IconButton
                         onClick={() => setDrawerOpen(!drawerOpen)}
                         aria-label={drawerOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-                        sx={{ color: 'primary.main' }}>
+                        sx={{ color: '#000000' }}>
                         {drawerOpen ? <CloseIcon /> : <MenuIcon />}
                      </IconButton>
                   )}
@@ -232,39 +243,61 @@ export default function Navbar({ onLanguageChanging }) {
             slotProps={{
                paper: {
                   sx: {
-                     width: { xs: '100%', sm: 280 },
-                     background: 'rgba(255,255,255,0.98)',
+                     width: { xs: '85%', sm: 320 },
+                     background: '#FFFFFF',
                      backdropFilter: 'blur(20px)',
+                     boxShadow: '-8px 0 40px rgba(0, 0, 0, 0.15)',
                   },
                },
             }}>
+            {/* Drawer Header */}
+            <Box
+               sx={{
+                  px: 3,
+                  py: 2.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                  borderBottom: '1px solid rgba(0,0,0,0.06)',
+               }}>
+               <IconButton
+                  onClick={() => setDrawerOpen(false)}
+                  sx={{ color: 'rgba(0,0,0,0.4)', '&:hover': { color: '#000' } }}>
+                  <CloseIcon />
+               </IconButton>
+            </Box>
+
+            {/* Language Switcher */}
             <Box sx={{ px: 3, py: 2 }}>
                <LanguageSwitcher onChange={onLanguageChanging} />
             </Box>
-            <Divider />
-            <List component="nav" aria-label={t('nav.mobileNav')}>
+
+            {/* Nav Items */}
+            <List component="nav" aria-label={t('nav.mobileNav')} sx={{ px: 1.5, py: 1 }}>
                {NAV_ITEMS.map(({ key, href, isRoute }, i) => {
                   const isActive = activeKey === key;
                   return (
-                     <ListItem key={key} disablePadding>
+                     <ListItem key={key} disablePadding sx={{ mb: 0.3 }}>
                         <ListItemButton
                            ref={i === 0 ? firstItemRef : null}
                            onClick={() => handleNavClick(href, key, isRoute)}
                            sx={{
-                              px: 3,
-                              py: 1.5,
-                              borderRight: isActive ? 3 : 0,
-                              borderColor: 'secondary.main',
-                              background: isActive ? 'rgba(200, 166, 78, 0.08)' : 'transparent',
+                              px: 2.5,
+                              py: 1.4,
+                              borderRadius: '6px',
+                              borderLeft: isActive ? '3px solid #000' : '3px solid transparent',
+                              background: isActive ? 'rgba(0,0,0,0.04)' : 'transparent',
+                              transition: 'all 0.2s ease',
                               '&:hover': {
-                                 background: 'rgba(27, 94, 32, 0.06)',
+                                 background: 'rgba(0,0,0,0.03)',
                               },
                            }}>
                            <ListItemText
                               primary={t(`nav.${key}`)}
                               primaryTypographyProps={{
-                                 fontWeight: isActive ? 600 : 500,
-                                 color: isActive ? 'primary.main' : 'text.primary',
+                                 fontWeight: isActive ? 600 : 400,
+                                 color: isActive ? '#000000' : '#333',
+                                 fontSize: '0.95rem',
                               }}
                            />
                         </ListItemButton>
