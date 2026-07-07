@@ -10,19 +10,18 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import imgActivity from '../assets/images/highlight_activity.jpg';
-import imgCulture from '../assets/images/highlight_culture.jpg';
-import imgFood from '../assets/images/highlight_food.jpg';
-import imgGarden from '../assets/images/highlight_garden.jpg';
-import imgIllumination from '../assets/images/highlight_illumination.jpg';
-import imgInnovation from '../assets/images/highlight_innovation.jpg';
-import imgIntl from '../assets/images/highlight_intl.jpg';
-import imgPlayground from '../assets/images/highlight_playground.jpg';
-import ScrambleText from './ScrambleText';
-import SectionTitle from './SectionTitle';
+import imgActivity from '../assets/images/highlight_activity.webp';
+import imgCulture from '../assets/images/highlight_culture.webp';
+import imgFood from '../assets/images/highlight_food.webp';
+import imgGarden from '../assets/images/highlight_garden.webp';
+import imgIllumination from '../assets/images/highlight_illumination.webp';
+import imgInnovation from '../assets/images/highlight_innovation.webp';
+import imgIntl from '../assets/images/highlight_intl.webp';
+import imgPlayground from '../assets/images/highlight_playground.webp';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
+import ScrambleText from './ScrambleText';
+import SectionTitle from './SectionTitle';
 
 const HIGHLIGHTS = [
    { key: 'gardens', icon: ForestIcon, color: '#2E7D32', image: imgGarden },
@@ -82,16 +81,9 @@ function HighlightCard({ highlight, index, t }) {
                      mb: 1.5,
                   }}>
                   <IconCircle icon={Icon} color={color} size={56} iconSize={28} />
-                  <ScrambleText
-                     text={t(`highlights.${key}`)}
-                     variant="h6"
-                     sx={{ fontWeight: 700, fontSize: '1.55rem', lineHeight: 1.2 }}
-                  />
+                  <ScrambleText text={t(`highlights.${key}`)} variant="h6" sx={{ fontWeight: 700, fontSize: '1.55rem', lineHeight: 1.2 }} />
                </Box>
-               <ScrambleText
-                  text={t(`highlights.${key}Desc`)}
-                  sx={{ color: '#555', fontSize: '1rem', lineHeight: 1.9 }}
-               />
+               <ScrambleText text={t(`highlights.${key}Desc`)} sx={{ color: '#555', fontSize: '1rem', lineHeight: 1.9 }} />
             </CardContent>
          </Card>
       </Reveal>
@@ -120,7 +112,7 @@ export default function Highlights({ t }) {
                   <Box
                      key={highlight.key}
                      sx={{
-                         width: { xs: '100%', sm: 'calc(50% - 16px)', lg: 'calc(33.333% - 22px)' },
+                        width: { xs: '100%', sm: 'calc(50% - 16px)', lg: 'calc(33.333% - 22px)' },
                         display: 'flex',
                      }}>
                      <HighlightCard highlight={highlight} index={index} t={t} />

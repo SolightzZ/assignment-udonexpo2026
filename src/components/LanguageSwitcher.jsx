@@ -48,12 +48,7 @@ export default function LanguageSwitcher({ onChange }) {
 
    return (
       <Box sx={{ display: 'inline-flex' }}>
-         <StyledToggleGroup
-            value={i18n.language?.slice(0, 2)}
-            exclusive
-            onChange={handleChange}
-            size="small"
-            aria-label={t('lang.switcher')}>
+         <StyledToggleGroup value={i18n.language?.slice(0, 2)} exclusive onChange={handleChange} size="small" aria-label={t('lang.switcher')}>
             {LANGUAGES.map(({ code, label }) => (
                <ToggleButton key={code} value={code} aria-label={t(label)}>
                   {code === 'zh' ? '中文' : code.toUpperCase()}

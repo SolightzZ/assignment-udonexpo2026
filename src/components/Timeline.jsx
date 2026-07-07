@@ -37,11 +37,7 @@ function TimelineItem({ step, index, t }) {
             pl: { xs: 7, md: 0 },
             mb: { xs: 6, md: 8 },
          }}>
-         <motion.div
-            initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, delay: 0.1 }}>
+         <motion.div initial={{ opacity: 0, x: isLeft ? -40 : 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.1 }}>
             <Box
                sx={{
                   display: 'flex',
@@ -72,18 +68,8 @@ function TimelineItem({ step, index, t }) {
                            display: 'block',
                         }}
                      />
-                     <ScrambleText
-                        text={t(`timeline.${step.key}`)}
-                        variant="h5"
-                        component="h3"
-                        sx={{ fontWeight: 600, mt: 0.5 }}
-                     />
-                     <ScrambleText
-                        text={t(`timeline.${step.key}Desc`)}
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mt: 1, maxWidth: 360 }}
-                     />
+                     <ScrambleText text={t(`timeline.${step.key}`)} variant="h5" component="h3" sx={{ fontWeight: 600, mt: 0.5 }} />
+                     <ScrambleText text={t(`timeline.${step.key}Desc`)} variant="body2" color="text.secondary" sx={{ mt: 1, maxWidth: 360 }} />
                   </Box>
                </Box>
 
@@ -100,18 +86,8 @@ function TimelineItem({ step, index, t }) {
                         display: 'block',
                      }}
                   />
-                  <ScrambleText
-                     text={t(`timeline.${step.key}`)}
-                     variant="h6"
-                     component="h3"
-                     sx={{ fontWeight: 600, mt: 0.5 }}
-                  />
-                  <ScrambleText
-                     text={t(`timeline.${step.key}Desc`)}
-                     variant="body2"
-                     color="text.secondary"
-                     sx={{ mt: 0.5 }}
-                  />
+                  <ScrambleText text={t(`timeline.${step.key}`)} variant="h6" component="h3" sx={{ fontWeight: 600, mt: 0.5 }} />
+                  <ScrambleText text={t(`timeline.${step.key}Desc`)} variant="body2" color="text.secondary" sx={{ mt: 0.5 }} />
                </Box>
             </Box>
          </motion.div>

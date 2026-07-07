@@ -7,10 +7,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
-import ScrambleText from './ScrambleText';
-import SectionTitle from './SectionTitle';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
+import ScrambleText from './ScrambleText';
+import SectionTitle from './SectionTitle';
 
 const INFO_ITEMS = [
    { key: 'hours', icon: AccessTimeIcon, color: '#1B5E20' },
@@ -50,17 +50,8 @@ function InfoCard({ item, index, t }) {
                   flexDirection: 'column',
                }}>
                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, flexShrink: 0 }}>
-                  <IconCircle
-                     icon={Icon}
-                     color={color}
-                     size={{ xs: 48, md: 56 }}
-                     iconSize={{ xs: 22, md: 26 }}
-                  />
-                  <ScrambleText
-                     text={t(`visitor.${key}`)}
-                     variant="h6"
-                     sx={{ fontWeight: 700, fontSize: { xs: '1rem', md: '1.15rem' } }}
-                  />
+                  <IconCircle icon={Icon} color={color} size={{ xs: 48, md: 56 }} iconSize={{ xs: 22, md: 26 }} />
+                  <ScrambleText text={t(`visitor.${key}`)} variant="h6" sx={{ fontWeight: 700, fontSize: { xs: '1rem', md: '1.15rem' } }} />
                </Box>
                <ScrambleText
                   text={t(`visitor.${key}Desc`)}

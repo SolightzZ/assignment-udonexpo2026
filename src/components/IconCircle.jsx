@@ -1,11 +1,7 @@
 import Box from '@mui/material/Box';
+import { memo } from 'react';
 
-/**
- * Circular icon container with tinted background.
- *
- * @param {{ icon: React.ElementType, color?: string, size?: number, iconSize?: number }} props
- */
-export default function IconCircle({ icon: Icon, color = '#1B5E20', size = 56, iconSize = 28, sx: sxProp }) {
+const IconCircle = memo(function IconCircle({ icon: Icon, color = '#1B5E20', size = 56, iconSize = 28, sx: sxProp }) {
    return (
       <Box
          sx={{
@@ -37,4 +33,6 @@ export default function IconCircle({ icon: Icon, color = '#1B5E20', size = 56, i
          <Icon sx={{ color, fontSize: iconSize }} />
       </Box>
    );
-}
+});
+
+export default IconCircle;

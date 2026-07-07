@@ -5,9 +5,9 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import Reveal from './Reveal';
 import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
-import Reveal from './Reveal';
 
 export default function Location({ t }) {
    return (
@@ -49,11 +49,7 @@ export default function Location({ t }) {
                         }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1 }}>
                            <LocationOnIcon color="primary" />
-                           <ScrambleText
-                              text={t('location.address')}
-                              variant="body1"
-                              sx={{ fontWeight: 500 }}
-                           />
+                           <ScrambleText text={t('location.address')} variant="body1" sx={{ fontWeight: 500 }} />
                         </Box>
                         <Button
                            variant="outlined"

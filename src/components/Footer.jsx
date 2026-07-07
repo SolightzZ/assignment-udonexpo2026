@@ -1,222 +1,259 @@
-import EmailIcon from '@mui/icons-material/Email';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import PhoneIcon from '@mui/icons-material/Phone';
-import XIcon from '@mui/icons-material/X';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import LanguageIcon from '@mui/icons-material/Language';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import Reveal from './Reveal';
 import ScrambleText from './ScrambleText';
 
-const SOCIAL_LINKS = [
-   { icon: FacebookIcon, href: 'https://facebook.com/udonexpo2026', label: 'Facebook' },
-   { icon: XIcon, href: 'https://x.com/udonexpo2026', label: 'X' },
-   { icon: InstagramIcon, href: 'https://instagram.com/udonexpo2026', label: 'Instagram' },
-   { icon: YouTubeIcon, href: 'https://youtube.com/@udonexpo2026', label: 'YouTube' },
+const LINKS = [
+   {
+      icon: LanguageIcon,
+      href: 'https://udonthaniexpo2026.com/',
+      label: 'udonthaniexpo2026.com',
+      sub: 'Official Website',
+      color: '#4CAF50',
+   },
+   {
+      icon: FacebookIcon,
+      href: 'https://www.facebook.com/profile.php?id=100083286131946',
+      label: 'Udon Thani Expo 2026',
+      sub: 'Facebook',
+      color: '#4A90D9',
+   },
 ];
+
+const sectionLabelSx = {
+   color: 'rgba(200,166,78,0.8)',
+   fontWeight: 700,
+   fontSize: '0.62rem',
+   letterSpacing: '0.22em',
+   textTransform: 'uppercase',
+   mb: 2,
+};
 
 export default function Footer({ t }) {
    return (
       <Box
          component="footer"
          sx={{
-            background: 'rgba(38, 77, 40, 0.88)',
-            backdropFilter: 'blur(32px)',
-            WebkitBackdropFilter: 'blur(32px)',
-            color: '#000000',
+            background: 'linear-gradient(175deg, #0c2415 0%, #091e10 50%, #071a0d 100%)',
+            color: '#fff',
             pt: { xs: 7, md: 9 },
-            pb: 4,
+            pb: { xs: 3, md: 4 },
             position: 'relative',
             overflow: 'hidden',
+            // Top accent line
             '&::before': {
+               content: '""',
+               position: 'absolute',
+               top: 0,
+               left: '5%',
+               right: '5%',
+               height: '1px',
+               background: 'linear-gradient(90deg, transparent, rgba(200,166,78,0.5) 30%, rgba(76,175,80,0.25) 50%, rgba(200,166,78,0.5) 70%, transparent)',
+            },
+            // Ambient light
+            '&::after': {
                content: '""',
                position: 'absolute',
                inset: 0,
                background:
-                  'radial-gradient(ellipse at 15% 85%, rgba(200,166,78,0.06) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(76,175,80,0.04) 0%, transparent 50%)',
+                  'radial-gradient(ellipse at 15% 80%, rgba(200,166,78,0.04) 0%, transparent 45%), radial-gradient(ellipse at 85% 20%, rgba(76,175,80,0.03) 0%, transparent 40%)',
                pointerEvents: 'none',
             },
-            '&::after': {
-               content: '""',
-               position: 'absolute',
-               top: 0,
-               left: 0,
-               right: 0,
-               height: 1,
-               background:
-                  'linear-gradient(90deg, transparent 5%, rgba(200,166,78,0.45) 50%, transparent 95%)',
-            },
          }}>
-         <Container maxWidth="md" sx={{ px: { xs: 2.5, sm: 4 }, position: 'relative', zIndex: 1 }}>
-            {/* 3-column grid */}
+         <Container maxWidth="md" sx={{ px: { xs: 3, sm: 4 }, position: 'relative', zIndex: 1 }}>
+            {/* ── Main Content ── */}
             <Box
                sx={{
                   display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', md: '1fr 1fr 1fr' },
-                  gap: { xs: 4, md: 5 },
+                  gridTemplateColumns: { xs: '1fr', md: '1.4fr 1fr 1fr' },
+                  gap: { xs: 5, md: 6 },
                   mb: { xs: 5, md: 6 },
                }}>
-               {/* Contact */}
-               <Box>
-                  <ScrambleText
-                     text={t('footer.contact')}
-                     sx={{
-                        color: '#fff',
-                        fontWeight: 700,
-                        fontSize: '0.62rem',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        mb: 2.5,
-                        pb: 1,
-                        borderBottom: '1px solid rgba(255,255,255,0.12)',
-                     }}
-                  />
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.8 }}>
-                     <Link
-                        href="mailto:info@udonexpo2026.com"
-                        underline="none"
-                        sx={{
-                           display: 'flex',
-                           alignItems: 'center',
-                           gap: 1.5,
-                           color: 'rgba(255,255,255,0.7)',
-                           fontSize: '0.8rem',
-                           transition: 'all 0.3s ease',
-                           '&:hover': {
-                              color: '#C8A64E',
-                              pl: 0.5,
-                           },
-                        }}>
-                        <EmailIcon sx={{ fontSize: 15, color: 'rgba(255,255,255,0.4)' }} />
-                        {t('footer.email')}
-                     </Link>
-                     <Link
-                        href="tel:+6642123456"
-                        underline="none"
-                        sx={{
-                           display: 'flex',
-                           alignItems: 'center',
-                           gap: 1.5,
-                           color: 'rgba(255,255,255,0.7)',
-                           fontSize: '0.8rem',
-                           transition: 'all 0.3s ease',
-                           '&:hover': {
-                              color: '#C8A64E',
-                              pl: 0.5,
-                           },
-                        }}>
-                        <PhoneIcon sx={{ fontSize: 15, color: 'rgba(255,255,255,0.4)' }} />
-                        {t('footer.phone')}
-                     </Link>
-                  </Box>
-               </Box>
-
-               {/* Social */}
-               <Box>
-                  <ScrambleText
-                     text={t('footer.social')}
-                     sx={{
-                        color: '#fff',
-                        fontWeight: 700,
-                        fontSize: '0.62rem',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        mb: 2.5,
-                        pb: 1,
-                        borderBottom: '1px solid rgba(255,255,255,0.12)',
-                     }}
-                  />
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.8 }}>
-                     {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
-                        <Link
-                           key={label}
-                           href={href}
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           underline="none"
+               {/* Brand */}
+               <Reveal y={16} duration={0.5}>
+                  <Box>
+                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+                        <Box
                            sx={{
+                              width: 44,
+                              height: 44,
+                              borderRadius: '14px',
+                              background: 'linear-gradient(135deg, rgba(27,94,32,0.25), rgba(200,166,78,0.1))',
+                              border: '1px solid rgba(200,166,78,0.15)',
                               display: 'flex',
                               alignItems: 'center',
-                              gap: 1.5,
-                              color: 'rgba(255,255,255,0.7)',
-                              fontSize: '0.8rem',
-                              transition: 'all 0.3s ease',
-                              '&:hover': {
-                                 color: '#C8A64E',
-                                 pl: 0.5,
-                              },
+                              justifyContent: 'center',
+                              flexShrink: 0,
                            }}>
-                           <Icon sx={{ fontSize: 15, color: 'rgba(255,255,255,0.4)' }} />
-                           {label}
-                        </Link>
-                     ))}
+                           <LocalFloristIcon sx={{ fontSize: 22, color: '#C8A64E' }} />
+                        </Box>
+                        <Box>
+                           <Typography
+                              variant="subtitle1"
+                              sx={{
+                                 fontWeight: 700,
+                                 fontSize: '0.95rem',
+                                 letterSpacing: '0.02em',
+                                 background: 'linear-gradient(135deg, #f0e8d0, #C8A64E)',
+                                 backgroundClip: 'text',
+                                 WebkitBackgroundClip: 'text',
+                                 WebkitTextFillColor: 'transparent',
+                                 lineHeight: 1.2,
+                              }}>
+                              Udon Thani Expo
+                           </Typography>
+                           <Typography sx={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.68rem', letterSpacing: '0.1em' }}>
+                              2026
+                           </Typography>
+                        </Box>
+                     </Box>
+                     <ScrambleText
+                        text={t('footer.organizer')}
+                        sx={{
+                           color: 'rgba(255,255,255,0.35)',
+                           fontSize: '0.78rem',
+                           lineHeight: 1.8,
+                           maxWidth: 280,
+                        }}
+                     />
                   </Box>
-               </Box>
+               </Reveal>
 
                {/* Organizer */}
-               <Box>
-                  <ScrambleText
-                     text={t('footer.organizerLabel')}
-                     sx={{
-                        color: '#fff',
-                        fontWeight: 700,
-                        fontSize: '0.62rem',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        mb: 2.5,
-                        pb: 1,
-                        borderBottom: '1px solid rgba(255,255,255,0.12)',
-                     }}
-                  />
-                  <ScrambleText
-                     text={t('footer.organizer')}
-                     sx={{
-                        color: 'rgba(255,255,255,0.55)',
-                        fontSize: '0.8rem',
-                        lineHeight: 1.9,
-                     }}
-                  />
-               </Box>
+               <Reveal y={16} delay={0.1} duration={0.5}>
+                  <Box>
+                     <ScrambleText text={t('footer.organizerLabel')} sx={sectionLabelSx} />
+                     <ScrambleText
+                        text={t('footer.organizer')}
+                        sx={{
+                           color: 'rgba(255,255,255,0.4)',
+                           fontSize: '0.82rem',
+                           lineHeight: 1.9,
+                        }}
+                     />
+                  </Box>
+               </Reveal>
+
+               {/* Links */}
+               <Reveal y={16} delay={0.2} duration={0.5}>
+                  <Box>
+                     <ScrambleText text={t('footer.social')} sx={sectionLabelSx} />
+                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        {LINKS.map(({ icon: Icon, href, label, sub, color }) => (
+                           <Link
+                              key={label}
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              underline="none"
+                              sx={{
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 gap: 1.5,
+                                 color: 'rgba(255,255,255,0.55)',
+                                 py: 1,
+                                 px: 1.5,
+                                 borderRadius: '14px',
+                                 transition: 'all 0.3s ease',
+                                 '&:hover': {
+                                    color: '#fff',
+                                    background: 'rgba(255,255,255,0.04)',
+                                    '& .link-icon-box': {
+                                       background: `${color}18`,
+                                       borderColor: `${color}30`,
+                                    },
+                                    '& .link-icon': {
+                                       color,
+                                    },
+                                 },
+                              }}>
+                              <Box
+                                 className="link-icon-box"
+                                 sx={{
+                                    width: 38,
+                                    height: 38,
+                                    borderRadius: '12px',
+                                    background: 'rgba(255,255,255,0.04)',
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexShrink: 0,
+                                    transition: 'all 0.3s ease',
+                                 }}>
+                                 <Icon className="link-icon" sx={{ fontSize: 18, color: 'rgba(255,255,255,0.4)', transition: 'color 0.3s ease' }} />
+                              </Box>
+                              <Box>
+                                 <Typography sx={{ fontSize: '0.84rem', color: 'inherit', lineHeight: 1.3, fontWeight: 500 }}>
+                                    {label}
+                                 </Typography>
+                                 <Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.25)', mt: 0.2 }}>
+                                    {sub}
+                                 </Typography>
+                              </Box>
+                           </Link>
+                        ))}
+                     </Box>
+                  </Box>
+               </Reveal>
             </Box>
 
-            {/* Bottom */}
+            {/* ── Bottom Bar ── */}
             <Box
                sx={{
+                  pt: 3,
+                  borderTop: '1px solid rgba(255,255,255,0.05)',
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  gap: 1.5,
+                  gap: 2,
                }}>
                <ScrambleText
                   text={t('footer.copyright')}
                   sx={{
-                     color: 'rgba(255,255,255,0.3)',
-                     fontSize: '0.68rem',
-                     letterSpacing: '0.05em',
+                     color: 'rgba(255,255,255,0.2)',
+                     fontSize: '0.72rem',
+                     letterSpacing: '0.04em',
                   }}
                />
                <Link
                   href="#hero"
                   onClick={(e) => {
                      e.preventDefault();
-                     document.querySelector('#hero')?.scrollIntoView({ behavior: 'smooth' });
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   underline="none"
                   sx={{
-                     color: 'rgb(200, 165, 78)',
-                     fontSize: '0.65rem',
+                     display: 'inline-flex',
+                     alignItems: 'center',
+                     gap: 1,
+                     px: 2,
+                     py: 0.8,
+                     borderRadius: '12px',
+                     border: '1px solid rgba(200,166,78,0.12)',
+                     color: 'rgba(200,166,78,0.55)',
+                     fontSize: '0.7rem',
                      fontWeight: 600,
-                     letterSpacing: '0.15em',
+                     letterSpacing: '0.1em',
                      textTransform: 'uppercase',
-                     transition: 'color 0.3s',
+                     transition: 'all 0.3s ease',
                      '&:hover': {
-                        borderRadius: '4px',
-                        textShadow: '0 0px 12px #ff9d00',
+                        color: '#C8A64E',
+                        borderColor: 'rgba(200,166,78,0.3)',
+                        background: 'rgba(200,166,78,0.05)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 6px 20px rgba(200,166,78,0.08)',
                      },
                   }}>
-                  ↑ {t('footer.backToTop')}
+                  <ArrowUpwardIcon sx={{ fontSize: 14 }} />
+                  {t('footer.backToTop')}
                </Link>
             </Box>
          </Container>

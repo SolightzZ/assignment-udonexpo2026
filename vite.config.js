@@ -51,7 +51,8 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 sessionStorage.redirect=location.href;
 setTimeout(function(){location.href='/assignment-udonexpo2026/'},5000);
 var a=sessionStorage.redirect,b=location.href;
-if(a&&a!==b&&!a.includes("."))history.replaceState(null,"",a);
+if(a&&a!==b&&a.startsWith(location.origin+'/assignment-udonexpo2026/'))history.replaceState(null,"",a);
+sessionStorage.removeItem('redirect');
 </script>
 </body>
 </html>`,

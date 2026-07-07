@@ -4,11 +4,11 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useRef } from 'react';
-import Countdown from './Countdown';
-import ScrambleText from './ScrambleText';
+import heroBg from '../assets/images/hero_bg.webp';
 import useScrollListener from '../hooks/useScrollListener';
 import useScrollTo from '../hooks/useScrollTo';
-import heroBg from '../assets/images/gallery_hero.png';
+import Countdown from './Countdown';
+import ScrambleText from './ScrambleText';
 
 const PARALLAX_SPEED = 0.3;
 
@@ -96,9 +96,7 @@ export default function Hero({ t }) {
                      borderRadius: '50%',
                      background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
                      filter: `blur(${orb.blur}px)`,
-                     ...Object.fromEntries(
-                        Object.entries(orb).filter(([k]) => !['size', 'color', 'blur'].includes(k)),
-                     ),
+                     ...Object.fromEntries(Object.entries(orb).filter(([k]) => !['size', 'color', 'blur'].includes(k))),
                   }}
                />
             ))}
@@ -113,9 +111,9 @@ export default function Hero({ t }) {
                display: 'flex',
                flexDirection: 'column',
                justifyContent: 'flex-start',
-                alignItems: 'center',
+               alignItems: 'center',
                px: { xs: 2.5, sm: 3, md: 'clamp(40px, 6vw, 120px)' },
-               pt: { xs: '14vh', md: '18vh' },
+               pt: { xs: '15vh', md: '18vh' },
                pb: 4,
                maxWidth: '1400px',
                mx: 'auto',
@@ -131,9 +129,9 @@ export default function Hero({ t }) {
                      backdropFilter: 'blur(12px)',
                      border: '1px solid rgba(255,255,255,0.1)',
                      borderRadius: '999px',
-                     px: { xs: 2, md: 2.5 },
+                     px: { xs: 2.5, md: 2.5 },
                      py: 1,
-                     mb: { xs: 3, md: 3.5 },
+                     mb: { xs: 3.5, md: 3.5 },
                   }}>
                   <Box
                      sx={{
@@ -148,7 +146,7 @@ export default function Hero({ t }) {
                      component="span"
                      sx={{
                         color: 'rgba(255,255,255,0.88)',
-                        fontSize: { xs: '0.7rem', md: '0.78rem' },
+                        fontSize: { xs: '0.75rem', md: '0.78rem' },
                         fontWeight: 500,
                         letterSpacing: '0.08em',
                      }}>
@@ -166,15 +164,15 @@ export default function Hero({ t }) {
                   sx={{
                      color: '#F7F5EE',
                      fontWeight: 800,
-                     fontSize: { xs: '2.2rem', sm: '3rem', md: '3.8rem' },
-                     lineHeight: 1.05,
-                     letterSpacing: '-0.03em',
+                     fontSize: { xs: '2.4rem', sm: '3rem', md: '3.8rem' },
+                     lineHeight: 1.15,
+                     letterSpacing: '-0.02em',
                      textShadow: '0 4px 40px rgba(0,0,0,0.35)',
-                     mb: { xs: 2, md: 2.5 },
+                     mb: { xs: 3, md: 2.5 },
                      maxWidth: { xs: '100%', sm: 480, md: 560 },
-                       textAlign: 'center',
-                   }}
-                />
+                     textAlign: 'center',
+                  }}
+               />
             </motion.div>
 
             {/* ── Subtitle ── */}
@@ -186,12 +184,12 @@ export default function Hero({ t }) {
                   sx={{
                      color: 'rgba(247,245,238,0.8)',
                      fontWeight: 300,
-                     fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.35rem' },
-                     lineHeight: 1.4,
+                     fontSize: { xs: '1.05rem', sm: '1.1rem', md: '1.35rem' },
+                     lineHeight: 1.5,
                      maxWidth: { xs: '100%', sm: 460, md: 520 },
-                     mb: { xs: 3, md: 4 },
+                     mb: { xs: 4, md: 4 },
                      textShadow: '0 2px 16px rgba(0,0,0,0.2)',
-                      textAlign: 'center',
+                     textAlign: 'center',
                   }}
                />
             </motion.div>
@@ -201,28 +199,26 @@ export default function Hero({ t }) {
                <Box sx={{ mb: { xs: 3, md: 4 }, mx: 'auto', width: 'fit-content' }}>
                   <Countdown />
                </Box>
-             </motion.div>
+            </motion.div>
          </Container>
 
          {/* ── Scroll Indicator ── */}
-         <motion.div
+         <Box
+            component={motion.div}
             initial={{ opacity: 0 }}
             animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: prefersReducedMotion ? 0 : Infinity, delay: 1.8 }}
-            style={{
+            style={{ x: '-50%' }}
+            sx={{
                position: 'absolute',
-               bottom: 32,
+               bottom: { xs: 90, sm: 40, md: 32 },
                left: '50%',
-               transform: 'translateX(-50%)',
                zIndex: 2,
             }}>
-            <IconButton
-               onClick={scrollToAbout}
-               aria-label={t('hero.scroll')}
-               sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#D4AF37' } }}>
+            <IconButton onClick={scrollToAbout} aria-label={t('hero.scroll')} sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#D4AF37' } }}>
                <KeyboardArrowDownIcon fontSize="large" />
             </IconButton>
-         </motion.div>
+         </Box>
       </Box>
    );
 }

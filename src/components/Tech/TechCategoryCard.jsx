@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import IconCircle from '../IconCircle';
 import Reveal from '../Reveal';
+import useScramble from '../../hooks/useScramble';
 import {
    ReactIcon,
    ViteIcon,
@@ -95,6 +96,7 @@ export const TECH_CATEGORIES = [
 
 export default function TechCategoryCard({ category, index, t }) {
    const { key, icon: Icon, color, techs } = category;
+   const scrambledTitle = useScramble(t(`tech.${key}.title`));
 
    return (
       <Reveal delay={index * 0.1} style={{ height: '100%' }}>
@@ -123,7 +125,7 @@ export default function TechCategoryCard({ category, index, t }) {
                         color: 'primary.dark',
                         fontSize: '1.15rem',
                      }}>
-                     {t(`tech.${key}.title`)}
+                     {scrambledTitle}
                   </Typography>
                </Box>
 

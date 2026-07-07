@@ -6,10 +6,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import ScrambleText from './ScrambleText';
-import SectionTitle from './SectionTitle';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
+import ScrambleText from './ScrambleText';
+import SectionTitle from './SectionTitle';
 
 const INFO_CARDS = [
    { icon: CalendarMonthIcon, label: 'about.date', value: 'about.dateValue' },
@@ -82,12 +82,7 @@ export default function About({ t }) {
                                        '&::after': { opacity: 1 },
                                     },
                                  }}>
-                                 <IconCircle
-                                    icon={Icon}
-                                    color="#1B5E20"
-                                    size={{ xs: 56, md: 64 }}
-                                    iconSize={30}
-                                 />
+                                 <IconCircle icon={Icon} color="#1B5E20" size={{ xs: 56, md: 64 }} iconSize={30} />
                               </Box>
                               <Box>
                                  <ScrambleText
@@ -101,11 +96,7 @@ export default function About({ t }) {
                                        display: 'block',
                                     }}
                                  />
-                                 <ScrambleText
-                                    text={t(value)}
-                                    variant="body1"
-                                    sx={{ fontWeight: 500, mt: 0.5 }}
-                                 />
+                                 <ScrambleText text={t(value)} variant="body1" sx={{ fontWeight: 500, mt: 0.5 }} />
                               </Box>
                            </CardContent>
                         </Card>

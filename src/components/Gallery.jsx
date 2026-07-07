@@ -7,17 +7,17 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { AnimatePresence, motion } from 'framer-motion';
-import Reveal from './Reveal';
 import { useCallback, useEffect, useState } from 'react';
-import imgGalleryBotanical from '../assets/images/gallery_botanical.jpg';
-import imgGalleryCeremony from '../assets/images/gallery_ceremony.jpg';
-import imgGalleryCraft from '../assets/images/gallery_craft.jpg';
-import imgGalleryCuisine from '../assets/images/gallery_cuisine.jpg';
-import imgGalleryExpo from '../assets/images/gallery_expo.jpg';
-import imgGalleryNight from '../assets/images/gallery_night.jpg';
-import imgGalleryPark from '../assets/images/gallery_park.jpg';
-import imgGalleryPavilion from '../assets/images/gallery_pavilion.jpg';
-import imgGalleryStage from '../assets/images/gallery_stage.jpg';
+import imgGalleryBotanical from '../assets/images/gallery_botanical.webp';
+import imgGalleryCeremony from '../assets/images/gallery_ceremony.webp';
+import imgGalleryCraft from '../assets/images/gallery_craft.webp';
+import imgGalleryCuisine from '../assets/images/gallery_cuisine.webp';
+import imgGalleryExpo from '../assets/images/gallery_expo.webp';
+import imgGalleryNight from '../assets/images/gallery_night.webp';
+import imgGalleryPark from '../assets/images/gallery_park.webp';
+import imgGalleryPavilion from '../assets/images/gallery_pavilion.webp';
+import imgGalleryStage from '../assets/images/gallery_stage.webp';
+import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
 
 const IMAGES = [
@@ -160,13 +160,7 @@ export default function Gallery({ t }) {
                   gap: 4,
                }}>
                {IMAGES.map((image, index) => (
-                  <ImageCard
-                     key={image.label}
-                     image={image}
-                     index={index}
-                     onClick={openLightbox}
-                     t={t}
-                  />
+                  <ImageCard key={image.label} image={image} index={index} onClick={openLightbox} t={t} />
                ))}
             </Box>
          </Container>
@@ -174,9 +168,7 @@ export default function Gallery({ t }) {
          <Modal
             open={selectedIndex !== null}
             onClose={closeLightbox}
-            aria-label={
-               IMAGES[selectedIndex] ? t(IMAGES[selectedIndex].label) : t('gallery.lightbox')
-            }
+            aria-label={IMAGES[selectedIndex] ? t(IMAGES[selectedIndex].label) : t('gallery.lightbox')}
             sx={{
                display: 'flex',
                alignItems: 'center',
@@ -308,16 +300,12 @@ export default function Gallery({ t }) {
                                     borderRadius: 1.5,
                                     overflow: 'hidden',
                                     cursor: 'pointer',
-                                    border:
-                                       i === selectedIndex
-                                          ? '2px solid #C8A64E'
-                                          : '2px solid transparent',
+                                    border: i === selectedIndex ? '2px solid #C8A64E' : '2px solid transparent',
                                     opacity: i === selectedIndex ? 1 : 0.45,
                                     transition: 'all 0.3s ease',
                                     '&:hover': {
                                        opacity: 1,
-                                       borderColor:
-                                          i === selectedIndex ? '#C8A64E' : 'rgba(255,255,255,0.5)',
+                                       borderColor: i === selectedIndex ? '#C8A64E' : 'rgba(255,255,255,0.5)',
                                     },
                                  }}>
                                  <Box

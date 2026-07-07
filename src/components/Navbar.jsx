@@ -14,10 +14,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useScrollListener from '../hooks/useScrollListener';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const NAV_ITEMS = [
@@ -39,45 +38,40 @@ export default function Navbar({ onLanguageChanging }) {
    const isMobile = useMediaQuery('(max-width:1100px)');
    const [drawerOpen, setDrawerOpen] = useState(false);
    const [activeKey, setActiveKey] = useState('home');
-   const firstItemRef = useRef(null);
 
    useEffect(() => {
-      if (drawerOpen && firstItemRef.current) {
-         firstItemRef.current.focus();
-      }
-   }, [drawerOpen]);
-
-   const detectSection = useCallback((scrollY) => {
-      const sections = NAV_ITEMS.filter((item) => !item.isRoute)
-         .map((item) => document.getElementById(item.href.slice(1)))
-         .filter(Boolean);
-
-      const scroll = scrollY + 120;
-      let current = NAV_ITEMS[0].key;
-
-      for (let i = 0; i < sections.length; i++) {
-         if (scroll >= sections[i].offsetTop) {
-            current = NAV_ITEMS[i].key;
-         }
-      }
-
-      setActiveKey(current);
-   }, []);
-
-   useEffect(() => {
-      if (!isHome) {
-         setActiveKey(location.pathname === '/tech' ? 'tech' : 'home');
+      if (location.pathname === '/tech') {
+         setActiveKey('tech');
          return;
       }
-      detectSection(window.scrollY);
-   }, [isHome, location.pathname, detectSection]);
+      const sectionToKey = {};
+      NAV_ITEMS.forEach(({ key, href }) => {
+         if (href.startsWith('#')) {
+            sectionToKey[href.slice(1)] = key;
+         }
+      });
+      const observers = [];
+      const options = { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' };
+      Object.keys(sectionToKey).forEach((sectionId) => {
+         const el = document.getElementById(sectionId);
+         if (!el) return;
+         const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) setActiveKey(sectionToKey[sectionId]);
+         }, options);
+         observer.observe(el);
+         observers.push(observer);
+      });
+      return () => observers.forEach((o) => o.disconnect());
+   }, [location.pathname]);
 
-   useScrollListener(detectSection, isHome);
+   useEffect(() => {
+      document.body.style.paddingBottom = isMobile ? '56px' : '';
+      return () => { document.body.style.paddingBottom = ''; };
+   }, [isMobile]);
 
    const handleNavClick = useCallback(
       (href, key, isRoute) => {
          setDrawerOpen(false);
-         setActiveKey(key);
          if (isRoute) {
             const [path, hash] = href.split('#');
             navigate(path);
@@ -98,13 +92,14 @@ export default function Navbar({ onLanguageChanging }) {
    );
 
    return (
-      <AppBar
-         position="sticky"
-         sx={{
-            background: '#FFFFFF',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-            color: '#000',
-         }}>
+      <>
+       <AppBar
+          position="sticky"
+          sx={{
+             background: '#FFFFFF',
+             boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+             color: '#000',
+          }}>
          <Container maxWidth="lg">
             <Toolbar
                disableGutters
@@ -163,60 +158,57 @@ export default function Navbar({ onLanguageChanging }) {
                </Box>
 
                {/* Center: Desktop Nav */}
-               {!isMobile && (
-                  <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: 0 }}>
-                     <Box
-                        component="nav"
-                        aria-label={t('nav.desktopNav')}
-                        sx={{ display: 'flex', gap: 0.8, whiteSpace: 'nowrap' }}>
-                        {NAV_ITEMS.map(({ key, href, isRoute }) => {
-                           const isActive = activeKey === key;
-                           return (
-                              <Button
-                                 key={key}
-                                 href={isRoute ? undefined : href}
-                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    handleNavClick(href, key, isRoute);
-                                 }}
-                                 sx={{
-                                    color: isActive ? '#000000' : '#333',
-                                    fontWeight: isActive ? 600 : 500,
-                                    fontSize: '0.9rem',
-                                    px: 1,
-                                    py: 0.5,
-                                    borderRadius: 2,
-                                    whiteSpace: 'nowrap',
-                                    flexShrink: 0,
-                                    position: 'relative',
-                                    transition: 'color 0.3s ease',
-                                    '&::after': {
-                                       content: '""',
-                                       position: 'absolute',
-                                       bottom: 2,
-                                       left: '50%',
-                                       transform: 'translateX(-50%)',
-                                       width: isActive ? '60%' : 0,
-                                       height: 2,
-                                       borderRadius: 1,
-                                       background: '#C8A64E',
-                                       transition: 'width 0.3s ease',
-                                    },
-                                    '&:hover': {
-                                       background: 'rgba(0, 0, 0, 0.06)',
-                                       color: '#000000',
-                                       '&::after': {
-                                          width: '60%',
-                                       },
-                                    },
-                                 }}>
-                                 {t(`nav.${key}`)}
-                              </Button>
-                           );
-                        })}
-                     </Box>
-                  </Box>
-               )}
+                {!isMobile && (
+                   <Box sx={{ display: 'flex', justifyContent: 'center', minWidth: 0 }}>
+                      <Box
+                         component="nav"
+                         aria-label={t('nav.desktopNav')}
+                         sx={{ display: 'flex', gap: 0.8, whiteSpace: 'nowrap' }}>
+                         {NAV_ITEMS.map(({ key, href, isRoute }) => {
+                            return (
+                               <Button
+                                  key={key}
+                                  href={isRoute ? undefined : href}
+                                  onClick={(e) => {
+                                     e.preventDefault();
+                                     handleNavClick(href, key, isRoute);
+                                  }}
+                                   sx={{
+                                      color: activeKey === key ? '#1B5E20' : '#333',
+                                      fontWeight: activeKey === key ? 700 : 500,
+                                      fontSize: '0.9rem',
+                                      px: 1,
+                                      py: 0.5,
+                                      borderRadius: 2,
+                                      whiteSpace: 'nowrap',
+                                      flexShrink: 0,
+                                      position: 'relative',
+                                      transition: 'color 0.3s ease',
+                                      '&:hover': {
+                                         background: 'rgba(0, 0, 0, 0.06)',
+                                         color: '#000000',
+                                      },
+                                      ...(activeKey === key && {
+                                         '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            left: '20%',
+                                            width: '60%',
+                                            height: 3,
+                                            borderRadius: 1.5,
+                                            backgroundColor: '#1B5E20',
+                                            transition: 'all 0.3s ease',
+                                         },
+                                      }),
+                                   }}>
+                                  {t(`nav.${key}`)}
+                               </Button>
+                            );
+                         })}
+                      </Box>
+                   </Box>
+                )}
 
                {/* Right: Language + Mobile Menu */}
                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifySelf: 'end' }}>
@@ -224,10 +216,14 @@ export default function Navbar({ onLanguageChanging }) {
                      <LanguageSwitcher onChange={onLanguageChanging} />
                   </Box>
                   {isMobile && (
-                     <IconButton
-                        onClick={() => setDrawerOpen(!drawerOpen)}
-                        aria-label={drawerOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-                        sx={{ color: '#000000' }}>
+                     <IconButton 
+                        onClick={(e) => {
+                           e.currentTarget.blur();
+                           setDrawerOpen(!drawerOpen);
+                        }} 
+                        aria-label={drawerOpen ? t('nav.closeMenu') : t('nav.openMenu')} 
+                        sx={{ color: '#000000' }}
+                     >
                         {drawerOpen ? <CloseIcon /> : <MenuIcon />}
                      </IconButton>
                   )}
@@ -243,7 +239,7 @@ export default function Navbar({ onLanguageChanging }) {
             slotProps={{
                paper: {
                   sx: {
-                     width: { xs: '85%', sm: 320 },
+                     width: { xs: 170, sm: 300 },
                      background: '#FFFFFF',
                      backdropFilter: 'blur(20px)',
                      boxShadow: '-8px 0 40px rgba(0, 0, 0, 0.15)',
@@ -260,45 +256,47 @@ export default function Navbar({ onLanguageChanging }) {
                   justifyContent: 'flex-end',
                   borderBottom: '1px solid rgba(0,0,0,0.06)',
                }}>
-               <IconButton
-                  onClick={() => setDrawerOpen(false)}
-                  sx={{ color: 'rgba(0,0,0,0.4)', '&:hover': { color: '#000' } }}>
+               <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: 'rgba(0,0,0,0.4)', '&:hover': { color: '#000' } }}>
                   <CloseIcon />
                </IconButton>
             </Box>
 
             {/* Language Switcher */}
-            <Box sx={{ px: 3, py: 2 }}>
+            <Box sx={{ px: 3, py: 2, display: 'flex', justifyContent: 'flex-start' }}>
                <LanguageSwitcher onChange={onLanguageChanging} />
             </Box>
 
             {/* Nav Items */}
             <List component="nav" aria-label={t('nav.mobileNav')} sx={{ px: 1.5, py: 1 }}>
-               {NAV_ITEMS.map(({ key, href, isRoute }, i) => {
-                  const isActive = activeKey === key;
+                {NAV_ITEMS.map(({ key, href, isRoute }) => {
                   return (
                      <ListItem key={key} disablePadding sx={{ mb: 0.3 }}>
-                        <ListItemButton
-                           ref={i === 0 ? firstItemRef : null}
-                           onClick={() => handleNavClick(href, key, isRoute)}
-                           sx={{
-                              px: 2.5,
-                              py: 1.4,
-                              borderRadius: '6px',
-                              borderLeft: isActive ? '3px solid #000' : '3px solid transparent',
-                              background: isActive ? 'rgba(0,0,0,0.04)' : 'transparent',
-                              transition: 'all 0.2s ease',
-                              '&:hover': {
-                                 background: 'rgba(0,0,0,0.03)',
-                              },
-                           }}>
+                         <ListItemButton
+                            onClick={() => handleNavClick(href, key, isRoute)}
+                            sx={{
+                               px: 2.5,
+                               py: 1.4,
+                               borderRadius: '6px',
+                               borderLeft: activeKey === key ? '3px solid #1B5E20' : '3px solid transparent',
+                               background: activeKey === key ? 'rgba(27, 86, 32, 0.06)' : 'transparent',
+                               transition: 'all 0.2s ease',
+                               '&:hover': {
+                                  background: 'rgba(0,0,0,0.03)',
+                               },
+                            }}>
                            <ListItemText
-                              primary={t(`nav.${key}`)}
-                              primaryTypographyProps={{
-                                 fontWeight: isActive ? 600 : 400,
-                                 color: isActive ? '#000000' : '#333',
-                                 fontSize: '0.95rem',
-                              }}
+                              disableTypography
+                              primary={
+                                     <Typography
+                                        sx={{
+                                           fontWeight: activeKey === key ? 600 : 400,
+                                           color: activeKey === key ? '#1B5E20' : '#333',
+                                           fontSize: '0.95rem',
+                                           textAlign: 'left',
+                                        }}>
+                                        {t(`nav.${key}`)}
+                                     </Typography>
+                              }
                            />
                         </ListItemButton>
                      </ListItem>
@@ -306,6 +304,8 @@ export default function Navbar({ onLanguageChanging }) {
                })}
             </List>
          </Drawer>
-      </AppBar>
-   );
-}
+       </AppBar>
+
+       </>
+    );
+ }

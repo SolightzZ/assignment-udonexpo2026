@@ -18,14 +18,7 @@ const MOTIFS = [
    {
       id: 'pagoda',
       viewBox: '0 0 200 300',
-      paths: [
-         'M100 20L60 80h80L100 20z',
-         'M100 70L50 130h100L100 70z',
-         'M100 120L40 180h120L100 120z',
-         'M100 170L30 230h140L100 170z',
-         'M100 220L20 280h160L100 220z',
-         'M95 280h10v20h-10z',
-      ],
+      paths: ['M100 20L60 80h80L100 20z', 'M100 70L50 130h100L100 70z', 'M100 120L40 180h120L100 120z', 'M100 170L30 230h140L100 170z', 'M100 220L20 280h160L100 220z', 'M95 280h10v20h-10z'],
    },
    {
       id: 'leaf',
@@ -58,20 +51,12 @@ const MOTIFS = [
    {
       id: 'curve',
       viewBox: '0 0 520 150',
-      paths: [
-         'M0 120c60-80 120 40 180-20s120 40 180-20 120 40 180-20',
-         'M0 80c60-80 120 40 180-20s120 40 180-20 120 40 180-20',
-         'M0 40c60-80 120 40 180-20s120 40 180-20 120 40 180-20',
-      ],
+      paths: ['M0 120c60-80 120 40 180-20s120 40 180-20 120 40 180-20', 'M0 80c60-80 120 40 180-20s120 40 180-20 120 40 180-20', 'M0 40c60-80 120 40 180-20s120 40 180-20 120 40 180-20'],
    },
    {
       id: 'naga',
       viewBox: '0 0 400 200',
-      paths: [
-         'M20 180c40-60 80-20 120-80s80 20 120-60 60-40 120-20',
-         'M20 180c20-10 40-20 60-10s20 30 40 20 20-50 40-40 20 30 40 20 20-50 40-40',
-         'M360 20c10 20 20 40 20 60s-20 30-20 30',
-      ],
+      paths: ['M20 180c40-60 80-20 120-80s80 20 120-60 60-40 120-20', 'M20 180c20-10 40-20 60-10s20 30 40 20 20-50 40-40 20 30 40 20 20-50 40-40', 'M360 20c10 20 20 40 20 60s-20 30-20 30'],
    },
 ];
 
@@ -80,7 +65,16 @@ const LAYER_CONFIG = [
    { motif: 'pagoda', top: '5%', right: '3%', width: 140, color: '#1a8a6a', opacity: 0.06, anim: 'heritage-float 22s ease-in-out infinite alternate' },
    { motif: 'leaf', top: '42%', left: '3%', width: 170, color: '#d4a056', opacity: 0.07, anim: 'heritage-sway 28s ease-in-out infinite alternate' },
    { motif: 'naga', bottom: '12%', right: '3%', width: 380, color: '#5cc4b8', opacity: 0.055, anim: 'heritage-drift 20s ease-in-out infinite alternate' },
-   { motif: 'diamondBand', bottom: '3%', left: '50%', width: 350, color: '#c45c3e', opacity: 0.04, transform: 'translateX(-50%) rotate(-4deg)', anim: 'heritage-shift 26s ease-in-out infinite alternate' },
+   {
+      motif: 'diamondBand',
+      bottom: '3%',
+      left: '50%',
+      width: 350,
+      color: '#c45c3e',
+      opacity: 0.04,
+      transform: 'translateX(-50%) rotate(-4deg)',
+      anim: 'heritage-shift 26s ease-in-out infinite alternate',
+   },
    { motif: 'curve', top: '50%', right: '5%', width: 400, color: '#1a8a6a', opacity: 0.05, anim: 'heritage-wave 18s ease-in-out infinite alternate' },
 ];
 
@@ -114,25 +108,18 @@ const globalKeyframes = {
 export default function HeritageBackdrop() {
    const ref = useRef(null);
 
-   const handleScroll = useCallback(
-      (scrollY) => {
-         const el = ref.current;
-         if (!el) return;
-         el.style.setProperty('--backdrop-y', `${scrollY * 0.04}px`);
-      },
-      [],
-   );
+   const handleScroll = useCallback((scrollY) => {
+      const el = ref.current;
+      if (!el) return;
+      el.style.setProperty('--backdrop-y', `${scrollY * 0.04}px`);
+   }, []);
 
    useScrollListener(handleScroll);
 
    return (
       <>
          <GlobalStyles styles={globalKeyframes} />
-         <Box
-            component="svg"
-            aria-hidden="true"
-            focusable="false"
-            sx={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+         <Box component="svg" aria-hidden="true" focusable="false" sx={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
             <defs>
                {MOTIFS.map((m) => (
                   <symbol key={m.id} id={`bc-${m.id}`} viewBox={m.viewBox}>

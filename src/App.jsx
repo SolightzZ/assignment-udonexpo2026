@@ -1,114 +1,57 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
 import { MotionConfig } from 'framer-motion';
-import { Component, lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
 import HeritageBackdrop from './components/HeritageBackdrop';
-import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
-import i18n from './i18n';
+import PageLoader from './components/PageLoader/PageLoader';
+import RouteErrorBoundary from './components/RouteErrorBoundary/RouteErrorBoundary';
+import { Box } from '@mui/material';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tech = lazy(() => import('./pages/Tech'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-function PageLoader() {
-   return (
-      <Box
-         sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-         }}>
-         <CircularProgress color="primary" />
-      </Box>
-   );
-}
-
-class RouteErrorBoundary extends Component {
-   constructor(props) {
-      super(props);
-      this.state = { hasError: false };
-   }
-   static getDerivedStateFromError() {
-      return { hasError: true };
-   }
-   render() {
-      if (this.state.hasError) {
-         return (
-            <Box
-               sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '100vh',
-                  gap: 2,
-                  p: 3,
-                  textAlign: 'center',
-               }}>
-               <Typography variant="h5" sx={{ color: 'text.secondary' }}>
-                  {i18n.t('error.title')}
-               </Typography>
-               <Typography variant="body2" sx={{ color: 'text.secondary', maxWidth: 400 }}>
-                  {i18n.t('error.message')}
-               </Typography>
-               <Button variant="contained" onClick={() => window.location.reload()}>
-                  {i18n.t('error.reload')}
-               </Button>
-            </Box>
-         );
-      }
-      return this.props.children;
-   }
-}
-
 export default function App() {
    const { i18n: i18nInstance } = useTranslation();
-   const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
-      const timer = setTimeout(() => setLoading(false), 3500);
-      return () => clearTimeout(timer);
-   }, []);
-
+   // ฟังก์ชันจัดการตอนที่ผู้ใช้กดเปลี่ยนภาษาจาก Navbar หรือเมนู
    const handleLanguageChange = useCallback(
       ({ nextLang }) => {
          i18nInstance.changeLanguage(nextLang);
-         document.documentElement.lang = nextLang;
+         document.documentElement.lang = nextLang; // เปลี่ยน lang attribute บน <html> เพื่อ SEO และ Accessibility
       },
       [i18nInstance],
    );
 
    return (
       <RouteErrorBoundary>
+         {/* MotionConfig: ตั้งค่าให้ปิด Animation อัตโนมัติหาก OS ของผู้ใช้เปิดโหมด Reduced Motion ไว้ (Accessibility) */}
          <MotionConfig reducedMotion="user">
             <HeritageBackdrop />
-            <LoadingScreen loading={loading} />
+
+            {/* Suspense: รอให้ Component ที่ถูก Lazy Load ดาวน์โหลดเสร็จก่อนแล้วค่อยแสดงผล */}
             <Suspense fallback={<PageLoader />}>
                <Routes>
                   <Route
                      path="/"
                      element={
-                        <>
+                        <Box>
                            <Navbar onLanguageChanging={handleLanguageChange} />
                            <Home />
-                        </>
+                        </Box>
                      }
                   />
                   <Route
                      path="/tech"
                      element={
-                        <>
+                        <Box>
                            <Navbar onLanguageChanging={handleLanguageChange} />
                            <Tech />
-                        </>
+                        </Box>
                      }
                   />
+                  {/* หากเข้า URL ที่ไม่มีอยู่ในระบบ ให้ไปหน้า NotFound */}
                   <Route path="*" element={<NotFound />} />
                </Routes>
             </Suspense>

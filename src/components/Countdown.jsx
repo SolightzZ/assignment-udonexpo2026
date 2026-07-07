@@ -24,12 +24,13 @@ export default function Countdown() {
    const [time, setTime] = useState(calc);
 
    useEffect(() => {
+      const id = { current: null };
       const tick = () => {
          setTime(calc());
-         id = setTimeout(tick, Math.max(0, 1000 - (Date.now() % 1000)));
+         id.current = setTimeout(tick, 1000 - (Date.now() % 1000));
       };
-      let id = setTimeout(tick, Math.max(0, 1000 - (Date.now() % 1000)));
-      return () => clearTimeout(id);
+      id.current = setTimeout(tick, 1000 - (Date.now() % 1000));
+      return () => clearTimeout(id.current);
    }, []);
 
    return (
@@ -43,12 +44,7 @@ export default function Countdown() {
             alignItems: 'center',
          }}>
          {ITEMS.map((key, i) => (
-            <motion.div
-               key={key}
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-               style={{ display: 'flex' }}>
+            <motion.div key={key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }} style={{ display: 'flex' }}>
                <Box
                   sx={{
                      display: 'flex',
@@ -64,8 +60,7 @@ export default function Countdown() {
                         transform: 'translateY(-50%)',
                         width: '1px',
                         height: '60%',
-                        background:
-                           'linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)',
+                        background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)',
                      },
                   }}>
                   <Typography

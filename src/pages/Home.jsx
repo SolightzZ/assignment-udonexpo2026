@@ -8,10 +8,11 @@ import Highlights from '../components/Highlights';
 import Location from '../components/Location';
 import Timeline from '../components/Timeline';
 import VisitorInfo from '../components/VisitorInfo';
+
 export default function Home() {
    const { t } = useTranslation();
    return (
-      <Box>
+      <Box sx={{ overflowX: 'hidden' }}>
          <Hero t={t} />
          <About t={t} />
          <Highlights t={t} />

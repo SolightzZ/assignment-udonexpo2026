@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
-import ScrambleText from './ScrambleText';
+import { memo } from 'react';
 import Reveal from './Reveal';
+import ScrambleText from './ScrambleText';
 
 function OrnateDivider() {
    return (
@@ -41,7 +42,7 @@ function OrnateDivider() {
    );
 }
 
-export default function SectionTitle({ title, subtitle }) {
+const SectionTitle = memo(function SectionTitle({ title, subtitle }) {
    return (
       <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
          <Reveal y={24} duration={0.6}>
@@ -56,16 +57,11 @@ export default function SectionTitle({ title, subtitle }) {
                   mb: subtitle ? 1.5 : 0,
                }}
             />
-            {subtitle && (
-               <ScrambleText
-                  text={subtitle}
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{ maxWidth: 500, mx: 'auto', fontSize: { xs: '0.95rem', md: '1.05rem' } }}
-               />
-            )}
+            {subtitle && <ScrambleText text={subtitle} variant="body1" color="text.secondary" sx={{ maxWidth: 500, mx: 'auto', fontSize: { xs: '0.95rem', md: '1.05rem' } }} />}
             <OrnateDivider />
          </Reveal>
       </Box>
    );
-}
+});
+
+export default SectionTitle;
