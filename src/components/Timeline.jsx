@@ -2,15 +2,18 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { COLORS } from '../theme/theme';
 import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
 
 const STEPS = [
-   { key: 'preparation', color: '#4CAF50' },
-   { key: 'opening', color: '#C8A64E' },
-   { key: 'events', color: '#1B5E20' },
-   { key: 'closing', color: '#0D3B0F' },
+   { key: 'preparation' },
+   { key: 'opening' },
+   { key: 'events' },
+   { key: 'closing' },
 ];
 
 const TimelineLine = styled(Box)(({ theme }) => ({
@@ -27,7 +30,8 @@ const TimelineLine = styled(Box)(({ theme }) => ({
    },
 }));
 
-function TimelineItem({ step, index, t }) {
+const TimelineItem = memo(function TimelineItem({ step, index }) {
+   const { t } = useTranslation();
    const isLeft = index % 2 === 0;
 
    return (
@@ -90,14 +94,15 @@ function TimelineItem({ step, index, t }) {
                   <ScrambleText text={t(`timeline.${step.key}Desc`)} variant="body2" color="text.secondary" sx={{ mt: 0.5 }} />
                </Box>
             </Box>
-         </motion.div>
-      </Box>
-   );
-}
+          </motion.div>
+       </Box>
+    );
+});
 
-export default function Timeline({ t }) {
+export default function Timeline() {
+   const { t } = useTranslation();
    return (
-      <Box id="timeline" sx={{ py: { xs: 8, md: 12 }, background: '#F6FFF6' }}>
+      <Box id="timeline" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'custom.sectionBg' }}>
          <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3 } }}>
             <SectionTitle title={t('timeline.title')} />
 
@@ -114,7 +119,7 @@ export default function Timeline({ t }) {
                            top: { xs: 8, sm: 12, md: 16 },
                            zIndex: 2,
                         }}>
-                        <FiberManualRecordIcon sx={{ color: step.color, fontSize: 20 }} />
+                         <FiberManualRecordIcon sx={{ color: COLORS.timeline[index], fontSize: 20 }} />
                      </Box>
 
                      {/* Desktop dot */}
@@ -129,13 +134,14 @@ export default function Timeline({ t }) {
                            width: 20,
                            height: 20,
                            borderRadius: '50%',
-                           background: step.color,
-                           border: '3px solid #fff',
-                           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                            background: COLORS.timeline[index],
+                            border: '3px solid',
+                            borderColor: 'background.paper',
+                            boxShadow: (theme) => theme.palette.custom.timelineDotShadow,
                         }}
                      />
 
-                     <TimelineItem step={step} index={index} t={t} />
+                      <TimelineItem step={step} index={index} />
                   </Box>
                ))}
 

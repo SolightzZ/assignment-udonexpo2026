@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { COLORS } from '../theme/theme';
 import useScrollListener from '../hooks/useScrollListener';
 
 const MOTIFS = [
@@ -61,21 +62,20 @@ const MOTIFS = [
 ];
 
 const LAYER_CONFIG = [
-   { motif: 'lotus', top: '5%', left: '3%', width: 220, color: '#c45c3e', opacity: 0.075, anim: 'heritage-spin 50s linear infinite' },
-   { motif: 'pagoda', top: '5%', right: '3%', width: 140, color: '#1a8a6a', opacity: 0.06, anim: 'heritage-float 22s ease-in-out infinite alternate' },
-   { motif: 'leaf', top: '42%', left: '3%', width: 170, color: '#d4a056', opacity: 0.07, anim: 'heritage-sway 28s ease-in-out infinite alternate' },
-   { motif: 'naga', bottom: '12%', right: '3%', width: 380, color: '#5cc4b8', opacity: 0.055, anim: 'heritage-drift 20s ease-in-out infinite alternate' },
+   { motif: 'lotus', top: '5%', left: '3%', width: 220, opacity: 0.075, anim: 'heritage-spin 50s linear infinite' },
+   { motif: 'pagoda', top: '5%', right: '3%', width: 140, opacity: 0.06, anim: 'heritage-float 22s ease-in-out infinite alternate' },
+   { motif: 'leaf', top: '42%', left: '3%', width: 170, opacity: 0.07, anim: 'heritage-sway 28s ease-in-out infinite alternate' },
+   { motif: 'naga', bottom: '12%', right: '3%', width: 380, opacity: 0.055, anim: 'heritage-drift 20s ease-in-out infinite alternate' },
    {
       motif: 'diamondBand',
       bottom: '3%',
       left: '50%',
       width: 350,
-      color: '#c45c3e',
       opacity: 0.04,
       transform: 'translateX(-50%) rotate(-4deg)',
       anim: 'heritage-shift 26s ease-in-out infinite alternate',
    },
-   { motif: 'curve', top: '50%', right: '5%', width: 400, color: '#1a8a6a', opacity: 0.05, anim: 'heritage-wave 18s ease-in-out infinite alternate' },
+   { motif: 'curve', top: '50%', right: '5%', width: 400, opacity: 0.05, anim: 'heritage-wave 18s ease-in-out infinite alternate' },
 ];
 
 const MOTIF_MAP = Object.fromEntries(MOTIFS.map((m) => [m.id, m]));
@@ -107,6 +107,13 @@ const globalKeyframes = {
 
 export default function HeritageBackdrop() {
    const ref = useRef(null);
+   const [tabHidden, setTabHidden] = useState(false);
+
+   useEffect(() => {
+      const handler = () => setTabHidden(document.hidden);
+      document.addEventListener('visibilitychange', handler);
+      return () => document.removeEventListener('visibilitychange', handler);
+   }, []);
 
    const handleScroll = useCallback((scrollY) => {
       const el = ref.current;
@@ -153,7 +160,7 @@ export default function HeritageBackdrop() {
                         position: 'absolute',
                         overflow: 'visible',
                         fill: 'none',
-                        stroke: cfg.color,
+                         stroke: COLORS.heritage[i],
                         strokeWidth: 7,
                         strokeLinecap: 'round',
                         strokeLinejoin: 'round',
@@ -161,6 +168,7 @@ export default function HeritageBackdrop() {
                         width: cfg.width,
                         willChange: 'transform, opacity',
                         animation: cfg.anim,
+                        ...(tabHidden && { animationPlayState: 'paused' }),
                         ...(cfg.top != null && { top: cfg.top }),
                         ...(cfg.left != null && { left: cfg.left }),
                         ...(cfg.right != null && { right: cfg.right }),

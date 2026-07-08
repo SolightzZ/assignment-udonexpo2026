@@ -53,7 +53,7 @@ const SectionTitle = memo(function SectionTitle({ title, subtitle }) {
                sx={{
                   fontWeight: 700,
                   fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.75rem' },
-                  color: 'primary.dark',
+                  color: (theme) => theme.palette.mode === 'dark' ? '#fff' : 'primary.dark',
                   mb: subtitle ? 1.5 : 0,
                }}
             />

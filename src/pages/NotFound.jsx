@@ -3,12 +3,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 function DecorativeMotifs() {
+   const theme = useTheme();
+   const nfGold = theme.palette.custom.notFoundGold;
    const items = useMemo(
       () => [
          { id: 1, x: '5%', y: '10%', size: 100, rotate: 0, delay: 0 },
@@ -44,9 +47,9 @@ function DecorativeMotifs() {
                   transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
                   style={{ width: '100%', height: '100%' }}>
                   <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-                     <path d="M60 10c-30 30-30 70 0 100s30-70 0-100z" stroke="#C8A64E" strokeWidth="2" />
-                     <path d="M60 10c30 30 30 70 0 100s-30-70 0-100z" stroke="#C8A64E" strokeWidth="2" />
-                     <path d="M10 60h100" stroke="#C8A64E" strokeWidth="1.5" strokeDasharray="4 4" />
+                         <path d="M60 10c-30 30-30 70 0 100s30-70 0-100z" stroke={nfGold} strokeWidth="2" />
+                      <path d="M60 10c30 30 30 70 0 100s-30-70 0-100z" stroke={nfGold} strokeWidth="2" />
+                      <path d="M10 60h100" stroke={nfGold} strokeWidth="1.5" strokeDasharray="4 4" />
                   </svg>
                </motion.div>
             </motion.div>
@@ -56,6 +59,7 @@ function DecorativeMotifs() {
 }
 
 function FloatingParticles() {
+   const theme = useTheme();
    const particles = useMemo(
       () =>
          Array.from({ length: 20 }, (_, i) => ({
@@ -91,8 +95,8 @@ function FloatingParticles() {
                   width: p.size,
                   height: p.size,
                   borderRadius: '50%',
-                  background: 'radial-gradient(circle, #C8A64E, transparent)',
-               }}
+                   background: `radial-gradient(circle, ${theme.palette.custom.notFoundGold}, transparent)`,
+                }}
             />
          ))}
       </Box>
@@ -118,6 +122,14 @@ const childVariants = {
 export default function NotFound() {
    const { t } = useTranslation();
    const navigate = useNavigate();
+   const theme = useTheme();
+   const [tabHidden, setTabHidden] = useState(false);
+
+   useEffect(() => {
+      const handler = () => setTabHidden(document.hidden);
+      document.addEventListener('visibilitychange', handler);
+      return () => document.removeEventListener('visibilitychange', handler);
+   }, []);
 
    useEffect(() => {
       document.title = `404 - ${t('notfound.title')} | Udon Expo 2026`;
@@ -132,10 +144,10 @@ export default function NotFound() {
             justifyContent: 'center',
             position: 'relative',
             overflow: 'hidden',
-            background: 'radial-gradient(ellipse at 30% 20%, #0d4a10 0%, #0a2d0c 40%, #061a07 100%)',
+             background: `radial-gradient(ellipse at 30% 20%, ${theme.palette.custom.notFoundBg1} 0%, ${theme.palette.custom.notFoundBg2} 40%, ${theme.palette.custom.notFoundBg3} 100%)`,
          }}>
-         <DecorativeMotifs />
-         <FloatingParticles />
+          {!tabHidden && <DecorativeMotifs />}
+          {!tabHidden && <FloatingParticles />}
          <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
             <motion.div variants={containerVariants} initial="hidden" animate="visible" style={{ textAlign: 'center' }}>
                <motion.div variants={childVariants}>
@@ -147,7 +159,7 @@ export default function NotFound() {
                         lineHeight: 1,
                         mb: -6,
                         userSelect: 'none',
-                        background: 'linear-gradient(180deg, rgba(200,166,78,0.25) 0%, rgba(200,166,78,0.04) 100%)',
+                         background: (theme) => `linear-gradient(180deg, ${theme.palette.custom.notFoundGoldDim} 0%, ${theme.palette.custom.notFoundGoldVeryDim} 100%)`,
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         fontFamily: 'Poppins, sans-serif',
@@ -157,8 +169,8 @@ export default function NotFound() {
                            content: '""',
                            position: 'absolute',
                            inset: 0,
-                           background: 'radial-gradient(ellipse at center, rgba(200,166,78,0.08) 0%, transparent 70%)',
-                           filter: 'blur(40px)',
+                            background: (theme) => `radial-gradient(ellipse at center, ${theme.palette.custom.notFoundGoldGlow} 0%, transparent 70%)`,
+                            filter: 'blur(40px)',
                         },
                      }}>
                      404
@@ -172,7 +184,7 @@ export default function NotFound() {
                         height: 2,
                         mx: 'auto',
                         mb: 5,
-                        background: 'linear-gradient(90deg, transparent, #C8A64E, transparent)',
+                        background: (theme) => `linear-gradient(90deg, transparent, ${theme.palette.custom.notFoundGold}, transparent)`,
                         position: 'relative',
                         '&::before': {
                            content: '"\u0E24"',
@@ -180,9 +192,9 @@ export default function NotFound() {
                            top: '50%',
                            left: '50%',
                            transform: 'translate(-50%, -50%)',
-                           color: '#C8A64E',
+                           color: (theme) => theme.palette.custom.notFoundGold,
                            fontSize: '1.2rem',
-                           background: '#0a2d0c',
+                           background: (theme) => theme.palette.custom.notFoundThaiChar,
                            px: 2,
                         },
                      }}
@@ -192,27 +204,27 @@ export default function NotFound() {
                <motion.div variants={childVariants}>
                   <Typography
                      variant="h4"
-                     sx={{
-                        color: '#fff',
-                        fontWeight: 600,
-                        mb: 1.5,
-                        fontSize: { xs: '1.4rem', md: '1.75rem' },
-                        textShadow: '0 2px 20px rgba(0,0,0,0.3)',
-                     }}>
+                      sx={{
+                         color: (theme) => theme.palette.custom.notFoundText,
+                         fontWeight: 600,
+                         mb: 1.5,
+                         fontSize: { xs: '1.4rem', md: '1.75rem' },
+                         textShadow: (theme) => `0 2px 20px ${theme.palette.custom.notFoundTextShadow}`,
+                      }}>
                      {t('notfound.title')}
                   </Typography>
                </motion.div>
 
                <motion.div variants={childVariants}>
                   <Typography
-                     sx={{
-                        color: 'rgba(255,255,255,0.55)',
-                        mb: 6,
-                        maxWidth: 400,
-                        mx: 'auto',
-                        lineHeight: 1.8,
-                        fontSize: '0.95rem',
-                     }}>
+                      sx={{
+                         color: (theme) => theme.palette.custom.notFoundMessage,
+                         mb: 6,
+                         maxWidth: 400,
+                         mx: 'auto',
+                         lineHeight: 1.8,
+                         fontSize: '0.95rem',
+                      }}>
                      {t('notfound.message')}
                   </Typography>
                </motion.div>
@@ -223,23 +235,23 @@ export default function NotFound() {
                      size="large"
                      startIcon={<HomeIcon />}
                      onClick={() => navigate('/')}
-                     sx={{
-                        background: '#C8A64E',
-                        color: '#0a2d0c',
-                        fontWeight: 600,
-                        px: 6,
-                        py: 1.5,
-                        borderRadius: 50,
-                        fontSize: '0.95rem',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        boxShadow: '0 4px 20px rgba(200,166,78,0.25)',
-                        '&:hover': {
-                           background: '#d4b35a',
-                           boxShadow: '0 6px 30px rgba(200,166,78,0.4)',
-                           transform: 'translateY(-2px)',
-                        },
-                        transition: 'all 0.3s ease',
-                     }}>
+                      sx={(theme) => ({
+                         background: theme.palette.custom.notFoundBtnBg,
+                         color: theme.palette.custom.notFoundBtnText,
+                         fontWeight: 600,
+                         px: 6,
+                         py: 1.5,
+                         borderRadius: 50,
+                         fontSize: '0.95rem',
+                         border: `1px solid ${theme.palette.custom.notFoundBtnBorder}`,
+                         boxShadow: `0 4px 20px ${theme.palette.custom.notFoundBtnShadow}`,
+                         '&:hover': {
+                            background: theme.palette.custom.notFoundBtnHoverBg,
+                            boxShadow: `0 6px 30px ${theme.palette.custom.notFoundBtnHoverShadow}`,
+                            transform: 'translateY(-2px)',
+                         },
+                         transition: 'all 0.3s ease',
+                     })}>
                      {t('notfound.back')}
                   </Button>
                </motion.div>

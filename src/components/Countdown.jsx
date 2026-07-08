@@ -52,39 +52,39 @@ export default function Countdown() {
                      alignItems: 'center',
                      px: { xs: 1.5, sm: 2.5 },
                      position: 'relative',
-                     '&:not(:last-child)::after': {
-                        content: '""',
-                        position: 'absolute',
-                        right: 0,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        width: '1px',
-                        height: '60%',
-                        background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)',
-                     },
+                      '&:not(:last-child)::after': {
+                         content: '""',
+                         position: 'absolute',
+                         right: 0,
+                         top: '50%',
+                         transform: 'translateY(-50%)',
+                         width: '1px',
+                         height: '60%',
+                         background: (theme) => `linear-gradient(180deg, transparent, ${theme.palette.custom.countdownDivider}, transparent)`,
+                      },
                   }}>
-                  <Typography
-                     variant="h3"
-                     sx={{
-                        color: '#F7F5EE',
-                        fontWeight: 700,
-                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
-                        lineHeight: 1,
-                        letterSpacing: '-0.02em',
-                        minWidth: { xs: 40, sm: 56, md: 68 },
-                        textShadow: '0 2px 20px rgba(0,0,0,0.3)',
-                     }}>
+                   <Typography
+                      variant="h3"
+                      sx={(theme) => ({
+                         color: theme.palette.custom.countdownDigit,
+                         fontWeight: 700,
+                         fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+                         lineHeight: 1,
+                         letterSpacing: '-0.02em',
+                         minWidth: { xs: 40, sm: 56, md: 68 },
+                         textShadow: `0 2px 20px ${theme.palette.custom.countdownDigitShadow}`,
+                      })}>
                      {String(time[key]).padStart(2, '0')}
                   </Typography>
-                  <Typography
-                     sx={{
-                        color: 'rgba(212, 175, 55, 0.8)',
-                        fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.75rem' },
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.15em',
-                        fontWeight: 500,
-                        mt: 0.5,
-                     }}>
+                   <Typography
+                      sx={{
+                         color: (theme) => theme.palette.custom.countdownLabel,
+                         fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.75rem' },
+                         textTransform: 'uppercase',
+                         letterSpacing: '0.15em',
+                         fontWeight: 500,
+                         mt: 0.5,
+                      }}>
                      {t(`countdown.${key}`)}
                   </Typography>
                </Box>

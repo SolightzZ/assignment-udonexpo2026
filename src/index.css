@@ -15,3 +15,7 @@
 .skip-link:focus {
    left: 0;
 }
+
+[data-theme='dark'] .skip-link {
+   background: #2E7D32;
+}

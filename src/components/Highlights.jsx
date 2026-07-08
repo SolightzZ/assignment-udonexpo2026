@@ -18,24 +18,29 @@ import imgIllumination from '../assets/images/highlight_illumination.webp';
 import imgInnovation from '../assets/images/highlight_innovation.webp';
 import imgIntl from '../assets/images/highlight_intl.webp';
 import imgPlayground from '../assets/images/highlight_playground.webp';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { COLORS } from '../theme/theme';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
 import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
 
 const HIGHLIGHTS = [
-   { key: 'gardens', icon: ForestIcon, color: '#2E7D32', image: imgGarden },
-   { key: 'international', icon: PublicIcon, color: '#1565C0', image: imgIntl },
-   { key: 'activities', icon: HandymanIcon, color: '#E65100', image: imgActivity },
-   { key: 'food', icon: RestaurantIcon, color: '#C62828', image: imgFood },
-   { key: 'culture', icon: TheaterComedyIcon, color: '#6A1B9A', image: imgCulture },
-   { key: 'innovation', icon: EnergySavingsLeafIcon, color: '#00695C', image: imgInnovation },
-   { key: 'illumination', icon: AutoAwesomeIcon, color: '#FFB300', image: imgIllumination },
-   { key: 'playground', icon: ChildCareIcon, color: '#43A047', image: imgPlayground },
+    { key: 'gardens', icon: ForestIcon, image: imgGarden },
+    { key: 'international', icon: PublicIcon, image: imgIntl },
+    { key: 'activities', icon: HandymanIcon, image: imgActivity },
+    { key: 'food', icon: RestaurantIcon, image: imgFood },
+    { key: 'culture', icon: TheaterComedyIcon, image: imgCulture },
+    { key: 'innovation', icon: EnergySavingsLeafIcon, image: imgInnovation },
+    { key: 'illumination', icon: AutoAwesomeIcon, image: imgIllumination },
+    { key: 'playground', icon: ChildCareIcon, image: imgPlayground },
 ];
 
-function HighlightCard({ highlight, index, t }) {
-   const { key, icon: Icon, color, image } = highlight;
+const HighlightCard = memo(function HighlightCard({ highlight, index }) {
+   const { t } = useTranslation();
+   const { key, icon: Icon, image } = highlight;
+   const color = COLORS.highlights[index];
 
    return (
       <Reveal y={40} delay={index * 0.1} style={{ height: '100%' }}>
@@ -47,14 +52,14 @@ function HighlightCard({ highlight, index, t }) {
                flexDirection: 'column',
                borderRadius: '32px',
                overflow: 'hidden',
-               background: '#fff',
-               boxShadow: '0 12px 35px rgba(30,80,40,.10)',
-               transition: 'transform .35s ease, box-shadow .35s ease',
-               '&:focus-visible': { outline: '3px solid #C8A64E', outlineOffset: 2 },
-               '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: '0 22px 55px rgba(30,80,40,.18)',
-               },
+               bgcolor: 'background.paper',
+                boxShadow: (theme) => theme.palette.custom.highlightCardShadow,
+                transition: 'transform .35s ease, box-shadow .35s ease',
+                '&:focus-visible': { outline: '3px solid', outlineColor: (theme) => theme.palette.custom.highlightFocusOutline, outlineOffset: 2 },
+                '&:hover': {
+                   transform: 'translateY(-8px)',
+                   boxShadow: (theme) => theme.palette.custom.highlightCardShadowHover,
+                },
             }}>
             <Box sx={{ overflow: 'hidden', aspectRatio: '16 / 9' }}>
                <CardMedia
@@ -83,20 +88,21 @@ function HighlightCard({ highlight, index, t }) {
                   <IconCircle icon={Icon} color={color} size={56} iconSize={28} />
                   <ScrambleText text={t(`highlights.${key}`)} variant="h6" sx={{ fontWeight: 700, fontSize: '1.55rem', lineHeight: 1.2 }} />
                </Box>
-               <ScrambleText text={t(`highlights.${key}Desc`)} sx={{ color: '#555', fontSize: '1rem', lineHeight: 1.9 }} />
+               <ScrambleText text={t(`highlights.${key}Desc`)} sx={{ color: 'text.secondary', fontSize: '1rem', lineHeight: 1.9 }} />
             </CardContent>
-         </Card>
-      </Reveal>
-   );
-}
+          </Card>
+       </Reveal>
+    );
+});
 
-export default function Highlights({ t }) {
+export default function Highlights() {
+   const { t } = useTranslation();
    return (
       <Box
          id="highlights"
          sx={{
             py: { xs: 8, md: 12 },
-            background: 'linear-gradient(180deg,#F8FFF8 0%,#F3FBF3 100%)',
+            background: (theme) => theme.palette.custom.highlightGradient,
          }}>
          <Box sx={{ width: '100%', maxWidth: 1320, mx: 'auto', px: { xs: 2, sm: 3, md: 4 } }}>
             <SectionTitle title={t('highlights.title')} />
@@ -115,7 +121,7 @@ export default function Highlights({ t }) {
                         width: { xs: '100%', sm: 'calc(50% - 16px)', lg: 'calc(33.333% - 22px)' },
                         display: 'flex',
                      }}>
-                     <HighlightCard highlight={highlight} index={index} t={t} />
+                     <HighlightCard highlight={highlight} index={index} />
                   </Box>
                ))}
             </Box>

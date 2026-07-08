@@ -155,5 +155,8 @@
    "lang.th": "TH",
    "lang.en": "EN",
    "lang.zh": "中文",
-   "lang.switcher": "Switch language"
+   "lang.switcher": "Switch language",
+
+   "theme.lightMode": "Light mode",
+   "theme.darkMode": "Dark mode"
 }

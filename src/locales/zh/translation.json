@@ -152,8 +152,11 @@
   "tech.source.title": "源代码",
   "tech.source.subtitle": "本项目是开源的。在 GitHub 上查看仓库。",
 
-  "lang.th": "TH",
-  "lang.en": "EN",
-  "lang.zh": "中文",
-  "lang.switcher": "切换语言"
+   "lang.th": "TH",
+   "lang.en": "EN",
+   "lang.zh": "中文",
+   "lang.switcher": "切换语言",
+
+   "theme.lightMode": "浅色模式",
+   "theme.darkMode": "深色模式"
 }

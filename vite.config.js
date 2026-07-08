@@ -63,5 +63,15 @@ sessionStorage.removeItem('redirect');
    base: '/assignment-udonexpo2026/',
    build: {
       sourcemap: false,
+      rollupOptions: {
+         output: {
+            manualChunks(id) {
+               if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/') || id.includes('node_modules/react-router')) return 'vendor-react';
+               if (id.includes('node_modules/@mui/') || id.includes('node_modules/@emotion/')) return 'vendor-mui';
+               if (id.includes('node_modules/framer-motion')) return 'vendor-framer';
+               if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) return 'vendor-i18n';
+            },
+         },
+      },
    },
 });

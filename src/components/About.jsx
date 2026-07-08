@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
 import ScrambleText from './ScrambleText';
+import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
 
 const INFO_CARDS = [
@@ -17,9 +18,10 @@ const INFO_CARDS = [
    { icon: GroupIcon, label: 'about.organizer', value: 'about.organizerValue' },
 ];
 
-export default function About({ t }) {
+export default function About() {
+   const { t } = useTranslation();
    return (
-      <Box id="about" sx={{ py: { xs: 8, md: 12 }, background: '#fff' }}>
+      <Box id="about" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
          <Container maxWidth={false} sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 } }}>
             <SectionTitle title={t('about.title')} />
 
@@ -73,7 +75,7 @@ export default function About({ t }) {
                                        position: 'absolute',
                                        inset: -2,
                                        borderRadius: '50%',
-                                       border: '1px solid rgba(200, 166, 78, 0.2)',
+                                        border: (theme) => `1px solid ${theme.palette.custom.aboutCardRing}`,
                                        opacity: 0,
                                        transition: 'opacity 0.3s ease',
                                     },
@@ -82,7 +84,7 @@ export default function About({ t }) {
                                        '&::after': { opacity: 1 },
                                     },
                                  }}>
-                                 <IconCircle icon={Icon} color="#1B5E20" size={{ xs: 56, md: 64 }} iconSize={30} />
+                                  <IconCircle icon={Icon} color="primary.main" size={{ xs: 56, md: 64 }} iconSize={30} />
                               </Box>
                               <Box>
                                  <ScrambleText

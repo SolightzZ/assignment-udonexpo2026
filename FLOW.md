@@ -4,105 +4,110 @@
 flowchart TD
     A["main.jsx<br/>Entry Point"] --> B["Import i18n<br/>(side-effect init)"]
     A --> C["Import Fonts<br/>Poppins / Noto Sans Thai / Noto Sans SC"]
-    A --> D["BrowserRouter<br/>basename='/assignment-udonexpo2026'"]
-    A --> E["ThemeProvider<br/>theme={theme}"]
-    A --> F["CssBaseline<br/>global reset + noise overlay"]
-    D --> G["App.jsx"]
-    E --> G
-    F --> G
-    B --> G
-    C --> G
+    A --> D["StrictMode"]
+    D --> E["BrowserRouter<br/>basename='/assignment-udonexpo2026/'"]
+    E --> F["ThemeModeProvider<br/>mode='light'|'dark'"]
+    F --> G["ThemedApp"]
+    G --> G1["ThemeProvider<br/>theme={getTheme(mode)}"]
+    G --> G2["CssBaseline<br/>global reset + noise overlay"]
+    G1 --> H["App.jsx"]
+    G2 --> H
+    B --> H
+    C --> H
 ```
 
 ```mermaid
 flowchart TD
-    G["App.jsx"] --> H["MotionConfig<br/>reducedMotion='user'"]
-    G --> I["HeritageBackdrop<br/>fixed SVG decoration"]
-    G --> J["RouteErrorBoundary<br/>imported from components/RouteErrorBoundary"]
-    G --> K["Suspense<br/>fallback=PageLoader (components/PageLoader)"]
-    K --> L["Routes"]
-    L --> M["'/'<br/>Navbar + Home"]
-    L --> N["'/tech'<br/>Navbar + Tech"]
-    L --> O["'*'<br/>NotFound (pages/NotFound.jsx)"]
-    M --> P["Hero | About | Highlights<br/>Gallery | Timeline<br/>VisitorInfo | Location<br/>Footer"]
-    N --> Q["TechCategoryCard ×6<br/>Footer"]
+    H["App.jsx"] --> I["RouteErrorBoundary<br/>imported from components"]
+    I --> J["MotionConfig<br/>reducedMotion='user'"]
+    J --> K["HeritageBackdrop<br/>fixed SVG decoration"]
+    K --> L["Suspense<br/>fallback=PageLoader (components/PageLoader)"]
+    L --> M["Routes"]
+    M --> N["'/'<br/>Navbar + Home"]
+    M --> O["'/tech'<br/>Navbar + Tech"]
+    M --> P["'*'<br/>NotFound (pages/NotFound.jsx)"]
+    N --> Q["Hero → <img fetchpriority='high'><br/>(not CSS background-image)"]
+    N --> R["About | Highlights<br/>Gallery → GalleryLightbox (lazy)<br/>Timeline | VisitorInfo<br/>Location | Footer"]
+    O --> S["TechCategoryCard ×6<br/>Footer"]
 ```
 
 ```mermaid
 flowchart LR
-    R["i18n.js"] --> S["LanguageDetector<br/>localStorage > navigator"]
-    R --> T["resources<br/>th / en / zh"]
-    R --> U["fallbackLng: 'th'"]
-    V["LanguageSwitcher<br/>ToggleButtonGroup"] --> W["App.handleLanguageChange"]
-    W --> X["i18n.changeLanguage()"]
-    X --> Y["All useTranslation()<br/>auto re-render"]
-    W --> Z["document.documentElement<br/>lang={nextLang}"]
+    T["i18n.js"] --> U["LanguageDetector<br/>localStorage > navigator"]
+    T --> V["Only detected LANG<br/>loaded via await before init"]
+    T --> W["i18n.init()<br/>resources = only that lang"]
+    T --> X["Other 2 LANGs<br/>load via Promise.allSettled<br/>→ addResourceBundle"]
+    T --> Y["fallbackLng: 'th'"]
+    Z["LanguageSwitcher<br/>ToggleButtonGroup"] --> AA["App.handleLanguageChange"]
+    AA --> AB["i18n.changeLanguage()"]
+    AB --> AC["All useTranslation()<br/>auto re-render"]
+    AA --> AD["document.documentElement<br/>lang={nextLang}"]
 ```
 
 ```mermaid
 flowchart TD
-    AA["Navbar"] --> AB["NAV_ITEMS<br/>7 hash links + 1 route link"]
-    AB --> AC["href='#hero'~'#location'<br/>isRoute=false"]
-    AB --> AD["href='/tech#tech-header'<br/>isRoute=true"]
-    AC --> AE["On Home? → scrollIntoView<br/>Elsewhere? → navigate('/')"]
-    AD --> AF["navigate('/tech')<br/>+ 100ms delay → scrollIntoView"]
-    AA --> A1["IntersectionObserver<br/>threshold:0.3, rootMargin:-80px"]
-    A1 --> A2["activeKey state<br/>→ hero|about|highlights|..."]
-    A2 --> A3["Desktop >1100px<br/>green underline bar on active"]
-    A2 --> A4["Mobile ≤1100px<br/>green left border in Drawer"]
-    A2 --> A5["Mobile BottomNavigation<br/>5 main sections + icons"]
-    AA --> AG["Desktop >1100px<br/>horizontal nav bar"]
-    AA --> AH["Mobile ≤1100px<br/>Drawer + ListItems"]
-    AH --> AI["LanguageSwitcher<br/>always visible in Drawer"]
+    AE["Navbar"] --> AF["NAV_ITEMS<br/>7 hash links + 1 route link"]
+    AF --> AG["href='#hero'~'#location'<br/>isRoute=false"]
+    AF --> AH["href='/tech#tech-header'<br/>isRoute=true"]
+    AG --> AI["On Home? → scrollIntoView<br/>Elsewhere? → navigate('/')"]
+    AH --> AJ["navigate('/tech')<br/>+ 100ms delay → scrollIntoView"]
+    AE --> AK["IntersectionObserver<br/>threshold:0.3, rootMargin:-80px"]
+    AK --> AL["activeKey state<br/>→ hero|about|highlights|..."]
+    AL --> AM["Desktop >1100px<br/>green underline bar on active"]
+    AL --> AN["Mobile ≤1100px<br/>green left border in Drawer"]
+    AE --> AO["Desktop >1100px<br/>horizontal nav bar + ThemeToggle + LanguageSwitcher"]
+    AE --> AP["Mobile ≤1100px<br/>MobileDrawer (lazy-loaded)<br/>2.05 kB chunk"]
+    AP --> AQ["LanguageSwitcher + ThemeToggle<br/>always visible in Drawer"]
 ```
 
 ```mermaid
 flowchart TD
-    AJ["Theme (theme.js)"] --> AK["primary #1B5E20<br/>dark green"]
-    AJ --> AL["secondary #C8A64E<br/>gold"]
-    AJ --> AM["borderRadius: 16<br/>globally"]
-    AJ --> AN["Typography: Poppins<br/>+ Noto Sans Thai/SC"]
-    AJ --> AO["MuiButton: textTransform: none<br/>borderRadius: 12"]
-    AJ --> AP["MuiAppBar: glassmorphism<br/>bg blur(24px)"]
-    AJ --> AQ["MuiCard: borderRadius: 20<br/>hover lift + gold accent"]
-    AJ --> AR["CssBaseline: noise overlay<br/>z-index 1299"]
-    AJ --> AS["prefers-reduced-motion<br/>kill switch"]
+    AR["Theme (theme.js)<br/>getTheme(mode)"] --> AS["primary #618764<br/>moss green"]
+    AR --> AT["secondary #C8A64E<br/>gold"]
+    AR --> AU["dark mode<br/>bg #1C2529<br/>text #FFFFFF"]
+    AR --> AV["borderRadius: 16<br/>globally"]
+    AR --> AW["Typography: Poppins<br/>+ Noto Sans Thai/SC"]
+    AR --> AX["MuiButton: textTransform: none<br/>borderRadius: 12"]
+    AR --> AY["MuiAppBar: glassmorphism<br/>bg blur(24px)<br/>gold bottom border"]
+    AR --> AZ["MuiCard: borderRadius: 20<br/>hover lift + gold top bar<br/>(::before accent line)"]
+    AR --> BA["CssBaseline: noise overlay<br/>z-index 1299"]
+    AR --> BB["prefers-reduced-motion<br/>kill switch"]
 ```
 
 ```mermaid
 flowchart LR
-    AT["Scroll Events"] --> AU["IntersectionObserver<br/>→ Navbar activeKey"]
-    AT --> AV["useScrollListener<br/>→ Hero parallax bg shift"]
-    AT --> AW["HeritageBackdrop<br/>→ --backdrop-y var"]
-    AX["Framer Motion"] --> AY["Reveal component<br/>whileInView fade+slide"]
-    AX --> AZ["motion.div<br/>entry animations"]
-    AX --> BA["useReducedMotion()<br/>SSR-safe"]
+    BC["Scroll Events"] --> BD["IntersectionObserver<br/>→ Navbar activeKey"]
+    BC --> BE["useScrollListener<br/>→ Hero parallax bg shift"]
+    BC --> BF["HeritageBackdrop<br/>→ --backdrop-y var"]
+    BG["Tab Hidden<br/>(document.hidden)"] --> BH["Pause CSS animations<br/>HeritageBackdrop: animationPlayState<br/>NotFound: unmount motion elements"]
+    BI["Framer Motion"] --> BJ["Reveal component<br/>whileInView fade+slide"]
+    BI --> BK["motion.div<br/>entry animations"]
+    BI --> BL["useReducedMotion()<br/>SSR-safe"]
 ```
 
 ```mermaid
 flowchart LR
-    BB["Data Flow"] --> BC["Page calls useTranslation()"]
-    BC --> BD["t prop drilled<br/>to section components"]
-    BD --> BE["Hero(t) About(t)..."]
-    BB --> BF["TECH_CATEGORIES<br/>static data array"]
-    BF --> BG["TechCategoryCard<br/>maps + renders icons"]
-    BB --> BH["useScramble hook<br/>text animation loop"]
-    BH --> BI["requestAnimationFrame<br/>60fps char reveal"]
+    BM["Data Flow"] --> BN["Each component calls useTranslation()"]
+    BN --> BO["Hero About Highlights<br/>Gallery Timeline VisitorInfo"]
+    BM --> BP["TECH_CATEGORIES<br/>static data array — 6 items"]
+    BP --> BQ["TechCategoryCard<br/>maps + renders icons"]
+    BM --> BR["useScramble hook<br/>randomize → word-by-word reveal"]
+    BR --> BS["requestAnimationFrame<br/>60fps char reveal"]
 ```
 
 ```mermaid
 flowchart TD
-    BJ["Deployment"] --> BK["npm run build"]
-    BK --> BL["Vite builds dist/"]
-    BK --> BM["404.html SPA fallback<br/>(inline redirect script)"]
-    BL --> BN["GitHub Pages<br/>base: /assignment-udonexpo2026/"]
+    BT["Deployment"] --> BU["npm run build"]
+    BU --> BV["Vite builds dist/"]
+    BU --> BW["404.html SPA fallback<br/>(inline redirect script)"]
+    BV --> BX["GitHub Pages<br/>base: /assignment-udonexpo2026/"]
 ```
 
 ```mermaid
 flowchart LR
-    BO["pages/NotFound.jsx<br/>self-contained"] --> BP["DecorativeMotifs<br/>floating gold kranok SVGs"]
-    BO --> BQ["FloatingParticles<br/>20 drifting gold dots"]
-    BO --> BR["Staggered entrance<br/>Framer Motion staggerChildren"]
-    BO --> BS["Gold gradient 404<br/>background text + glow"]
-    BO --> BT["Home button<br/>gold pill + hover lift"]
+    BY["pages/NotFound.jsx<br/>self-contained"] --> BZ["DecorativeMotifs<br/>8 floating gold kranok SVGs"]
+    BY --> CA["FloatingParticles<br/>20 drifting gold dots"]
+    BY --> CB["Staggered entrance<br/>Framer Motion staggerChildren"]
+    BY --> CC["Gold gradient 404<br/>background text + glow"]
+    BY --> CD["Home button<br/>gold pill + hover lift"]
 ```

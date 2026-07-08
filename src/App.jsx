@@ -6,7 +6,7 @@ import HeritageBackdrop from './components/HeritageBackdrop';
 import Navbar from './components/Navbar';
 import PageLoader from './components/PageLoader/PageLoader';
 import RouteErrorBoundary from './components/RouteErrorBoundary/RouteErrorBoundary';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tech = lazy(() => import('./pages/Tech'));

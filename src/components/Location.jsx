@@ -7,11 +7,13 @@ import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Reveal from './Reveal';
 import ScrambleText from './ScrambleText';
+import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
 
-export default function Location({ t }) {
+export default function Location() {
+   const { t } = useTranslation();
    return (
-      <Box id="location" sx={{ py: { xs: 8, md: 12 }, background: '#F6FFF6' }}>
+      <Box id="location" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'custom.sectionBg' }}>
          <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3 } }}>
             <SectionTitle title={t('location.title')} />
 
@@ -48,7 +50,7 @@ export default function Location({ t }) {
                            gap: 2,
                         }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1 }}>
-                           <LocationOnIcon color="primary" />
+                           <LocationOnIcon sx={{ color: (theme) => theme.palette.mode === 'dark' ? 'primary.light' : 'primary.main' }} />
                            <ScrambleText text={t('location.address')} variant="body1" sx={{ fontWeight: 500 }} />
                         </Box>
                         <Button
@@ -58,7 +60,15 @@ export default function Location({ t }) {
                            href="https://maps.google.com/?q=Udon+Thani+International+Horticultural+Expo+2026"
                            target="_blank"
                            rel="noopener noreferrer"
-                           sx={{ flexShrink: 0 }}>
+                           sx={{ 
+                              flexShrink: 0,
+                              color: (theme) => theme.palette.mode === 'dark' ? '#fff' : 'primary.main',
+                              borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'primary.main',
+                              '&:hover': {
+                                 borderColor: (theme) => theme.palette.mode === 'dark' ? '#fff' : 'primary.dark',
+                                 bgcolor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(97, 135, 100, 0.05)',
+                              }
+                           }}>
                            {t('location.direction')}
                         </Button>
                      </Box>

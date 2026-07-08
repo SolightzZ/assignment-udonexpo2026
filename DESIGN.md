@@ -17,23 +17,23 @@ A nature-inspired, welcoming tourism website that conveys the beauty of Thailand
 
 | Token                | Hex       | Usage                                         |
 | -------------------- | --------- | --------------------------------------------- |
-| `primary.main`       | `#1B5E20` | Headings, primary buttons, link states        |
-| `primary.light`      | `#4CAF50` | Gradient highlights, hover accents            |
-| `primary.dark`       | `#0D3B0F` | Footer backgrounds, heavy emphasis            |
+| `primary.main`       | `#618764` | Headings, primary buttons, link states        |
+| `primary.light`      | `#9CB080` | Gradient highlights, hover accents            |
+| `primary.dark`       | `#2B5748` | Footer backgrounds, heavy emphasis            |
 | `secondary.main`     | `#C8A64E` | Accent borders, CTA buttons, decorative lines |
 | `secondary.light`    | `#D4BC6A` | Subtle gold highlights, icon tint             |
 | `secondary.dark`     | `#A08030` | Gold hover states                             |
-| `background.default` | `#F6FFF6` | Off-white green-tinted page background        |
+| `background.default` | `#F7F9F7` | Off-white green-tinted page background        |
 | `background.paper`   | `#FFFFFF` | Cards, sections                               |
 | `text.primary`       | `#1A1A1A` | Body and heading text                         |
 | `text.secondary`     | `#4A4A4A` | Supporting text, descriptions                 |
 
 **Gradients:**
 
-- Primary button: `linear-gradient(135deg, #1B5E20, #2E7D32)`
-- Secondary button: `linear-gradient(135deg, #C8A64E, #D4BC6A)`
-- Footer: `linear-gradient(135deg, #0D3B0F, #1B5E20, #0D3B0F)`
-- Section divider line: `linear-gradient(90deg, #1B5E20, #C8A64E)`
+- Primary button: `linear-gradient(135deg, #618764 0%, #2B5748 100%)`
+- Secondary button: `linear-gradient(135deg, #C8A64E 0%, #D4BC6A 100%)`
+- Footer: `linear-gradient(175deg, #222D31 0%, #1C2529 50%, #151C1E 100%)`
+- Section divider line: `linear-gradient(90deg, #618764, #C8A64E)`
 
 ## Typography
 
@@ -68,17 +68,17 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 
 ### Navbar
 
-- Glassmorphism effect: `background: rgba(255,255,255,0.85)` + `backdropFilter: blur(20px)`
-- Subtle bottom border: `1px solid rgba(27, 94, 32, 0.1)`
+- Glassmorphism effect: `background: rgba(255,255,255,0.82)` + `backdropFilter: blur(24px)`
+- Subtle bottom border: `1px solid rgba(200, 166, 78, 0.15)`
 - Sticky position
-- Nav links: transparent background, `rgba(27, 94, 32, 0.08)` hover background, no underline
-- Logo: circular gradient icon (UE initials) + site title
+- Nav links: transparent background, `action.hover` background, no underline
+- Logo: circular gradient icon (site title initial) + site title
 - Mobile: Drawer from right, 280px wide
 
 ### Hero
 
 - Full-screen section (100vh / 90vh mobile) with overlay gradient `rgba(0,0,0,0.3) → rgba(0,0,0,0.6)`
-- Background image with parallax scroll (`translateY` at 0.35× scroll speed)
+- Background image rendered as `<img fetchpriority="high">` (not CSS `background-image`) for native browser priority hinting, with parallax scroll (`translateY` at 0.35× scroll speed)
 - White text with text-shadow for readability
 - Staggered fade-up animation for title → subtitle → CTA
 - Scroll-down indicator with infinite bounce animation
@@ -90,9 +90,9 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 - `fontWeight: 600`
 - `borderRadius: 12`
 - Padding: `12px 28px` default; `px: { xs: 3, md: 5 }, py: { xs: 1.5, md: 1.8 }` for large
-- Contained primary: green gradient with `0 4px 20px rgba(27, 94, 32, 0.3)` shadow
+- Contained primary: green gradient with `0 4px 20px rgba(97, 135, 100, 0.3)` shadow
 - Contained secondary: gold gradient with `0 4px 20px rgba(200, 166, 78, 0.3)` shadow
-- Outlined primary: `borderColor: #1B5E20`, hover background `rgba(27, 94, 32, 0.05)`
+- Outlined primary: `borderColor: #618764`, hover background `rgba(97, 135, 100, 0.05)`
 
 ### Cards
 
@@ -112,15 +112,14 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 
 - MUI icon inside a circular container
 - Container: `width: 60, height: 60, borderRadius: 50%` (40px for smaller variants)
-- Background: `rgba(27, 94, 32, 0.08)` (green tint) or `color + '15'` for highlight cards
+- Background: `rgba(97, 135, 100, 0.08)` (green tint) or `color + '15'` for highlight cards
 - Icon: `color: primary.main`, `fontSize: 30` (or accent colour for highlight cards)
 
 ### Footer
 
-- Dark green gradient background `#0D3B0F → #1B5E20 → #0D3B0F`
-- White text with secondary gold section titles
-- Contact items: row with icon + link, bordered hover (`borderColor: secondary.main`)
-- Social links: circular 40px buttons with translucent background, hover lifts + gold border
+- Dark green gradient background `#222D31 → #1C2529 → #151C1E`
+- White text with gold section titles
+- Social link rows: icon box + text with bordered hover (`borderColor: link colour`)
 - Divider: `rgba(255,255,255,0.1)`
 - Copyright: centered, `rgba(255,255,255,0.6)`
 
@@ -151,6 +150,7 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 - **Parallax:** Hero background `translateY` at 35% of scroll speed
 - **Text scramble:** Randomized character decoding effect for headings (`useScramble` hook)
 - **Particles:** Floating glowing orbs with randomized drift
+- **Tab-hidden pause:** All continuous animations (CSS `animation`, Framer Motion `repeat: Infinity`) pause when `document.hidden` — saves battery/CPU
 
 ## Interactive States
 
@@ -158,7 +158,7 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 | ---------------- | ------------------ | --------------------------------------------- | ----------------- |
 | Primary button   | Green gradient     | Darker green gradient + deeper shadow         | Same as hover     |
 | Secondary button | Gold gradient      | Darker gold gradient                          | Same as hover     |
-| Nav link         | Transparent        | `rgba(27, 94, 32, 0.08)`                      | primary.main text |
+| Nav link         | Transparent        | `action.hover`                               | primary.main text |
 | Card             | Shadow 0 8px 32px  | translateY(-4px) + deeper shadow              | Same as hover     |
 | Social icon      | Translucent bg     | Gold bg tint + gold border + translateY(-3px) | Same as hover     |
 | Contact row      | Transparent border | Gold border                                   | Same as hover     |
@@ -168,11 +168,11 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 
 - ARIA labels on all interactive elements (IconButton, nav, social links)
 - Semantic HTML (`<nav>`, `<footer>`, heading hierarchy `h1→h2→h3`)
-- Sufficient contrast: green `#1B5E20` on white, white text on dark green
+- Sufficient contrast: green `#618764` on white, white text on dark green
 - Scroll behavior: `scroll-behavior: smooth` on body
 - Focus states use MUI defaults (visible outline ring)
 - Links open in new tab use `rel="noopener noreferrer"`
-- Images use `alt` text from i18n; lazy loading with `loading="lazy"`
+- Images use `alt` text from i18n; lazy loading with `loading="lazy"`; hero images use `fetchpriority="high"` instead
 - Reduced motion: Framer Motion animations respect user preference by default
 
 ## Do Not Do
@@ -184,6 +184,8 @@ font-family: 'Poppins', 'Noto Sans Thai', 'Noto Sans SC', sans-serif;
 - Do not hardcode strings — all text must come from i18n locale files
 - Do not add decorative-only animations that delay content visibility
 - Do not use barrel imports from `@mui/material` — import individual components
+- Do not add `className` on MUI components — use structural `sx` selectors for parent-child hover effects
+- Do not use Grid `direction="column"` (removed in v9) — use Stack for vertical layouts
 - Do not add shadows with opacity above 0.3 for UI elements
 - Do not use default MUI border radius — override with theme values
 - Do not introduce new colour tokens — use the 10-colour palette defined above

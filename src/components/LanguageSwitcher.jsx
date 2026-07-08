@@ -5,29 +5,48 @@ import { styled } from '@mui/material/styles';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const StyledToggleGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-   '& .MuiToggleButton-root': {
-      border: `1px solid ${theme.palette.primary.main}`,
-      color: theme.palette.primary.main,
-      fontWeight: 600,
-      fontSize: '0.65rem',
-      padding: '2px 6px',
-      minWidth: 30,
-      minHeight: 28,
-      textTransform: 'none',
-      transition: 'all 0.2s ease',
-      '&.Mui-selected': {
-         background: theme.palette.primary.main,
-         color: '#fff',
+const StyledToggleGroup = styled(ToggleButtonGroup)(({ theme }) => {
+   const isDark = theme.palette.mode === 'dark';
+   const color = isDark ? 'rgba(255, 255, 255, 0.7)' : theme.palette.primary.main;
+   const hoverBg = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(97, 135, 100, 0.08)';
+   const selectedBg = theme.palette.primary.main;
+   const selectedColor = '#fff';
+   const borderColor = isDark ? 'rgba(255, 255, 255, 0.2)' : theme.palette.primary.main;
+   const selectedHoverBg = theme.palette.primary.dark;
+
+   return {
+      '& .MuiToggleButton-root': {
+         border: `1px solid ${borderColor}`,
+         color: color,
+         fontWeight: 600,
+         fontSize: '0.7rem',
+         padding: '0 10px',
+         height: 32,
+         lineHeight: 1,
+         textTransform: 'none',
+         transition: 'all 0.2s ease',
+         '&:first-of-type': {
+            borderTopLeftRadius: '16px',
+            borderBottomLeftRadius: '16px',
+         },
+         '&:last-of-type': {
+            borderTopRightRadius: '16px',
+            borderBottomRightRadius: '16px',
+         },
+         '&.Mui-selected': {
+            background: selectedBg,
+            color: selectedColor,
+            borderColor: selectedBg,
+            '&:hover': {
+               background: selectedHoverBg,
+            },
+         },
          '&:hover': {
-            background: theme.palette.primary.dark,
+            background: hoverBg,
          },
       },
-      '&:hover': {
-         background: 'rgba(27, 94, 32, 0.08)',
-      },
-   },
-}));
+   };
+});
 
 const LANGUAGES = [
    { code: 'th', label: 'lang.th' },

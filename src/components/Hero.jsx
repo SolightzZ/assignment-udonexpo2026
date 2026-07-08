@@ -4,6 +4,8 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { COLORS } from '../theme/theme';
 import heroBg from '../assets/images/hero_bg.webp';
 import useScrollListener from '../hooks/useScrollListener';
 import useScrollTo from '../hooks/useScrollTo';
@@ -26,11 +28,7 @@ function useParallax(speedBg, speedFg) {
    return { bgRef, fgRef };
 }
 
-const ORBS = [
-   { size: 500, top: -150, right: -80, color: 'rgba(200, 166, 78, 0.12)', blur: 120 },
-   { size: 350, bottom: 90, left: -60, color: 'rgba(76, 175, 80, 0.1)', blur: 100 },
-   { size: 250, top: 'calc(30% - 30px)', left: '15%', color: 'rgba(200, 166, 78, 0.06)', blur: 80 },
-];
+const ORBS = COLORS.heroOrbs;
 
 const fadeUp = (delay = 0) => ({
    initial: { opacity: 0, y: 24 },
@@ -38,7 +36,8 @@ const fadeUp = (delay = 0) => ({
    transition: { duration: 0.7, delay, ease: [0.25, 1, 0.5, 1] },
 });
 
-export default function Hero({ t }) {
+export default function Hero() {
+   const { t } = useTranslation();
    const prefersReducedMotion = useReducedMotion();
    const { bgRef, fgRef } = useParallax(PARALLAX_SPEED, PARALLAX_SPEED * 0.5);
    const scrollToAbout = useScrollTo('#about');
@@ -59,22 +58,33 @@ export default function Hero({ t }) {
             sx={{
                position: 'absolute',
                inset: 0,
-               backgroundImage: `url(${heroBg})`,
-               backgroundSize: 'cover',
-               backgroundPosition: { xs: 'center 30%', sm: 'center' },
                willChange: 'transform',
-               '&::after': {
-                  content: '""',
+               overflow: 'hidden',
+            }}>
+            <Box
+               component="img"
+               src={heroBg}
+               alt=""
+               fetchpriority="high"
+               sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: { xs: 'center 30%', sm: 'center' },
+               }}
+            />
+            <Box
+               sx={{
                   position: 'absolute',
                   inset: 0,
-                  background: [
-                     'radial-gradient(circle at 18% 45%, rgba(15,40,25,0.18), transparent 55%)',
-                     'linear-gradient(90deg, rgba(6,30,18,0.75), rgba(6,30,18,0.28), transparent 70%)',
-                     'linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.45))',
+                  background: (theme) => [
+                     `radial-gradient(circle at 18% 45%, ${theme.palette.custom.heroOverlay1}, transparent 55%)`,
+                     `linear-gradient(90deg, ${theme.palette.custom.heroOverlay2a}, ${theme.palette.custom.heroOverlay2b}, transparent 70%)`,
+                     `linear-gradient(180deg, ${theme.palette.custom.heroOverlay3a}, ${theme.palette.custom.heroOverlay3b})`,
                   ].join(', '),
-               },
-            }}
-         />
+               }}
+            />
+         </Box>
 
          {/* Decorative gradient orbs */}
          <Box
@@ -120,39 +130,38 @@ export default function Hero({ t }) {
             }}>
             {/* ── Event Badge ── */}
             <motion.div {...fadeUp(0.3)}>
-               <Box
-                  sx={{
-                     display: 'inline-flex',
-                     alignItems: 'center',
-                     gap: 1,
-                     background: 'rgba(255,255,255,0.06)',
-                     backdropFilter: 'blur(12px)',
-                     border: '1px solid rgba(255,255,255,0.1)',
-                     borderRadius: '999px',
-                     px: { xs: 2.5, md: 2.5 },
-                     py: 1,
-                     mb: { xs: 3.5, md: 3.5 },
-                  }}>
-                  <Box
-                     sx={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: '50%',
-                        background: '#D4AF37',
-                        boxShadow: '0 0 8px rgba(212,175,55,0.5)',
-                     }}
-                  />
-                  <Box
-                     component="span"
-                     sx={{
-                        color: 'rgba(255,255,255,0.88)',
-                        fontSize: { xs: '0.75rem', md: '0.78rem' },
-                        fontWeight: 500,
-                        letterSpacing: '0.08em',
-                     }}>
-                     1 Nov 2026 – 14 Mar 2027
-                  </Box>
-               </Box>
+                   <Box
+                      sx={(theme) => ({
+                         display: 'inline-flex',
+                         alignItems: 'center',
+                         gap: 1,
+                          background: theme.palette.custom.heroBadgeBg,
+                          border: `1px solid ${theme.palette.custom.heroBadgeBorder}`,
+                         borderRadius: '999px',
+                         px: { xs: 2.5, md: 2.5 },
+                         py: 1,
+                         mb: { xs: 3.5, md: 3.5 },
+                      })}>
+                      <Box
+                         sx={(theme) => ({
+                            width: 6,
+                            height: 6,
+                            borderRadius: '50%',
+                            background: theme.palette.custom.goldAccent,
+                            boxShadow: `0 0 8px ${theme.palette.custom.toastDotShadow}`,
+                         })}
+                      />
+                      <Box
+                         component="span"
+                         sx={{
+                            color: (theme) => theme.palette.custom.toastText,
+                            fontSize: { xs: '0.75rem', md: '0.78rem' },
+                            fontWeight: 500,
+                            letterSpacing: '0.08em',
+                         }}>
+                         1 Nov 2026 – 14 Mar 2027
+                      </Box>
+                   </Box>
             </motion.div>
 
             {/* ── Title ── */}
@@ -161,17 +170,17 @@ export default function Hero({ t }) {
                   text={t('hero.title')}
                   variant="h1"
                   component="h1"
-                  sx={{
-                     color: '#F7F5EE',
-                     fontWeight: 800,
-                     fontSize: { xs: '2.4rem', sm: '3rem', md: '3.8rem' },
-                     lineHeight: 1.15,
-                     letterSpacing: '-0.02em',
-                     textShadow: '0 4px 40px rgba(0,0,0,0.35)',
-                     mb: { xs: 3, md: 2.5 },
-                     maxWidth: { xs: '100%', sm: 480, md: 560 },
-                     textAlign: 'center',
-                  }}
+                   sx={(theme) => ({
+                      color: '#FFFFFF',
+                      fontWeight: 800,
+                      fontSize: { xs: '2.4rem', sm: '3rem', md: '3.8rem' },
+                      lineHeight: 1.15,
+                      letterSpacing: '-0.02em',
+                      textShadow: `0 4px 40px ${theme.palette.custom.heroTitleShadow}`,
+                      mb: { xs: 3, md: 2.5 },
+                      maxWidth: { xs: '100%', sm: 480, md: 560 },
+                      textAlign: 'center',
+                   })}
                />
             </motion.div>
 
@@ -181,16 +190,16 @@ export default function Hero({ t }) {
                   text={t('hero.subtitle')}
                   variant="h5"
                   component="p"
-                  sx={{
-                     color: 'rgba(247,245,238,0.8)',
-                     fontWeight: 300,
-                     fontSize: { xs: '1.05rem', sm: '1.1rem', md: '1.35rem' },
-                     lineHeight: 1.5,
-                     maxWidth: { xs: '100%', sm: 460, md: 520 },
-                     mb: { xs: 4, md: 4 },
-                     textShadow: '0 2px 16px rgba(0,0,0,0.2)',
-                     textAlign: 'center',
-                  }}
+                   sx={(theme) => ({
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      fontWeight: 300,
+                      fontSize: { xs: '1.05rem', sm: '1.1rem', md: '1.35rem' },
+                      lineHeight: 1.5,
+                      maxWidth: { xs: '100%', sm: 460, md: 520 },
+                      mb: { xs: 4, md: 4 },
+                      textShadow: `0 2px 16px ${theme.palette.custom.heroSubtitleShadow}`,
+                      textAlign: 'center',
+                   })}
                />
             </motion.div>
 
@@ -215,7 +224,7 @@ export default function Hero({ t }) {
                left: '50%',
                zIndex: 2,
             }}>
-            <IconButton onClick={scrollToAbout} aria-label={t('hero.scroll')} sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#D4AF37' } }}>
+             <IconButton onClick={scrollToAbout} aria-label={t('hero.scroll')} sx={(theme) => ({ color: theme.palette.custom.heroScrollColor, '&:hover': { color: theme.palette.custom.heroScrollHover } })}>
                <KeyboardArrowDownIcon fontSize="large" />
             </IconButton>
          </Box>

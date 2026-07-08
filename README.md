@@ -36,15 +36,16 @@
 การเปลี่ยนภาษาทำงานฝั่ง Client-side โดยใช้ข้อมูลจาก `localStorage` และทำงานร่วมกับการตั้งค่าบนเบราว์เซอร์
 
 ### 🎨 Design System & Theming
-- **Nature-inspired Color Palette:** โทนสีหลักใช้ สีเขียวเข้ม (`#1B5E20`) ผสมผสานกับ สีทอง (`#C8A64E`) ซึ่งอ้างอิงจากอัตลักษณ์ของงานพืชสวนโลก
+- **Nature-inspired Color Palette:** โทนสีหลักใช้ สีเขียวมอส (`#618764`) ผสมผสานกับ สีทอง (`#C8A64E`) ซึ่งอ้างอิงจากอัตลักษณ์ของงานพืชสวนโลก
 - **Modern UI Elements:** ใช้เทคนิค Glassmorphism (พื้นหลังโปร่งแสง) พร้อมการไล่ระดับสี ขอบมุมโค้งมน (`borderRadius: 20`) และการจัดวางเงาตกกระทบ
 - **Typography:** เลือกใช้ฟอนต์ที่รองรับการแสดงผลในแต่ละภาษาอย่างเหมาะสม (`@fontsource/poppins`, `@fontsource/noto-sans-thai`, `@fontsource/noto-sans-sc`)
 
 ### ⚡ Performance & UX
-- **Code Splitting & Lazy Loading:** ใช้งาน `React.lazy` และ `<Suspense>` เพื่อแบ่งโหลดส่วนของ Component (`Home`, `Tech`, `NotFound`) เฉพาะเมื่อมีความจำเป็น ช่วยลดขนาด Initial JavaScript Bundle
-- **Fluid Animations:** นำ `framer-motion` มาจัดการ Animation บน UI เช่น Scroll-triggered Animations หรือการจำลองเอฟเฟกต์ต่าง ๆ
+- **Code Splitting & Lazy Loading:** ใช้งาน `React.lazy` และ `<Suspense>` ทั้งในระดับ Route (`Home`, `Tech`, `NotFound`) และระดับ Component (`GalleryLightbox`, `MobileDrawer`) — โหลด JS เฉพาะเมื่อผู้ใช้มีการโต้ตอบ
+- **Lazy i18n (Per-Language):** โหลดเฉพาะภาษาที่ตรวจพบในครั้งแรก (localStorage หรือ navigator) ส่วนภาษาอื่นโหลดพื้นหลัง ช่วยลด First-load JavaScript
+- **Fluid Animations:** นำ `framer-motion` มาจัดการ Animation บน UI เช่น Scroll-triggered Animations หรือการจำลองเอฟเฟกต์ต่าง ๆ; หยุด Continuous Animations อัตโนมัติเมื่อซ่อนแท็บ (`document.hidden`)
 - **Loading Screen:** แสดงผลข้อมูลสถานะการดึงข้อมูลพื้นฐานก่อนเข้าสู่หน้าหลัก
-- **Accessibility (a11y):** โครงสร้างรองรับ Semantic HTML, ARIA Labels และลดแอนิเมชันสำหรับผู้ใช้ที่เปิดการตั้งค่า `useReducedMotion()`
+- **Accessibility (a11y):** โครงสร้างรองรับ Semantic HTML (`<main>`), ARIA Labels, และลดแอนิเมชันสำหรับผู้ใช้ที่เปิดการตั้งค่า `useReducedMotion()`
 
 ## 📋 Prerequisites
 
@@ -106,63 +107,67 @@ npm run lint
 
 ```text
 src/
-├── assets/                  # Static assets (images, icons)
+├── App.jsx                  # Root Component (Routing, Error Boundary, Suspense)
+├── main.jsx                 # Application Entry Point (ThemeProvider, font imports)
+├── i18n.js                  # ไฟล์คอนฟิกของ i18next — โหลดภาษาแบบ Lazy, fallback: th
+├── index.css                # Global styles และ CSS Baseline
+├── assets/
+│   └── images/              # Static assets (ภาพพื้นหลัง, แกลเลอรี, ไฮไลท์)
 ├── components/              # Reusable UI components
-│   ├── NotFound/            # โฟลเดอร์รวมคอมโพเนนต์สำหรับหน้า 404
-│   │   ├── NotFound.jsx
-│   │   └── NotFound.styles.js
-│   ├── Tech/                # โฟลเดอร์รวมคอมโพเนนต์สำหรับหน้า Tech Stack
-│   │   ├── TechCategoryCard.jsx
-│   │   └── TechIcons.jsx
 │   ├── About.jsx            # ส่วนข้อมูลรายละเอียดของงาน Expo
 │   ├── Countdown.jsx        # เวลานับถอยหลังสู่วันจัดงาน
 │   ├── Footer.jsx           # ส่วนท้ายของเว็บไซต์
-│   ├── Gallery.jsx          # แสดงแกลเลอรีรูปภาพ
-│   ├── GoldenRing.jsx       # เอฟเฟกต์วงแหวนสีทอง
+│   ├── Gallery.jsx          # แสดงแกลเลอรีรูปภาพ (Lazy-load lightbox)
+│   ├── GalleryLightbox.jsx  # Lightbox สำหรับดูภาพขนาดใหญ่ (Lazy-loaded)
+│   ├── HeritageBackdrop.jsx # ภาพพื้นหลัง Heritage
 │   ├── Hero.jsx             # ส่วนต้อนรับด้านบนสุด (Hero Section)
 │   ├── Highlights.jsx       # ไฮไลท์และฟีเจอร์เด่น
 │   ├── IconCircle.jsx       # คอมโพเนนต์ไอคอนวงกลม
 │   ├── LanguageSwitcher.jsx # ปุ่มสำหรับเปลี่ยนภาษา
-│   ├── LoadingBackground.jsx# พื้นหลังสำหรับหน้าจอโหลด
-│   ├── LoadingLogo.jsx      # โลโก้ในหน้าจอโหลด
-│   ├── LoadingParticles.jsx # เอฟเฟกต์ละออง Particles ตอนโหลด
-│   ├── LoadingProgress.jsx  # แถบแสดงสถานะการโหลด
-│   ├── LoadingScreen.jsx    # หน้าจอ Loading หลัก
 │   ├── Location.jsx         # ข้อมูลแผนที่และสถานที่จัดงาน
+│   ├── MobileDrawer.jsx     # Drawer สำหรับมือถือ (Lazy-loaded)
 │   ├── Navbar.jsx           # แถบเมนูด้านบน (Navigation Bar)
+│   ├── PageLoader/          # หน้าจอ Loading หลัก
+│   │   └── PageLoader.jsx
 │   ├── Reveal.jsx           # แอนิเมชันเปิดตัวคอนเทนต์ (Reveal Effect)
+│   ├── RouteErrorBoundary/  # Error Boundary สำหรับ Route
+│   │   └── RouteErrorBoundary.jsx
 │   ├── ScrambleText.jsx     # แอนิเมชันถอดรหัสข้อความ (Scramble Effect)
 │   ├── SectionTitle.jsx     # หัวข้อหลักของแต่ละ Section
+│   ├── Tech/                # คอมโพเนนต์สำหรับหน้า Tech Stack
+│   │   ├── TechCategoryCard.jsx
+│   │   └── TechIcons.jsx
+│   ├── ThemeToggle.jsx      # ปุ่มสลับ Dark/Light Mode
 │   ├── Timeline.jsx         # ไทม์ไลน์แสดงช่วงเวลาของงาน
 │   └── VisitorInfo.jsx      # ข้อมูลสำหรับผู้เข้าร่วมงาน (ตั๋ว, การเดินทาง)
 ├── hooks/                   # Custom React hooks
-│   └── useScramble.js       # Hook สำหรับทำแอนิเมชันข้อความ
+│   ├── useScramble.js       # Hook สำหรับแอนิเมชันข้อความ
+│   ├── useScrollListener.js # Hook สำหรับตรวจจับ scroll position
+│   └── useScrollTo.js       # Hook สำหรับ smooth scroll
 ├── locales/                 # ไฟล์ JSON สำหรับเก็บคำแปลภาษา (i18n)
 │   ├── en/                  # ภาษาอังกฤษ
 │   ├── th/                  # ภาษาไทย (Default)
 │   └── zh/                  # ภาษาจีนตัวย่อ
-├── pages/                   # Route-level components
+├── pages/                   # Route-level components (lazy-loaded)
 │   ├── Home.jsx             # หน้า Landing Page หลัก
 │   ├── Tech.jsx             # หน้าแสดง Tech Stack ของโปรเจกต์
 │   └── NotFound.jsx         # หน้า Error 404 Fallback
-├── theme/                   # Global Design System
-│   └── theme.js             # การตั้งค่า MUI Custom Theme และชุดสี
-├── App.jsx                  # Root Component (Routing, Error Boundary, Suspense)
-├── main.jsx                 # Application Entry Point (ThemeProvider)
-└── i18n.js                  # ไฟล์คอนฟิกของ i18next และ Language Detector
+└── theme/                   # Global Design System
+    └── theme.js             # การตั้งค่า MUI Custom Theme และชุดสี
 ```
 
 ## 🗺️ Page Layouts & Components
 
-- **Loading Screen:** หน้าจอสถานะการโหลดข้อมูลพัฒนาด้วย Framer Motion
+- **PageLoader:** หน้าจอสถานะการโหลดข้อมูลพัฒนาด้วย Framer Motion (แสดง 3.5 วินาทีเมื่อเปิดเว็บครั้งแรก)
 - **Hero:** หน้าจอต้อนรับแสดงรูปภาพและตัวอักษร
 - **About:** อธิบายรายละเอียด วันจัดงาน และข้อมูลเบื้องต้น
 - **Highlights:** แสดงข้อมูลจุดสนใจผ่าน Feature Cards
-- **Gallery:** ระบบแสดงแกลเลอรีรูปภาพสไตล์ Masonry Grid ใช้งานร่วมกับ `MUI Modal`
+- **Gallery:** ระบบแสดงแกลเลอรีรูปภาพสไตล์ Masonry Grid พร้อม Lightbox ที่โหลดแบบ Lazy (GalleryLightbox)
 - **Timeline:** ไทม์ไลน์กำหนดการกิจกรรม
 - **Visitor Info:** ข้อมูลที่จำเป็นสำหรับผู้เข้าชม เช่น เวลาเปิด-ปิด ตั๋ว การเดินทาง
 - **Location:** พิกัดและการแสดงผลจาก Google Maps
 - **Tech Stack (`/tech`):** หน้าแสดงผลเทคโนโลยีที่ใช้สร้างโปรเจกต์
+
 
 ## 👤 Author
 

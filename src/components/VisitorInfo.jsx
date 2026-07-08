@@ -7,21 +7,26 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import { COLORS } from '../theme/theme';
 import IconCircle from './IconCircle';
 import Reveal from './Reveal';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import ScrambleText from './ScrambleText';
 import SectionTitle from './SectionTitle';
 
 const INFO_ITEMS = [
-   { key: 'hours', icon: AccessTimeIcon, color: '#1B5E20' },
-   { key: 'tickets', icon: ConfirmationNumberIcon, color: '#C8A64E' },
-   { key: 'transport', icon: DirectionsBusIcon, color: '#1565C0' },
-   { key: 'parking', icon: LocalParkingIcon, color: '#E65100' },
-   { key: 'facilities', icon: AccessibilityNewIcon, color: '#6A1B9A' },
+    { key: 'hours', icon: AccessTimeIcon },
+   { key: 'tickets', icon: ConfirmationNumberIcon },
+   { key: 'transport', icon: DirectionsBusIcon },
+   { key: 'parking', icon: LocalParkingIcon },
+   { key: 'facilities', icon: AccessibilityNewIcon },
 ];
 
-function InfoCard({ item, index, t }) {
-   const { key, icon: Icon, color } = item;
+const InfoCard = memo(function InfoCard({ item, index }) {
+   const { t } = useTranslation();
+   const { key, icon: Icon } = item;
+   const color = COLORS.visitorInfo[index];
 
    return (
       <Reveal delay={index * 0.1} style={{ width: '100%', height: '100%', display: 'flex' }}>
@@ -33,12 +38,13 @@ function InfoCard({ item, index, t }) {
                flexDirection: 'column',
                borderRadius: '32px',
                cursor: 'pointer',
-               border: '1px solid rgba(46,125,50,0.08)',
-               boxShadow: '0 10px 30px rgba(33,80,45,.08)',
-               transition: 'transform .3s ease, box-shadow .3s ease, border-color .3s ease',
-               '&:hover': {
-                  transform: 'translateY(-6px)',
-                  boxShadow: '0 18px 45px rgba(33,80,45,.15)',
+                border: '1px solid',
+                borderColor: 'divider',
+                boxShadow: (theme) => theme.palette.custom.cardShadow,
+                transition: 'transform .3s ease, box-shadow .3s ease, border-color .3s ease',
+                '&:hover': {
+                   transform: 'translateY(-6px)',
+                   boxShadow: (theme) => theme.palette.custom.cardShadowHover,
                   borderColor: 'secondary.main',
                },
             }}>
@@ -65,14 +71,15 @@ function InfoCard({ item, index, t }) {
                   }}
                />
             </CardContent>
-         </Card>
-      </Reveal>
-   );
-}
+          </Card>
+       </Reveal>
+    );
+});
 
-export default function VisitorInfo({ t }) {
+export default function VisitorInfo() {
+   const { t } = useTranslation();
    return (
-      <Box id="visitor-info" sx={{ py: { xs: 6, md: 12 }, background: '#fff' }}>
+      <Box id="visitor-info" sx={{ py: { xs: 6, md: 12 }, bgcolor: 'background.paper' }}>
          <Container sx={{ maxWidth: '1200px !important', px: { xs: 1.5, sm: 3 } }}>
             <SectionTitle title={t('visitor.title')} />
 
@@ -90,7 +97,7 @@ export default function VisitorInfo({ t }) {
                         display: 'flex',
                         width: { xs: '100%', sm: 'calc(50% - 12px)', lg: 'calc(33.33% - 16px)' },
                      }}>
-                     <InfoCard item={item} index={index} t={t} />
+                      <InfoCard item={item} index={index} />
                   </Box>
                ))}
             </Box>

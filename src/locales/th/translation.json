@@ -152,8 +152,11 @@
   "tech.source.title": "ซอร์สโค้ด",
   "tech.source.subtitle": "โปรเจกต์นี้เป็นโอเพนซอร์ส ดูที่ GitHub",
 
-  "lang.th": "TH",
-  "lang.en": "EN",
-  "lang.zh": "中文",
-  "lang.switcher": "เปลี่ยนภาษา"
+   "lang.th": "TH",
+   "lang.en": "EN",
+   "lang.zh": "中文",
+   "lang.switcher": "เปลี่ยนภาษา",
+
+   "theme.lightMode": "โหมดสว่าง",
+   "theme.darkMode": "โหมดมืด"
 }

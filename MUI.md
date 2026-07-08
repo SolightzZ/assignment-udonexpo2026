@@ -44,11 +44,12 @@ import { Box, Typography, Button } from '@mui/material';
 
 | Component     | Import                      | Usage                                                                  |
 | ------------- | --------------------------- | ---------------------------------------------------------------------- |
+| `Box`        | `@mui/material/Box`         | Also `component="img"` with `fetchpriority="high"` for hero             |
 | `Card`        | `@mui/material/Card`        | Info/highlight/location cards; `borderRadius: 20`, hover lift          |
 | `CardContent` | `@mui/material/CardContent` | Card body: `p: 3` or `p: { xs: 3, md: 4 }`                             |
 | `CardMedia`   | `@mui/material/CardMedia`   | Image inside highlight cards                                           |
 | `AppBar`      | `@mui/material/AppBar`      | Navbar: `position="sticky"`, glassmorphism (`rgba` + `backdropFilter`) |
-| `Drawer`      | `@mui/material/Drawer`      | Mobile menu: `anchor="right"`, `width: 280`                            |
+| `Drawer`      | `@mui/material/Drawer`      | Mobile menu via MobileDrawer (lazy-loaded): `anchor="right"`           |
 
 ### Navigation
 
@@ -76,7 +77,7 @@ import { Box, Typography, Button } from '@mui/material';
 
 | Component          | Import                           | Usage             |
 | ------------------ | -------------------------------- | ----------------- |
-| `Modal`            | `@mui/material/Modal`            | Gallery lightbox  |
+| `Modal`            | `@mui/material/Modal`            | GalleryLightbox (lazy-loaded component) |
 | `CircularProgress` | `@mui/material/CircularProgress` | Suspense fallback |
 | `LinearProgress`   | `@mui/material/LinearProgress`   | Loading screen progress bar |
 
@@ -88,9 +89,9 @@ import { Box, Typography, Button } from '@mui/material';
 | `useMediaQuery` | `@mui/material/useMediaQuery` | Responsive breakpoint checks  |
 | `styled`        | `@mui/material/styles`        | Reusable styled components    |
 
-## Components NOT Used (MUI v7 Skill Reference)
+## Components NOT Used (from other MUI versions)
 
-The v7 skill mentions `Paper`, `TextField`, `Dialog`, `Skeleton`, and `Stack` — these do **not** appear in this project. Use `Card` instead of `Paper`.
+The v6/v7 skills mention `Paper`, `TextField`, `Dialog`, `Skeleton`, and `Stack` — these do **not** appear in this project. Use `Card` instead of `Paper`. Where needed, use `Stack` for vertical layouts (MUI v9 removed Grid `direction="column"`).
 
 ## Styling Patterns
 
@@ -165,7 +166,7 @@ const TimelineLine = styled(Box)(({ theme }) => ({
 
 ### Theme in theme.js
 
-- `palette`: primary (`#1B5E20`), secondary (`#C8A64E`), background, text
+- `palette`: primary (`#618764`), secondary (`#C8A64E`), background, text
 - `shape.borderRadius: 16`
 - `MuiButton` styleOverrides (gradient backgrounds, shadow, radius)
 - `MuiAppBar` styleOverrides (glassmorphism)
