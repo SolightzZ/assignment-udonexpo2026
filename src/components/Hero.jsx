@@ -65,7 +65,7 @@ export default function Hero() {
                component="img"
                src={heroBg}
                alt=""
-               fetchpriority="high"
+               fetchPriority="high"
                sx={{
                   width: '100%',
                   height: '100%',

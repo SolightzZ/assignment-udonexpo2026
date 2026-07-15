@@ -4,6 +4,7 @@
 
   "nav.home": "หน้าแรก",
   "nav.about": "เกี่ยวกับ",
+  "nav.aboutme": "เกี่ยวกับฉัน",
   "nav.highlights": "ไฮไลท์",
   "nav.gallery": "แกลเลอรี่",
   "nav.timeline": "ไทม์ไลน์",
@@ -26,6 +27,23 @@
   "countdown.seconds": "วินาที",
   "countdown.label": "เวลาเปิดงานนับถอยหลัง",
   "hero.scroll": "เลื่อนลง",
+
+  "aboutme.badge": "ผู้จัดทำ",
+  "aboutme.title": "ผู้จัดทำเว็บไซต์",
+  "aboutme.subtitle": "เว็บไซต์จัดทำเพื่อประชาสัมพันธ์งาน Udon Thani International Horticultural Expo 2026",
+  "aboutme.bio.title": "ข้อมูลผู้จัดทำ",
+  "aboutme.bio.subtitle": "รายละเอียดโครงงาน",
+  "aboutme.bio.text": "โครงงานเว็บไซต์นี้จัดทำขึ้นเพื่อประชาสัมพันธ์งาน Udon Thani International Horticultural Expo 2026 โดยนำเสนอข้อมูลงาน ไฮไลท์ที่น่าสนใจ แกลเลอรี่ภาพบรรยากาศ ไทม์ไลน์กิจกรรม และข้อมูลการเดินทางอย่างครบถ้วน",
+
+  "aboutme.info.name.label": "ชื่อ-นามสกุล",
+  "aboutme.info.name.value": "นายปณิธิ จ่าเหม",
+  "aboutme.info.num.label": "เลขที่",
+  "aboutme.info.num.value": "66040233122",
+  "aboutme.info.major.label": "สาขา",
+  "aboutme.info.major.value": "เทคโนโลยีสารสนเทศ (IT)",
+  "aboutme.contact.title": "ติดต่อ",
+  "aboutme.contact.subtitle": "ช่องทางการติดต่อและผลงาน",
+  "aboutme.contact.github": "ดูผลงานบน GitHub",
 
   "about.title": "เกี่ยวกับงาน",
   "about.description": "Udon Thani International Horticultural Expo 2026 คืองานมหกรรมพืชสวนโลกนานาชาติครั้งแรกของภาคอีสาน จัดขึ้น ณ พื้นที่ชุ่มน้ำหนองแด ตำบลกุดสระ อำเภอเมือง จังหวัดอุดรธานี ภายใต้แนวคิดการผสมผสานระหว่างธรรมชาติ ศิลปะ และนวัตกรรม เพื่อสร้างประสบการณ์ที่ประทับใจไม่รู้ลืมให้แก่ผู้เข้าชมจากทั่วโลก",

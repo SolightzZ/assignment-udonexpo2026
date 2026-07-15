@@ -27,6 +27,7 @@ const NAV_ITEMS = [
    { key: 'visitorInfo', href: '#visitor-info' },
    { key: 'location', href: '#location' },
    { key: 'tech', href: '/tech#tech-header', isRoute: true },
+   { key: 'aboutme', href: '/about#aboutme-header', isRoute: true },
 ];
 
 export default function Navbar({ onLanguageChanging }) {
@@ -41,6 +42,10 @@ export default function Navbar({ onLanguageChanging }) {
    useEffect(() => {
       if (location.pathname === '/tech') {
          setActiveKey('tech');
+         return;
+      }
+      if (location.pathname === '/about') {
+         setActiveKey('aboutme');
          return;
       }
       const sectionToKey = {};

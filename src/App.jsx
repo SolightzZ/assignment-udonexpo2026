@@ -9,6 +9,7 @@ import RouteErrorBoundary from './components/RouteErrorBoundary/RouteErrorBounda
 import Box from '@mui/material/Box';
 
 const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
 const Tech = lazy(() => import('./pages/Tech'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -48,6 +49,15 @@ export default function App() {
                         <Box>
                            <Navbar onLanguageChanging={handleLanguageChange} />
                            <Tech />
+                        </Box>
+                     }
+                  />
+                  <Route
+                     path="/about"
+                     element={
+                        <Box>
+                           <Navbar onLanguageChanging={handleLanguageChange} />
+                           <About />
                         </Box>
                      }
                   />

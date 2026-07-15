@@ -4,6 +4,7 @@
 
    "nav.home": "Home",
    "nav.about": "About",
+   "nav.aboutme": "About Me",
    "nav.highlights": "Highlights",
    "nav.gallery": "Gallery",
    "nav.timeline": "Timeline",
@@ -26,6 +27,23 @@
    "countdown.seconds": "Seconds",
    "countdown.label": "Time until Expo opening",
    "hero.scroll": "Scroll Down",
+
+   "aboutme.badge": "Creator",
+   "aboutme.title": "Website Creator",
+   "aboutme.subtitle": "This website is created to promote the Udon Thani International Horticultural Expo 2026",
+   "aboutme.bio.title": "Creator Details",
+   "aboutme.bio.subtitle": "Project Details",
+   "aboutme.bio.text": "This website project was created to promote the Udon Thani International Horticultural Expo 2026, presenting event details, highlights, a photo gallery, the activity timeline, and complete visitor information.",
+
+   "aboutme.info.name.label": "Full Name",
+   "aboutme.info.name.value": "นายปณิธิ จ่าเหม",
+   "aboutme.info.num.label": "Student ID",
+   "aboutme.info.num.value": "66040233122",
+   "aboutme.info.major.label": "Major",
+   "aboutme.info.major.value": "Information Technology (IT)",
+   "aboutme.contact.title": "Get in Touch",
+   "aboutme.contact.subtitle": "Let's connect and build something great",
+   "aboutme.contact.github": "View My Work on GitHub",
 
    "about.title": "About the Expo",
    "about.description": "Udon Thani International Horticultural Expo 2026 is the first international horticultural expo in Northeastern Thailand. Located at Nong Dae Wetland, Kut Sa Subdistrict, Mueang District, Udon Thani Province, the expo blends nature, art, and innovation to create an unforgettable experience for visitors from around the world.",

@@ -4,6 +4,7 @@
 
   "nav.home": "首页",
   "nav.about": "关于",
+  "nav.aboutme": "关于我",
   "nav.highlights": "亮点",
   "nav.gallery": "画廊",
   "nav.timeline": "时间线",
@@ -26,6 +27,23 @@
   "countdown.seconds": "秒",
   "countdown.label": "博览会开幕倒计时",
   "hero.scroll": "向下滚动",
+
+  "aboutme.badge": "制作者",
+  "aboutme.title": "网站制作者",
+  "aboutme.subtitle": "本网站旨在宣传乌隆他尼国际园艺博览会 2026",
+  "aboutme.bio.title": "制作者信息",
+  "aboutme.bio.subtitle": "项目详情",
+  "aboutme.bio.text": "本网站项目旨在宣传乌隆他尼国际园艺博览会 2026，呈现活动详情、亮点、图片画廊、活动时间表以及完整的游客信息。",
+
+  "aboutme.info.name.label": "姓名",
+  "aboutme.info.name.value": "นายปณิธิ จ่าเหม",
+  "aboutme.info.num.label": "学号",
+  "aboutme.info.num.value": "66040233122",
+  "aboutme.info.major.label": "专业",
+  "aboutme.info.major.value": "信息技术 (IT)",
+  "aboutme.contact.title": "联系方式",
+  "aboutme.contact.subtitle": "让我们联系并一起创建精彩项目",
+  "aboutme.contact.github": "在 GitHub 上查看我的作品",
 
   "about.title": "关于博览会",
   "about.description": "乌隆他尼国际园艺博览会 2026 是泰国东北部首届国际园艺博览会。位于乌隆他尼府芒县库萨街道农代湿地，博览会融合自然、艺术与创新，为来自世界各地的游客创造难忘的体验。",
